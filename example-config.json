@@ -1,0 +1,22 @@
+{
+    "token": "YOUR DISCORD TOKEN GOES HERE",
+    "prefix": "//",
+    "ownerIDS": [
+        "YOUR DISCORD USER ID GOES HERE"
+    ],
+    "status": {
+        "text": "YOUR STATUS MESSAGE FOR YOUR BOT GOES HERE",
+        "text2": "Support: discord.gg/YOUR DISCORD INVITE CODE GOES HERE",
+        "type": "WATCHING",
+        "url": "YOUR BOTS WEBSITE URL GOES HERE"
+    },
+    "clientsettings": {
+        "nodes": [
+            {
+                "host": "localhost", *CHANGE THIS TO WHATEVER YOUR HOST IS IF IT'S NOT LOCAL HOST AND DELETE THIS MESSAGE*
+                "port": "YOUR DATABASE PORT GOES HERE",
+                "password": "YOUR DATABASE PASSWORD GOES HERE"
+            }
+        ]
+    }
+}
