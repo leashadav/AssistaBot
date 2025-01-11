@@ -4,6 +4,8 @@
     "ownerIDS": [
         "YOUR DISCORD USER ID GOES HERE"
     ],
+    "clientId": "YOU DISCORD APP CLIENT ID GOES HERE",
+    "guildId": "YOUR DISCORD SERVER ID GOES HERE",
     "status": {
         "text": "YOUR STATUS MESSAGE FOR YOUR BOT GOES HERE",
         "text2": "Support: discord.gg/YOUR DISCORD INVITE CODE GOES HERE",
