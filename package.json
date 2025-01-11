@@ -1,0 +1,39 @@
+{
+  "name": "assistabot",
+  "version": "1.0.0",
+  "description": "An attempt at a bot by Shadav",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Shadav",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "discord.js": "^14.17.3",
+    "dotenv": "^16.4.7"
+  },
+  "op": 3,
+  "d": {
+    "since": null,
+    "activities": [
+      {
+        "name": "Watching",
+        "type": 4,
+        "state": "Using a fire extinguisher on Shadavs brain"
+      }
+    ],
+    "status": "online",
+    "afk": false
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leashadav/AssistaBot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leashadav/AssistaBot/issues"
+  },
+  "homepage": "https://assistabot.hostingspot.net/"
+}
