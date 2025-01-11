@@ -37,8 +37,6 @@ client.on('messageCreate', message => {
             case 'bye':
                 message.reply('Goodbye!');
                 break;
-            default:
-                message.reply('Unknown command. Try !hello, !ping, or !bye.');
         }
     }
 });
