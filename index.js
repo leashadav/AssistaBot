@@ -41,4 +41,16 @@ client.on('messageCreate', message => {
     }
 });
 
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isCommand()) return;
+
+	const { commandName } = interaction;
+
+	if (commandName === 'server') {
+		await interaction.reply(`Server name: ${interaction.guild.name}\nDescription: ${interaction.guild.description}\nCreated on: ${interaction.guild.createdAt}\nTotal members: ${interaction.guild.memberCount}`);
+	} else if (commandName === 'user') {
+		await interaction.reply(`Display Name: ${interaction.user.displayName}\nUsername: ${interaction.user.username}\nUser ID: ${interaction.user.id}\nAccount Created: ${interaction.user.createdAt}`);
+	}
+});
+
 client.login(process.env.token || config.token);
