@@ -1,15 +1,32 @@
 {
   "name": "assistabot",
-  "version": "1.0.0",
   "description": "An attempt at a bot by Shadav",
+  "version": "1.0.0",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "keywords": [],
+  "repository": "https://github.com/leashadav/AssistaBot.git",
+  "keywords": [
+    "discord",
+    "bot",
+    "assistabot",
+    "shadav",
+    "javascript",
+    "nodejs",
+    "node",
+    "discordjs"
+  ],
   "author": "Shadav",
+  "contributors": [],
   "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/leashadav/AssistaBot/issues"
+  },
+  "homepage": "https://assistabot.hostingspot.net/",
+  "devDependencies": {},
   "dependencies": {
     "@discordjs/builders": "^1.10.0",
     "@discordjs/rest": "^2.4.2",
@@ -29,13 +46,5 @@
     ],
     "status": "online",
     "afk": false
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/leashadav/AssistaBot.git"
-  },
-  "bugs": {
-    "url": "https://github.com/leashadav/AssistaBot/issues"
-  },
-  "homepage": "https://assistabot.hostingspot.net/"
+  }
 }
