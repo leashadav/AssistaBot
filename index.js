@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits, MessageFlags } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, ActivityType, MessageFlags } = require('discord.js');
 const { token, globalPrefix } = require('./config.json');
 require('dotenv').config();
 
@@ -26,6 +26,10 @@ for (const folder of commandFolders) {
 
 client.once(Events.ClientReady, readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+	client.user.setPresence({
+		activities: [{ name: `Using a fire extinguisher on Shadav's brain`, type: ActivityType.Custom }],
+		status: 'online',
+	  });
 });
 
 client.on(Events.InteractionCreate, async interaction => {
@@ -47,6 +51,8 @@ client.on(Events.InteractionCreate, async interaction => {
 			await interaction.reply({ content: 'There was an error while executing this command!', flags: MessageFlags.Ephemeral });
 		}
 	}
+	const blockedUsers = await database.query('SELECT user_id FROM blocked_users;');
+	if (blockedUsers.includes(interaction.user.id)) return;
 });
 
 client.login(process.env.token || config.token);

@@ -21,5 +21,13 @@
                 "password": "YOUR DATABASE PASSWORD GOES HERE"
             }
         ]
+    },
+    "twitch": {
+        "token_endpoint": "https://id.twitch.tv/oauth2/token",
+        "username": "BOT TWITCH USERNAME GOES HERE",
+        "client_id":"Twitch Client ID Goes Here",
+        "client_secret":"Twitch Client Secret Goes Here",
+        "authorization_code":"Twitch Authorization Code Goes Here",
+        "channel": "twitch channel name goes here"
     }
 }
