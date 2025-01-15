@@ -2,8 +2,7 @@
     "clientId": "YOU DISCORD APP CLIENT ID GOES HERE",
     "guildId": "YOUR DISCORD SERVER ID GOES HERE",
     "token": "YOUR DISCORD TOKEN GOES HERE",
-    "prefix": "//",
-    "globalPrefix": "!",
+    "prefix": "!",
     "ownerIDS": [
         "YOUR DISCORD USER ID GOES HERE"
     ],

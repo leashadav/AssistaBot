@@ -34,18 +34,5 @@
     "discord.js": "^14.17.3",
     "dotenv": "^16.4.7",
     "keyv": "^5.2.3"
-  },
-  "op": 3,
-  "d": {
-    "since": null,
-    "activities": [
-      {
-        "name": "Watching",
-        "type": 3,
-        "state": "Shadav's Brain Smoke"
-      }
-    ],
-    "status": "online",
-    "afk": false
   }
 }

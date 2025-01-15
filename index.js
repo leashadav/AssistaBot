@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits, ActivityType, MessageFlags } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, ActivityType, PresenceUpdateStatus, MessageFlags } = require('discord.js');
 const { token, globalPrefix } = require('./config.json');
 require('dotenv').config();
 
@@ -26,10 +26,7 @@ for (const folder of commandFolders) {
 
 client.once(Events.ClientReady, readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-	client.user.setPresence({
-		activities: [{ name: `Using a fire extinguisher on Shadav's brain`, type: ActivityType.Custom }],
-		status: 'online',
-	  });
+	client.user.setPresence({ activities: [{ name: 'Using a fire extinguisher on Shadav\'s brain', type: ActivityType.Custom }], status: PresenceUpdateStatus.Online });
 });
 
 client.on(Events.InteractionCreate, async interaction => {
