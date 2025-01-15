@@ -7,12 +7,6 @@
     "ownerIDS": [
         "YOUR DISCORD USER ID GOES HERE"
     ],
-    "status": {
-        "text": "YOUR STATUS MESSAGE FOR YOUR BOT GOES HERE",
-        "text2": "Support: discord.gg/YOUR DISCORD INVITE CODE GOES HERE",
-        "type": "WATCHING",
-        "url": "YOUR BOTS WEBSITE URL GOES HERE"
-    },
     "clientsettings": {
         "nodes": [
             {
@@ -23,11 +17,20 @@
         ]
     },
     "twitch": {
-        "token_endpoint": "https://id.twitch.tv/oauth2/token",
-        "username": "BOT TWITCH USERNAME GOES HERE",
-        "client_id":"Twitch Client ID Goes Here",
-        "client_secret":"Twitch Client Secret Goes Here",
-        "authorization_code":"Twitch Authorization Code Goes Here",
-        "channel": "twitch channel name goes here"
+        "twitch_token_endpoint": "https://id.twitch.tv/oauth2/token",
+        "twitch_username": "BOT TWITCH USERNAME GOES HERE",
+        "twitch_bot_id": "",
+        "twitch_client_id":"Twitch Client ID Goes Here",
+        "twitch_client_secret":"Twitch Client Secret Goes Here",
+        "twitch_authorization_code":"Twitch Authorization Code Goes Here",
+        "twitch_channel": "twitch channel name goes here",
+        "twitch_channel_id": "Twitch channel id that you want the bot to post in to goes here",
+        "twitch_eventsub_websocket_url": "wss://eventsub.wss.twitch.tv/ws"
+    },
+    "twitter": {
+        "twitter_consumer_key": "twitter consumer key goes here",
+        "twitter_consumer_secret": "twitter consumer secret goes here",
+        "twitter_access_token": "twitter access token goes here",
+        "twitter_access_token_secret": "twitter access token secret goes here"
     }
 }
