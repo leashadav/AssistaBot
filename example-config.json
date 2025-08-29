@@ -1,0 +1,35 @@
+{
+    "clientId": "YOU DISCORD APP CLIENT ID GOES HERE",
+    "guildId": "YOUR DISCORD SERVER ID GOES HERE",
+    "token": "YOUR DISCORD TOKEN GOES HERE",
+    "prefix": "!",
+    "ownerIDS": [
+        "YOUR DISCORD USER ID GOES HERE"
+    ],
+    "clientsettings": {
+        "nodes": [
+            {
+                "host": "localhost",
+                "port": "YOUR DATABASE PORT GOES HERE",
+                "password": "YOUR DATABASE PASSWORD GOES HERE"
+            }
+        ]
+    },
+    "twitch": {
+        "twitch_token_endpoint": "https://id.twitch.tv/oauth2/token",
+        "twitch_username": "BOT TWITCH USERNAME GOES HERE",
+        "twitch_bot_id": "",
+        "twitch_client_id":"Twitch Client ID Goes Here",
+        "twitch_client_secret":"Twitch Client Secret Goes Here",
+        "twitch_authorization_code":"Twitch Authorization Code Goes Here",
+        "twitch_channel": "twitch channel name goes here",
+        "twitch_channel_id": "Twitch channel id that you want the bot to post in to goes here",
+        "twitch_eventsub_websocket_url": "wss://eventsub.wss.twitch.tv/ws"
+    },
+    "twitter": {
+        "twitter_consumer_key": "twitter consumer key goes here",
+        "twitter_consumer_secret": "twitter consumer secret goes here",
+        "twitter_access_token": "twitter access token goes here",
+        "twitter_access_token_secret": "twitter access token secret goes here"
+    }
+}

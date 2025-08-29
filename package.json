@@ -1,0 +1,38 @@
+{
+  "name": "assistabot",
+  "description": "An attempt at a bot by Shadav",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": "https://github.com/leashadav/AssistaBot.git",
+  "keywords": [
+    "discord",
+    "bot",
+    "assistabot",
+    "shadav",
+    "javascript",
+    "nodejs",
+    "node",
+    "discordjs"
+  ],
+  "author": "Shadav",
+  "contributors": [],
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/leashadav/AssistaBot/issues"
+  },
+  "homepage": "https://assistabot.hostingspot.net/",
+  "dependencies": {
+    "@discordjs/builders": "^1.10.0",
+    "@discordjs/rest": "^2.4.2",
+    "@keyv/mysql": "^2.0.4",
+    "discord-api-types": "^0.37.115",
+    "discord.js": "^14.17.3",
+    "dotenv": "^16.4.7",
+    "keyv": "^5.2.3"
+  }
+}
