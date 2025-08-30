@@ -27,12 +27,13 @@
   },
   "homepage": "https://assistabot.hostingspot.net/",
   "dependencies": {
-    "@discordjs/builders": "^1.10.0",
-    "@discordjs/rest": "^2.4.2",
-    "@keyv/mysql": "^2.0.4",
-    "discord-api-types": "^0.37.115",
-    "discord.js": "^14.17.3",
-    "dotenv": "^16.4.7",
-    "keyv": "^5.2.3"
+    "@discordjs/builders": "^1.11.3",
+    "@discordjs/rest": "^2.6.0",
+    "@keyv/mysql": "^2.1.5",
+    "discord-api-types": "^0.38.22",
+    "discord.js": "^14.22.1",
+    "dotenv": "^17.2.1",
+    "keyv": "^5.5.0",
+    "npm": "^11.5.2"
   }
 }
