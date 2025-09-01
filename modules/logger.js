@@ -1,14 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
 
-// Log channel mappings (adjust channel IDs as needed)
-const logChannels = {
-  messageDelete: '1323706450417025024',
-  memberJoin: '1323706620844314625',
-  ticketCreated: '1323706450417025024',
-  generalLog: '1323818296847372320',
-  inviteLog: '1323706770983747615', // Invite log channel
-};
-
 function createLogEmbed(title, description, color = 0x00FF00) {
   return new EmbedBuilder()
     .setColor(color)
@@ -58,4 +49,5 @@ module.exports = {
   logTicketCreation,
   logGeneral,
   sendLog,  // Export sendLog to be used in invite tracking
+
 };
