@@ -1,6 +1,6 @@
 const { REST, Routes } = require('discord.js');
-const { clientId, guildId, token } = require('./config.json');
-const rest = new REST().setToken(token);
+const { clientId, guildId, discord_token } = require('./config.json');
+const rest = new REST().setToken(discord_token);
 
 // for guild-based commands
 rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: [] })

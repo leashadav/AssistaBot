@@ -2,7 +2,7 @@
 // Main entry point � loads handlers, logs in client
 const { Client, Collection, GatewayIntentBits, Partials, Events, ActivityType, PresenceUpdateStatus, MessageFlags } = require('discord.js');
 const fs = require('fs');
-const { prefix, DISCORD_TOKEN } = require('./config.json');
+const { prefix, DISCORD_TOKEN, logChannels } = require('./config.json');
 require('dotenv').config();
 
 const client = new Client({
@@ -35,6 +35,5 @@ for (const file of eventFiles) {
     client.on(event.name, (...args) => event.execute(...args, client));
   }
 }
-
 
 client.login(process.env.DISCORD_TOKEN);
