@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
+const { logChannels } = require('../config.json');
 
 function createLogEmbed(title, description, color = 0x00FF00) {
   return new EmbedBuilder()
@@ -49,5 +50,4 @@ module.exports = {
   logTicketCreation,
   logGeneral,
   sendLog,  // Export sendLog to be used in invite tracking
-
 };
