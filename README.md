@@ -10,9 +10,16 @@ then to figure out how to get it to work in twitch so i can yeet nightbot out of
 
 TO DO
 - get commands to work in twitch chat
-- birthday module
 - giveaway module
 - stream notifications
 - welcome message module
-- invite module
 - purge command
+
+IMPROVE ON
+- birthday module
+- invite module
+- logging system
+- ticket system
+
+DONE
+- Create a [ChannelLog](https://github.com/leashadav/AssistaBot/blob/main/ChannelLog.md)
