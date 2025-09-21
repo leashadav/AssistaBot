@@ -1,5 +1,5 @@
 # AssistaBot
-An attempt at a bot by Shadav
+## An attempt at a bot by Shadav
 
 lol if my head wasn't already hurting it sure is now...trying to wrap my brain around way too much info but hey we're getting there
 
@@ -8,18 +8,18 @@ then to figure out how to get it to work in twitch so i can yeet nightbot out of
 
 
 
-TO DO
+### TO DO
 - get commands to work in twitch chat
 - giveaway module
 - stream notifications
 - welcome message module
 - purge command
 
-IMPROVE ON
+### IMPROVE ON
 - birthday module
 - invite module
 - logging system
 - ticket system
 
-DONE
+### DONE
 - Create a [ChannelLog](https://github.com/leashadav/AssistaBot/blob/main/ChannelLog.md)
