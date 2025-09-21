@@ -1,12 +1,50 @@
 {
-  "token": "YOUR_BOT_TOKEN",
-  "clientId": "YOUR_CLIENT_ID",
-  "guildId": "YOUR_GUILD_ID",
-  "logChannels": {
-    "messageDelete": "MESSAGE_DELETE_CHANNEL_ID",
-    "memberJoin": "MEMBER_JOIN_CHANNEL_ID",
-    "ticketCreated": "TICKET_CREATED_CHANNEL_ID",
-    "generalLog": "GENERAL_LOG_CHANNEL_ID",
-    "inviteLog": "INVITE_LOG_CHANNEL_ID"
-  }
+	"token": "YOUR DISCORD BOT TOKEN GOES HERE",
+    "clientId": "YOUR DISCORD APP CLIENT ID GOES HERE",
+    "clientSecret": "YOUR DISCORD APP SECRETE GOES HERE",
+    "guildId": "YOUR DISCORD SERVER ID GOES HERE",
+    "logChannels": {
+        "messageDelete": "CHANNEL ID FOR LOGGING DELETED MESSAGES",
+        "memberJoin": "CHANNEL ID FOR LOGGING MEMBER JOINS",
+        "ticketCreated": "CHANNEL ID FOR LOGGING TICKET CREATED",
+        "ticketClosed": "CHANNEL ID FOR LOGGING TICKET CLOSED",
+        "generalLog": "CHANNEL ID FOR GENERAL LOGGING",
+        "inviteLog": "CHANNEL ID FOR INVITE LOGGING"
+    },
+    "BirthdayInfo": {
+    	"BIRTHDAY_ROLE": "THE ID FOR THE BIRTHDAY ROLE",
+    	"BIRTHDAY_CHANNEL": "ID OF THE CHANNEL TO POST BIRTHDAY MESSAGES TO"
+  },
+	"SUPPORT_CHANNEL_ID": "ID OF THE TICKET CHANNEL",
+	"WEBHOOK_URL": "WEBHOOK URL",
+	"prefix": "!",
+    "ownerIDS": [
+        "YOUR DISCORD USER ID GOES HERE"
+    ],
+    "clientsettings": {
+        "nodes": [
+            {
+                "host": "localhost",
+                "port": "YOUR DATABASE PORT GOES HERE",
+                "password": "YOUR DATABASE PASSWORD GOES HERE"
+            }
+        ]
+    },
+    "twitch": {
+        "twitch_token_endpoint": "https://id.twitch.tv/oauth2/token",
+        "twitch_username": "BOT TWITCH USERNAME GOES HERE",
+        "twitch_bot_id": "",
+        "twitch_client_id":"Twitch Client ID Goes Here",
+        "twitch_client_secret":"Twitch Client Secret Goes Here",
+        "twitch_authorization_code":"Twitch Authorization Code Goes Here",
+        "twitch_channel": "twitch channel name goes here",
+        "twitch_channel_id": "Twitch channel id that you want the bot to post in to goes here",
+        "twitch_eventsub_websocket_url": "wss://eventsub.wss.twitch.tv/ws"
+    },
+    "twitter": {
+        "twitter_consumer_key": "twitter consumer key goes here",
+        "twitter_consumer_secret": "twitter consumer secret goes here",
+        "twitter_access_token": "twitter access token goes here",
+        "twitter_access_token_secret": "twitter access token secret goes here"
+    }
 }
