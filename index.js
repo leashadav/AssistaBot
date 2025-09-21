@@ -1,9 +1,6 @@
-// index.js
-// Main entry point � loads handlers, logs in client
 const { Client, Collection, GatewayIntentBits, Partials, Events, ActivityType, PresenceUpdateStatus, MessageFlags } = require('discord.js');
 const fs = require('fs');
-const { prefix, DISCORD_TOKEN, logChannels } = require('./config.json');
-require('dotenv').config();
+const { token, logChannels, prefix, BirthdayInfo, SUPPORT_CHANNEL_ID } = require('./config.json');
 
 const client = new Client({
   intents: [
@@ -12,8 +9,14 @@ const client = new Client({
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildInvites,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildModeration,
+    GatewayIntentBits.GuildExpressions,
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.MessageContent
   ],
-  partials: [Partials.Message, Partials.Channel, Partials.Reaction],
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction, Partials.User],
 });
 
 client.commands = new Collection();
@@ -36,4 +39,4 @@ for (const file of eventFiles) {
   }
 }
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(token);

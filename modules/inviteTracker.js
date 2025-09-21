@@ -33,4 +33,4 @@ async function handleInviteJoin(member, client) {
   invites.set(member.guild.id, new Map(guildInvites.map(inv => [inv.code, inv.uses])));
 }
 
-module.exports = { initInvites, handleInviteJoin };
+module.exports = { initInvites, handleInviteJoin, invites };

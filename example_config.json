@@ -1,0 +1,12 @@
+{
+  "token": "YOUR_BOT_TOKEN",
+  "clientId": "YOUR_CLIENT_ID",
+  "guildId": "YOUR_GUILD_ID",
+  "logChannels": {
+    "messageDelete": "MESSAGE_DELETE_CHANNEL_ID",
+    "memberJoin": "MEMBER_JOIN_CHANNEL_ID",
+    "ticketCreated": "TICKET_CREATED_CHANNEL_ID",
+    "generalLog": "GENERAL_LOG_CHANNEL_ID",
+    "inviteLog": "INVITE_LOG_CHANNEL_ID"
+  }
+}

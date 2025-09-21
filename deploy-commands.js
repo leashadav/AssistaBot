@@ -1,40 +1,44 @@
-const { REST, Routes } = require('discord.js');
-const { clientId, guildId, discord_token } = require('./config.json');
-const fs = require('node:fs');
-const path = require('node:path');
+const { SlashCommandBuilder } = require('discord.js');
+const { token, clientId, guildId } = require('./config.json');
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v10');
 
 const commands = [];
-// Grab all the command folders from the commands directory you created earlier
-const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
+// Dynamically load all commands from the "commands/" folder
+const fs = require('fs');
+const path = require('path');
+
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
-    const filePath = path.join(commandsPath, file);
-    const command = require(filePath);
-    if ('data' in command && 'execute' in command) {
-        commands.push(command.data.toJSON());
-    } else {
-        console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
-    }
+  const command = require(`./commands/${file}`);
+  if (command && command.data && typeof command.data.toJSON === 'function') {
+    commands.push(command.data.toJSON());
+  } else {
+    console.warn(`Skipping ${file}: missing or invalid "data" export.`);
+  }
 }
 
-// Construct and prepare an instance of the REST module
-const rest = new REST().setToken(discord_token);
+const rest = new REST({ version: '10' }).setToken(token);
 
-// and deploy your commands!
 (async () => {
-	try {
-		console.log(`Started refreshing ${commands.length} application (/) commands.`);
+  try {
+    console.log('Started refreshing application (/) commands.');
 
-		// The put method is used to fully refresh all commands in the guild with the current set
-		const data = await rest.put(
-			Routes.applicationCommands(clientId),
-			{ body: commands },
-		);
+    // Deploy commands to a specific server (guild)
+    // await rest.put(
+    //   Routes.applicationGuildCommands(clientId, guildId),
+    //   { body: commands },
+    // );
 
-		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-	} catch (error) {
-		// And of course, make sure you catch and log any errors!
-		console.error(error);
-	}
+    // Deploy commands globally (uncomment if needed)
+    await rest.put(
+      Routes.applicationCommands(clientId),
+      { body: commands },
+    );
+
+    console.log('Successfully reloaded application (/) commands.');
+  } catch (error) {
+    console.error(error);
+  }
 })();

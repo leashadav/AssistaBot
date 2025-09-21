@@ -6,12 +6,12 @@ module.exports = {
 		.setDescription('Info about the server.'),
 	async execute(interaction) {
 		await interaction.reply(`
-			Server name: ${interaction.guild.name}\n
-			Description: ${interaction.guild.description || 'No description set.'}\n
-			Created on: <t:${Math.round(interaction.guild.createdTimestamp / 1000)}>\n
-			Total members: ${interaction.guild.memberCount}\n
-			Boost level: ${interaction.guild.premiumTier}\n
-			Total boosts: ${interaction.guild.premiumSubscriptionCount || '0'}\n
-			Server owner: <@!${interaction.guild.ownerId}>`);
+Server name: ${interaction.guild.name}
+Description: ${interaction.guild.description || 'No description set.'}
+Created on: <t:${Math.round(interaction.guild.createdTimestamp / 1000)}>
+Total members: ${interaction.guild.memberCount}
+Boost level: ${interaction.guild.premiumTier}
+Total boosts: ${interaction.guild.premiumSubscriptionCount || '0'}
+Server owner: <@!${interaction.guild.ownerId}>`);
   },
 };

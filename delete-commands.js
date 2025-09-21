@@ -1,13 +1,28 @@
-const { REST, Routes } = require('discord.js');
-const { clientId, guildId, discord_token } = require('./config.json');
-const rest = new REST().setToken(discord_token);
+const { token, clientId, guildId } = require('./config.json');
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v10');
+const commands = [];
 
-// for guild-based commands
-rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: [] })
-	.then(() => console.log('Successfully deleted all guild commands.'))
-	.catch(console.error);
+const rest = new REST({ version: '10' }).setToken(token);
 
-// for global commands
-rest.put(Routes.applicationCommands(clientId), { body: [] })
-	.then(() => console.log('Successfully deleted all application commands.'))
-	.catch(console.error);
+(async () => {
+  try {
+    console.log('Started deleting application (/) commands.');
+
+    // Delete commands from a specific server (guild)
+//    await rest.put(
+//      Routes.applicationGuildCommands(clientId, guildId),
+//      { body: [] }, // Pass an empty array to delete all commands
+//    );
+
+    // Delete global commands
+  await rest.put(
+    Routes.applicationCommands(clientId),
+    { body: commands },
+  );
+
+    console.log('Successfully deleted application (/) commands.');
+  } catch (error) {
+    console.error(error);
+  }
+})();
