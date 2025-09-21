@@ -1,17 +1,23 @@
 {
-    "clientId": "YOU DISCORD APP CLIENT ID GOES HERE",
-    "CLIENT_ID": "YOU DISCORD APP CLIENT ID GOES HERE",
+	"token": "YOUR DISCORD BOT TOKEN GOES HERE",
+    "clientId": "YOUR DISCORD APP CLIENT ID GOES HERE",
+    "clientSecret": "YOUR DISCORD APP SECRETE GOES HERE",
     "guildId": "YOUR DISCORD SERVER ID GOES HERE",
-    "discord_token": "YOUR DISCORD TOKEN GOES HERE",
-    "prefix": "!",
     "logChannels": {
         "messageDelete": "CHANNEL ID FOR LOGGING DELETED MESSAGES",
         "memberJoin": "CHANNEL ID FOR LOGGING MEMBER JOINS",
         "ticketCreated": "CHANNEL ID FOR LOGGING TICKET CREATED",
+        "ticketClosed": "CHANNEL ID FOR LOGGING TICKET CLOSED",
         "generalLog": "CHANNEL ID FOR GENERAL LOGGING",
         "inviteLog": "CHANNEL ID FOR INVITE LOGGING"
     },
-"WEBHOOK_URL": "WEBHOOK URL",
+    "BirthdayInfo": {
+    	"BIRTHDAY_ROLE": "THE ID FOR THE BIRTHDAY ROLE",
+    	"BIRTHDAY_CHANNEL": "ID OF THE CHANNEL TO POST BIRTHDAY MESSAGES TO"
+  },
+	"SUPPORT_CHANNEL_ID": "ID OF THE TICKET CHANNEL",
+	"WEBHOOK_URL": "WEBHOOK URL",
+	"prefix": "!",
     "ownerIDS": [
         "YOUR DISCORD USER ID GOES HERE"
     ],
