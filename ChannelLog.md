@@ -5,7 +5,7 @@ Lots of updates, ok it doesn't seem like a lot but it really was a lot
 - Birthday Module
   - users can add or delete their own
   - admins can add or delete anyones
-~ - paginated embed of upcoming list~ currently broken (OOPS)
+   - ~~paginated embed of upcoming list~~ currently broken (OOPS)
   - birth year is optional
   - gives birthday person the birthday role (or it's supposed to)
   - posts a happy birthday message (or it's supposed to)
@@ -21,7 +21,7 @@ Lots of updates, ok it doesn't seem like a lot but it really was a lot
   - Assistabot say, admins can make the bot say things
   - Server, posts info about the server
   - User, posts info about a user/bot
-~  - Stopbot, a command only I can use to kill the bot, works half of the time ~ removed it wasn't working anyways
+  - ~~Stopbot, a command only I can use to kill the bot, works half of the time~~ removed it wasn't working anyways
   - Setup logchannel, set up what channels or threads you would like each log to go in to; Message Delete, Member Join, Member Leave, Ticket Created, Ticket Closed, General Log, Invite Log; it's supposed to be server specific but it seems I broke that and it's back to only posting in to the support server
 - Logging System
   - Logs deleted messages but supposed to ignore bot messages
