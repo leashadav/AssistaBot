@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ChannelType } = require('discord.js');
+const { SlashCommandBuilder, ChannelType, MessageFlags } = require('discord.js');
 const { logTicketCreation, logTicketClosed } = require('../modules/logger');
 const { SUPPORT_CHANNEL_ID } = require('../config.json');
 
@@ -20,7 +20,7 @@ module.exports = {
       const supportChannel = await interaction.guild.channels.fetch(SUPPORT_CHANNEL_ID);
 
       if (!supportChannel || supportChannel.type !== ChannelType.GuildText) {
-        return interaction.reply({ content: 'Support channel not found or is not a text channel.', ephemeral: true });
+  return interaction.reply({ content: 'Support channel not found or is not a text channel.', flags: MessageFlags.Ephemeral });
       }
 
       // Create a thread in the support channel
@@ -30,7 +30,7 @@ module.exports = {
         reason: `Support ticket for ${interaction.user.tag}`,
       });
 
-      await interaction.reply({ content: `✅ Ticket thread created: <#${thread.id}>`, flags: 64 });
+      await interaction.reply({ content: `✅ Ticket thread created: <#${thread.id}>`, flags: MessageFlags.Ephemeral });
       await thread.send(`Hello ${interaction.user}, please describe your issue. A moderator will assist you soon.`);
 
       // Log the creation of the ticket
@@ -40,10 +40,10 @@ module.exports = {
     if (sub === 'close') {
       // Only allow closing if the command is run inside a thread
       if (interaction.channel.type !== ChannelType.PublicThread && interaction.channel.type !== ChannelType.PrivateThread) {
-        return interaction.reply({ content: 'This command can only be used inside a ticket thread.', flags: 64 });
+        return interaction.reply({ content: 'This command can only be used inside a ticket thread.', flags: MessageFlags.Ephemeral });
       }
 
-      await interaction.reply({ content: '🔒 Closing this ticket thread...', flags: 64 });
+      await interaction.reply({ content: '🔒 Closing this ticket thread...', flags: MessageFlags.Ephemeral });
       await interaction.channel.setArchived(true);
       // Optionally, log the closing of the ticket here
       logTicketClosed(interaction.channel, client);

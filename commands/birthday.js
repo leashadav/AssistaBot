@@ -95,7 +95,7 @@ module.exports = {
 
     if (sub === 'setuser') {
       if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-        return interaction.reply({ content: '❌ You do not have permission.', ephemeral: true });
+  return interaction.reply({ content: '❌ You do not have permission.', flags: 64 });
       }
       const user = interaction.options.getUser('user');
       const date = interaction.options.getString('date');
@@ -105,7 +105,7 @@ module.exports = {
 
     if (sub === 'deleteuser') {
       if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-        return interaction.reply({ content: '❌ You do not have permission.', ephemeral: true });
+  return interaction.reply({ content: '❌ You do not have permission.', flags: 64 });
       }
       const user = interaction.options.getUser('user');
       deleteBirthday(user.id);
@@ -204,8 +204,8 @@ module.exports = {
 
       collector.on('collect', async (btnInt) => {
         if (btnInt.user.id !== interaction.user.id) {
-          return btnInt.reply({ content: '❌ Only the command user can control pagination.', ephemeral: true });
-        }
+            return btnInt.reply({ content: '❌ Only the command user can control pagination.', flags: 64 });
+          }
 
         if (btnInt.customId === 'prev') page--;
         if (btnInt.customId === 'next') page++;

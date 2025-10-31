@@ -34,7 +34,7 @@ module.exports = {
 
     if (sub === 'say') {
       if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
-        return interaction.reply({ content: '❌ You do not have permission.', ephemeral: true });
+  return interaction.reply({ content: '❌ You do not have permission.', flags: 64 });
       }
       const message = interaction.options.getString('message');
       return interaction.reply(message);
