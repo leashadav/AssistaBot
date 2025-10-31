@@ -9,9 +9,8 @@ then to figure out how to get it to work in twitch so i can yeet nightbot out of
 
 
 ### TO DO
-- get commands to work in twitch chat
 - giveaway module
-- stream notifications
+- stream notifications (maybe, we'll see)
 - welcome message module
 - purge command
 
@@ -23,3 +22,4 @@ then to figure out how to get it to work in twitch so i can yeet nightbot out of
 
 ### DONE
 - Create a [ChannelLog](https://github.com/leashadav/AssistaBot/blob/main/ChannelLog.md)
+- get commands to work in twitch chat
