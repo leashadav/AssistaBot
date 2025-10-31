@@ -5,7 +5,7 @@
     "botId": "",
     "isBotAccount": false,
     "channels": [
-        "Shadav"
+        ""
     ],
     "debug": false,
     "notifyCooldown": true,
@@ -24,3 +24,4 @@
     }
 
 }
+
