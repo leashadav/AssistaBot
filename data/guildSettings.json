@@ -1,0 +1,53 @@
+{
+  "991544116099956766": {
+    "logChannels": {
+      "messageDelete": "1384989123995107429",
+      "memberJoin": "1384988943921057974",
+      "memberLeave": "1384988943921057974",
+      "ticketCreated": null,
+      "ticketClosed": null,
+      "generalLog": "1333363511220371486",
+      "inviteLog": "1384989324004692038"
+    },
+    "birthdayInfo": {
+      "birthdayRole": "991814873052876840",
+      "birthdayChannel": "991807868057698394"
+    },
+    "supportChannelId": null,
+    "prefix": "!"
+  },
+  "1323558044990181387": {
+    "logChannels": {
+      "messageDelete": "1323706450417025024",
+      "memberJoin": "1323706620844314625",
+      "memberLeave": "1323706620844314625",
+      "ticketCreated": "1413335312683372596",
+      "ticketClosed": "1413335312683372596",
+      "generalLog": "1323818296847372320",
+      "inviteLog": "1323706770983747615"
+    },
+    "birthdayInfo": {
+      "birthdayRole": "1323713890424717423",
+      "birthdayChannel": "1323754917298700328"
+    },
+    "supportChannelId": "1323821237197340742",
+    "prefix": "!"
+  },
+  "1078005146698657802": {
+    "logChannels": {
+      "messageDelete": "1317278921963606036",
+      "memberJoin": "1317281707321327656",
+      "memberLeave": "1317281707321327656",
+      "ticketCreated": null,
+      "ticketClosed": null,
+      "generalLog": "1186140475820875838",
+      "inviteLog": "1322743814598819841"
+    },
+    "birthdayInfo": {
+      "birthdayRole": "1078017675558662194",
+      "birthdayChannel": "1078108196431990904"
+    },
+    "supportChannelId": null,
+    "prefix": "!"
+  }
+}
