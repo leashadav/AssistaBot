@@ -1,0 +1,40 @@
+const { sendLog } = require('./logger');
+const { loadData } = require('../utils/database');
+
+async function checkBirthdays(client) {
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;  // 1-based month
+  const currentDay = currentDate.getDate();
+
+  const allUsers = await loadAllUsers();  // Adjust this to get all users' birthdays
+  
+  for (const userId of allUsers) {
+    const userData = await loadData(userId);
+    if (userData && userData.birthday) {
+      const { month, day, year } = userData.birthday;
+
+      // If year is present, compare fully (month, day, and year)
+      if (year && currentMonth === month && currentDay === day) {
+        // It's their birthday!
+        const user = await client.users.fetch(userId);
+        await sendLog(client, 'generalLog', `${user.tag} has a birthday today! 🎉`);
+        await user.send(`🎉 Happy Birthday! 🎉`);
+      }
+      
+      // If year is not provided, just compare month and day
+      else if (!year && currentMonth === month && currentDay === day) {
+        const user = await client.users.fetch(userId);
+        await sendLog(client, 'generalLog', `${user.tag} has a birthday today! 🎉`);
+        await user.send(`🎉 Happy Birthday! 🎉`);
+      }
+    }
+  }
+}
+
+// Mock function to load all users (replace with your actual implementation)
+async function loadAllUsers() {
+  // This would need to return a list of all user IDs, replace with your actual method
+  return ['user1', 'user2'];
+}
+
+module.exports = { checkBirthdays };

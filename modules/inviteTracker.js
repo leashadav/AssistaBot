@@ -17,16 +17,15 @@ async function handleInviteJoin(member, client) {
   // Find the invite that was used
   const usedInvite = guildInvites.find(inv => cachedInvites.get(inv.code) < inv.uses);
   if (usedInvite) {
-    const inviter = usedInvite.inviter ? usedInvite.inviter.tag : 'Unknown';
+    const inviter = usedInvite.inviter ? usedInvite.inviter.tag : usedInvite.inviter.id;
     const inviteCode = usedInvite.code;
     const inviteUrl = `https://discord.gg/${inviteCode}`;
 
     // Log to the invite log channel
-    const content = `${member.user.tag} joined using invite \`${inviteCode}\` by ${inviter}. [Invite Link](${inviteUrl})`;
-    sendLog(client, 'generalLog', content); // Send it to the general log channel
-    sendLog(client, 'memberJoin', content);  // Send it to the member join log channel (optional)
+    const content = `**Invited**\nDisplay Name: ${member.user}\n ${member.user.tag}\n ${member.user.id}\n\nUsed invite [\`${inviteCode}\`](${inviteUrl}) by ${inviter}`;
+        sendLog(client, 'inviteLog', content);
 
-    console.log(`${member.user.tag} joined using invite ${inviteCode} by ${inviter}`);
+    console.log(`**Invited**\nDisplay Name: ${member.user}\n ${member.user.tag}\n ${member.user.id}\n\nUsed invite ${inviteCode} by ${inviter}`);
   }
 
   // Update cached invites after the join
