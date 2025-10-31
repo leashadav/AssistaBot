@@ -1,8 +1,8 @@
 {
-    "username": "TheAssistaBot",
-    "oauth": "oauth:p4uo1eztks7k4cj52ggwcqi15imflr",
-    "clientId": "xy2ejb2zgaod648uwabsgt5b9brnk8",
-    "botId": "1327129686",
+    "username": "",
+    "oauth": "oauth:",
+    "clientId": "",
+    "botId": "",
     "isBotAccount": false,
     "channels": [
         "Shadav"
@@ -22,4 +22,5 @@
         "subgift": "Thanks {user} for gifting a sub to {recipient}!",
         "raid": "Welcome {user} raiders! Thanks for the raid with {viewers} viewers!"
     }
+
 }
