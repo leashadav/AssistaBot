@@ -2,6 +2,9 @@
   "name": "assistabot",
   "description": "An attempt at a bot by Shadav",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=16.9.0"
+  },
   "private": true,
   "main": "index.js",
   "scripts": {
@@ -32,6 +35,8 @@
     "discord-api-types": "^0.38.22",
     "discord.js": "^14.22.1",
     "moment": "^2.30.1",
-    "ms": "^2.1.3"
+    "ms": "^2.1.3",
+    "node-fetch": "^2.6.7",
+    "tmi.js": "^1.8.5"
   }
 }

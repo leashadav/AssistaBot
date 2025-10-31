@@ -23,19 +23,15 @@ const rest = new REST({ version: '10' }).setToken(token);
 
 (async () => {
   try {
-    console.log('Started refreshing application (/) commands.');
+    console.log('Started refreshing application (/) commands globally...');
 
-    // Deploy commands to a specific server (guild)
-    // await rest.put(
-    //   Routes.applicationGuildCommands(clientId, guildId),
-    //   { body: commands },
-    // );
-
-    // Deploy commands globally (uncomment if needed)
+    // Deploy commands globally
     await rest.put(
       Routes.applicationCommands(clientId),
       { body: commands },
     );
+    
+    console.log(`Registered ${commands.length} commands globally.`);
 
     console.log('Successfully reloaded application (/) commands.');
   } catch (error) {
