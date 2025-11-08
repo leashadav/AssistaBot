@@ -1,16 +1,15 @@
 const { PermissionsBitField } = require('discord.js');
 const customCommands = require('../modules/customCommands');
-const { ownerIDS } = require('../config.json');
+const configLoader = require('../modules/configLoader');
+const { ownerIDS } = configLoader.config;
 const urlFetcher = require('../modules/urlFetcher');
+const guildSettings = require('../modules/guildSettings');
+const DEBUG = /^(1|true)$/i.test(String(process.env.ASSISTABOT_DEBUG || ''));
 
-// Handle any pending URL fetches that might time out - registered once at module level
-process.on('unhandledRejection', error => {
-  if (error.name === 'AbortError') {
-    console.warn('URL fetch timed out');
-  } else {
-    console.error('Unhandled promise rejection:', error);
-  }
-});
+// Helper function to check if user is owner
+function isOwner(userId) {
+  return Array.isArray(ownerIDS) && ownerIDS.includes(userId);
+}
 
 // Convert $(...) style variables to {..} style used by the processor.
 function transformDollarVars(text) {
@@ -152,17 +151,36 @@ module.exports = {
   async execute(message, client) {
     if (message.author.bot) return;
     const content = message.content.trim();
-    if (!content.startsWith('!')) return;
 
-    const parts = content.slice(1).split(/\s+/);
+    // Check for greetings to the bot
+    const lowerContent = content.toLowerCase();
+    if (lowerContent.includes('hi assistabot') || lowerContent.includes('hi theassistabot') || 
+        lowerContent.includes('@assistabot') || lowerContent.includes('@theassistabot')) {
+      return message.reply(`Hi ${message.author.username}!`);
+    }
+
+    const prefix = message.guild 
+      ? (guildSettings.getSettings(message.guild.id).prefix || '!')
+      : '!';
+    if (!content.startsWith(prefix)) return;
+
+    const parts = content.slice(prefix.length).split(/\s+/);
     const cmd = parts.shift().toLowerCase();
     const args = parts;
+
+    if (DEBUG) {
+      console.info({
+        event: 'prefix_command_invoked',
+        name: cmd,
+        user: message.author?.id,
+        guild: message.guild?.id
+      });
+    }
 
     // Test URL fetching (owner only)
     if (cmd === 'testfetch') {
       try {
-        const isOwner = Array.isArray(ownerIDS) && ownerIDS.includes(message.author.id);
-        if (!isOwner) return message.reply('Only bot owners may use this command.');
+        if (!isOwner(message.author.id)) return message.reply('Access denied.');
         
         const url = args.join(' ').trim();
         if (!url) return message.reply('Usage: !testfetch <url>');
@@ -177,25 +195,24 @@ module.exports = {
         // Send the first 1900 chars (Discord limit) with proper formatting
         const preview = result.slice(0, 1900);
         return message.reply('```\n' + preview + (result.length > 1900 ? '\n... (truncated)' : '') + '\n```');
-      } catch (e) {
-        console.error('testfetch error:', e);
-        return message.reply('Error: ' + e.message);
+      } catch (error) {
+        console.error('testfetch error:', error);
+        return message.reply('Error: ' + error.message);
       }
     }
 
     // Owner-only: reload custom/global commands from disk (re-applies transforms)
     if (cmd === 'reloadcoms' || cmd === 'reloadcom') {
       try {
-        const isOwner = Array.isArray(ownerIDS) && ownerIDS.includes(message.author.id);
-        if (!isOwner) return message.reply('Only bot owners may run this command.');
+        if (!isOwner(message.author.id)) return message.reply('Access denied.');
         // reload command data
         if (customCommands && typeof customCommands.reload === 'function') {
           customCommands.reload();
           return message.reply('Custom/global commands reloaded from disk.');
         }
         return message.reply('Reload function not available.');
-      } catch (e) {
-        console.error('reloadcoms error:', e);
+      } catch (error) {
+        console.error('reloadcoms error:', error);
         return message.reply('Error while reloading commands.');
       }
     }
@@ -271,7 +288,9 @@ module.exports = {
       }
       if (sub === 'perm') {
         // allow clearing with 'none' or 'null'
-        const perm = (value.toLowerCase() === 'none' || value.toLowerCase() === 'null') ? null : value;
+        const perm = (value.toLowerCase() === 'none' || value.toLowerCase() === 'null') 
+          ? null 
+          : value;
         const ok = customCommands.setPermission(message.guild.id, name, perm);
         return message.reply(ok ? `Permission for !${name} set to ${perm}` : `Command !${name} not found.`);
       }
@@ -339,23 +358,25 @@ module.exports = {
           try {
             const member = await message.guild.members.fetch(raw);
             if (member) targetUser = member.user;
-          } catch (e) {
+          } catch {
             // ignore
           }
         }
         if (!targetUser) {
-          const found = message.guild.members.cache.find(m => m.user.username.toLowerCase() === args[0].toLowerCase() || m.user.tag.toLowerCase() === args[0].toLowerCase());
-          if (found) targetUser = found.user;
+          if (args[0]) {
+            const needle = args[0].toLowerCase();
+            const found = message.guild.members.cache.find(m => m.user?.username?.toLowerCase() === needle || m.user?.tag?.toLowerCase() === needle);
+            if (found) targetUser = found.user;
+          }
         }
       }
 
-  // Do NOT default {touser} to the invoker here — commands can opt-in to a default
-  // (e.g. using {touser:everyone}). Leave targetUser null when no explicit target was provided.
+      // Do NOT default {touser} to the invoker here — commands can opt-in to a default
+      // (e.g. using {touser:everyone}). Leave targetUser null when no explicit target was provided.
 
       // basic placeholder replacements and simple variables
       const rawResponse = transformDollarVars(entry.response);
       let resp = rawResponse
-        // {user} should not mention — return the invoker's username
         .replace(/{user}/g, message.author.username)
         .replace(/{username}/g, message.author.username)
         .replace(/{tag}/g, message.author.tag)
@@ -364,26 +385,20 @@ module.exports = {
         .replace(/{server}/g, message.guild.name)
         .replace(/{args}/g, args.join(' '));
 
-      // Allow commands to mention the invoker with <@{id}> and keep {user} backwards-compatible
-      const tu = targetUser;
-      // Replace any literal <@{id}> placeholder with the invoker mention
-      resp = resp.replace(/<@\{id\}>/g, `<@${message.author.id}>`)
-        // {user} -> invoker's username (no mention)
-        .replace(/{user}/g, message.author.username)
-        .replace(/{username}/g, message.author.username)
-        .replace(/{tag}/g, message.author.tag)
-        .replace(/{id}/g, message.author.id)
-        .replace(/{channel}/g, `<#${message.channel.id}>`)
-        .replace(/{server}/g, message.guild.name)
-        .replace(/{args}/g, args.join(' '));
+      // Resolve {query} and (query) to the first argument (default 6)
+      const arg0 = args && args.length ? args[0] : null;
+      let queryVal = parseInt(String(arg0 || '').replace(/[^0-9-]/g, ''), 10);
+      if (!Number.isFinite(queryVal) || queryVal <= 0) queryVal = 6;
+      resp = resp.replace(/\{\s*query\s*\}/gi, String(queryVal))
+                 .replace(/\(\s*query\s*\)/gi, String(queryVal));
 
       // {touser:DEFAULT} -> return target username if present, otherwise use DEFAULT text
-      resp = resp.replace(/\{touser:([^}]+)\}/g, (m, def) => tu ? tu.username : def)
+      resp = resp.replace(/\{touser:([^}]+)\}/g, (m, def) => targetUser ? targetUser.username : def)
         // {touser} (no default) -> return target username if present, otherwise invoker username
-        .replace(/\{touser\}/g, tu ? tu.username : message.author.username)
-        .replace(/\{tousername\}/g, tu ? tu.username : message.author.username)
-        .replace(/\{tousertag\}/g, tu ? tu.tag : message.author.tag)
-        .replace(/\{touserid\}/g, tu ? tu.id : message.author.id);
+        .replace(/\{touser\}/g, targetUser ? targetUser.username : message.author.username)
+        .replace(/\{tousername\}/g, targetUser ? targetUser.username : message.author.username)
+        .replace(/\{tousertag\}/g, targetUser ? targetUser.tag : message.author.tag)
+        .replace(/\{touserid\}/g, targetUser ? targetUser.id : message.author.id);
 
       // {rand:min-max} or {rand:min,max} => random int in inclusive range
       resp = resp.replace(/\{rand:(-?\d+)[-,: ]+(-?\d+)\}/g, (m, a, b) => {
@@ -402,20 +417,29 @@ module.exports = {
       resp = resp.replace(/\{\s*(?:Math|math)\.random\s*\(\s*\)\s*\}|\{\s*Math\.random\s*\}/g, () => Math.random());
 
       // {math.floor:EXPR} or {Math.floor:EXPR} -> evaluate simple numeric expression (allows Math.random()) then floor
-      resp = await resp.replace(/\{\s*(?:Math|math)\.floor:([^}]+)\s*\}/g, (m, expr) => {
-        try {
-          // replace Math.random() occurrences with numeric values
-          const replaced = expr.replace(/Math\.random\s*\(\s*\)/gi, () => String(Math.random()));
-          // allow only digits, operators, dots, parentheses, spaces and percent
-          if (!/^[0-9+\-*/().%\s,]+$/.test(replaced)) return '';
-          // evaluate the numeric expression
-          // eslint-disable-next-line no-new-func
-          const val = Function('return (' + replaced + ')')();
-          return String(Math.floor(Number(val) || 0));
-        } catch (e) {
-          return '';
+      const floorMatches = resp.match(/\{\s*(?:Math|math)\.floor:([^}]+)\s*\}/g);
+      if (floorMatches) {
+        for (const match of floorMatches) {
+          const exprMatch = match.match(/\{\s*(?:Math|math)\.floor:([^}]+)\s*\}/);
+          if (!exprMatch) continue;
+          const expr = exprMatch[1];
+          try {
+            // replace Math.random() occurrences with numeric values
+            const replaced = expr.replace(/Math\.random\s*\(\s*\)/gi, () => String(Math.random()));
+            // allow only digits, operators, dots, parentheses, spaces and percent
+            if (!/^[0-9+\-*/().%\s,]+$/.test(replaced)) {
+              resp = resp.replace(match, '');
+              continue;
+            }
+            // evaluate the numeric expression
+            // eslint-disable-next-line no-new-func
+            const val = Function('return (' + replaced + ')')();
+            resp = resp.replace(match, String(Math.floor(Number(val) || 0)));
+          } catch {
+            resp = resp.replace(match, '');
+          }
         }
-      });
+      }
 
       // {urlfetch:type:url:path} -> fetch URL content
       resp = await Promise.all(
@@ -432,19 +456,19 @@ module.exports = {
           }
           if (!m) return part;
 
-          const [_, type, url, path] = m;
+          const [, type, url, path] = m;
           try {
             const decodedUrl = url ? decodeURIComponent(url) : '';
 
-            if (type && type === 'json') {
+            if (type === 'json') {
               const result = await urlFetcher.fetchJson(decodedUrl, path);
               return result !== null ? String(result) : '';
             } else {
               const result = await urlFetcher.fetchText(decodedUrl);
               return result || '';
             }
-          } catch (e) {
-            console.warn('URL fetch error:', e && e.message ? e.message : String(e), 'url:', decodedUrl);
+          } catch (error) {
+            console.warn('URL fetch error:', error?.message || String(error));
             return '';
           }
         })
@@ -465,11 +489,12 @@ module.exports = {
           }
           if (!m) return part;
 
-          const [_, type, url, path] = m;
+          const [, type, url, path] = m;
           try {
+            const decodedUrl = url ? decodeURIComponent(url) : '';
 
-            if (type && type === 'json') {
-              const result = await urlFetcher.fetchJson(url, path);
+            if (type === 'json') {
+              const result = await urlFetcher.fetchJson(decodedUrl, path);
               if (result === null) return '';
               if (Array.isArray(result)) {
                 if (!result.length) return '';
@@ -482,24 +507,23 @@ module.exports = {
               }
               return String(result);
             } else {
-              const result = await urlFetcher.fetchText(url);
+              const result = await urlFetcher.fetchText(decodedUrl);
               if (!result) return '';
               const parts = result.split(/;|\r?\n/).map(s => s.trim()).filter(Boolean);
               if (!parts.length) return '';
               return parts[Math.floor(Math.random() * parts.length)];
             }
-          } catch (e) {
-            console.warn('URL fetch pick error:', e && e.message ? e.message : String(e), 'url:', encUrl);
+          } catch (error) {
+            console.warn('URL fetch pick error:', error?.message || String(error));
             return '';
           }
         })
       ).then(parts => parts.join(''));
 
-      // {eval:EXPR} - owner-only, evaluate with Math in scope
+      // {eval:EXPR} - restricted evaluation with Math in scope
       resp = resp.replace(/\{\s*eval:([^}]+)\s*\}/g, (m, expr) => {
         try {
-          const isOwner = Array.isArray(ownerIDS) && ownerIDS.includes(message.author.id);
-          if (!isOwner) return '';
+          if (!isOwner(message.author.id)) return '';
           const exprTrim = String(expr).trim();
           // If the expression contains multiple statements, return the value of the last expression.
           if (exprTrim.includes(';')) {
@@ -519,7 +543,7 @@ module.exports = {
             const result = fn(Math);
             return String(result === undefined ? '' : result);
           }
-        } catch (e) {
+        } catch {
           return '';
         }
       });
@@ -527,6 +551,9 @@ module.exports = {
       // record use for cooldown
       customCommands.recordCommandUse(message.guild.id, cmd, message.author.id);
 
+      if (DEBUG) {
+        console.info({ event: 'prefix_command_completed', name: cmd, user: message.author?.id, guild: message.guild?.id });
+      }
       return message.channel.send(resp);
     }
   },
