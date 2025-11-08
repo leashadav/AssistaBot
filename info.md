@@ -97,32 +97,8 @@
 
 ## 🔧 Configuration Requirements
 
-### Required Config Values
-```json
-{
-  "token": "DISCORD_BOT_TOKEN",
-  "clientId": "DISCORD_CLIENT_ID",
-  "clientSecret": "DISCORD_CLIENT_SECRET",
-  "guildId": "PRIMARY_GUILD_ID",
-  "ownerIDS": ["OWNER_USER_ID"]
-}
-```
-
-### Optional Integrations
-```json
-{
-  "twitch": {
-    "twitch_username": "bot_username",
-    "twitch_oauth": "oauth:token_here",
-    "twitch_client_id": "client_id",
-    "twitch_client_secret": "client_secret",
-    "twitch_channel": "channel_name"
-  },
-  "youtube": {
-    "youtube_api_key": "api_key_here"
-  }
-}
-```
+- check the config file and change the file names to remove example
+- make sure to edit files with your config info
 
 ## 📁 Data Storage
 
