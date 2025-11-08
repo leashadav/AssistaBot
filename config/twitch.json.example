@@ -1,0 +1,30 @@
+{
+  "twitch_username": "YOUR_TWITCH_BOT_USERNAME",
+  "twitch_oauth": "oauth:YOUR_TWITCH_OAUTH_TOKEN",
+  "twitch_client_id": "YOUR_TWITCH_APPLICATION_CLIENT_ID",
+  "twitch_bot_id": "YOUR_TWITCH_BOT_USER_ID",
+  "isBotAccount": true,
+  "twitch_channel": [
+    "YOUR_TWITCH_CHANNEL_NAME"
+  ],
+  "debug": false,
+  "notifyCooldown": true,
+  "subOnly": false,
+  "modOnly": false,
+  "vipOnly": false,
+  "rewardPoints": {
+    "subscription": 500,
+    "bits": 1,
+    "raid": 100
+  },
+  "autoResponse": {
+    "subscription": "Thanks for subscribing, {user}!",
+    "subgift": "Thanks {user} for gifting a sub to {recipient}!",
+    "raid": "Welcome {user} raiders! Thanks for the raid with {viewers} viewers!"
+  },
+  "twitch_token_endpoint": "https://id.twitch.tv/oauth2/token",
+  "twitch_client_secret": "YOUR_TWITCH_APPLICATION_CLIENT_SECRET",
+  "twitch_authorization_code": "YOUR_TWITCH_AUTHORIZATION_CODE",
+  "twitch_channel_id": "YOUR_TWITCH_CHANNEL_ID",
+  "twitch_eventsub_websocket_url": "wss://eventsub.wss.twitch.tv/ws"
+}

@@ -1,0 +1,19 @@
+{
+  "token": "MTE4NjIwODQ3NTc0Mzc4NDk2Mg.GRJAqE.7xDo1sCdurWOjScg09kEAph0FbKIVQGHTM2_LM",
+  "clientId": "1186208475743784962",
+  "clientSecret": "31590f300104e86d0d9dc18e8324a10194179ad2d7fe1e9cb29f54cde24aa5ce",
+  "guildId": "1323558044990181387",
+  "WEBHOOK_URL": "https://ptb.discord.com/api/webhooks/1323886500638883870/oL49zgQmKlyeOGVCjZIuJksvKCFJIzyG7Xi2lyBwOUbd-k85xVhUecnx04mC03d7P0L2",
+  "ownerIDS": [
+        "460291964248522753"
+    ],
+    "clientsettings": {
+        "nodes": [
+            {
+                "host": "mysql.db.bot-hosting.net:3306",
+                "port": "3306",
+                "password": "FLk7jJJn4WCESYbf+x+noj0!"
+            }
+        ]
+    }
+}

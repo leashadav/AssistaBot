@@ -1,0 +1,30 @@
+{
+  "twitch_username": "TheAssistaBot",
+  "twitch_oauth": "oauth:p4uo1eztks7k4cj52ggwcqi15imflr",
+  "twitch_client_id": "wix2excfntls1yx08bs8smm8fnawcf",
+  "twitch_bot_id": "1327129686",
+  "isBotAccount": true,
+  "twitch_channel": [
+    "Shadav"
+  ],
+  "debug": false,
+  "notifyCooldown": true,
+  "subOnly": false,
+  "modOnly": false,
+  "vipOnly": false,
+  "rewardPoints": {
+    "subscription": 500,
+    "bits": 1,
+    "raid": 100
+  },
+  "autoResponse": {
+    "subscription": "Thanks for subscribing, {user}!",
+    "subgift": "Thanks {user} for gifting a sub to {recipient}!",
+    "raid": "Welcome {user} raiders! Thanks for the raid with {viewers} viewers!"
+  },
+  "twitch_token_endpoint": "https://id.twitch.tv/oauth2/token",  
+  "twitch_client_secret": "g2ox8qzv0ju752ihu6upskhpnpzuoc",
+  "twitch_authorization_code": "6ehgq5bp7zrw4nj2mpwv0qrqftwajh",
+  "twitch_channel_id": "472083446",
+  "twitch_eventsub_websocket_url": "wss://eventsub.wss.twitch.tv/ws"
+}

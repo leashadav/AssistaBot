@@ -1,0 +1,5 @@
+{
+  "youtube_api_key": "YOUR_YOUTUBE_DATA_API_V3_KEY",
+  "youtube_client_id": "YOUR_YOUTUBE_OAUTH_CLIENT_ID",
+  "youtube_client_secret": "YOUR_YOUTUBE_OAUTH_CLIENT_SECRET"
+}

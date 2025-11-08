@@ -1,0 +1,19 @@
+{
+  "token": "YOUR_DISCORD_BOT_TOKEN_HERE",
+  "clientId": "YOUR_DISCORD_APPLICATION_CLIENT_ID",
+  "clientSecret": "YOUR_DISCORD_APPLICATION_CLIENT_SECRET",
+  "guildId": "YOUR_MAIN_GUILD_ID_FOR_TESTING",
+  "WEBHOOK_URL": "YOUR_DISCORD_WEBHOOK_URL_FOR_LOGGING",
+  "ownerIDS": [
+    "YOUR_DISCORD_USER_ID_HERE"
+  ],
+  "clientsettings": {
+    "nodes": [
+      {
+        "host": "your.database.host:3306",
+        "port": "3306",
+        "password": "your_database_password"
+      }
+    ]
+  }
+}
