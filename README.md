@@ -9,17 +9,20 @@ then to figure out how to get it to work in twitch so i can yeet nightbot out of
 
 
 ### TO DO
-- giveaway module
-- stream notifications (maybe, we'll see)
-- welcome message module
-- purge command
+suprisingly I've gotten the bot to do everything that I wanted it to do so far
+now to just keep playiung with it
 
 ### IMPROVE ON
 - birthday module
 - invite module
 - logging system
-- ticket system
 
 ### DONE
 - Create a [ChannelLog](https://github.com/leashadav/AssistaBot/blob/main/ChannelLog.md)
 - get commands to work in twitch chat
+- giveaway module
+- stream notifications
+- welcome message module
+- purge command
+- improve the ticket module
+- asked ai to sum up the bot functions and permissions lol: [Info](https://github.com/leashadav/AssistaBot/blob/main/info.md)
