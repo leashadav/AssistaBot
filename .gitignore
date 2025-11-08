@@ -1,6 +1,8 @@
-node_modules
+node_modules/
+config/
+data/
+logs/
+*.log
 .env
-config.json
-.npm
-.cache
-.parcel-cache
+.DS_Store
+Thumbs.db
