@@ -38,6 +38,7 @@ class StreamNotifier {
         await this.checkPresenceBasedDiscord(client);
         await this.checkPresenceBasedFacebook(client);
         await this.checkPresenceBasedX(client);
+        await this.checkPresenceBasedTwitch(client);
       } catch {
         // Ignore errors in tick function
       }
@@ -1001,6 +1002,86 @@ class StreamNotifier {
           break;
         }
       }
+    }
+  }
+
+  async checkPresenceBasedTwitch(client) {
+    for (const [gid, guild] of client.guilds.cache) {
+      const presenceRules = streamRegistry.getPresence(gid)?.twitch;
+      if (!presenceRules) continue;
+      
+      for (const [userId, member] of guild.members.cache) {
+        if (!member.presence?.activities) continue;
+        
+        const twitchActivity = member.presence?.activities?.find(a => 
+          a.name === 'Twitch' && a.url?.includes('twitch.tv')
+        );
+        
+        if (twitchActivity && presenceRules.whitelistRoleIds?.length ? presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r)) : true) {
+          // Extract Twitch username from activity URL
+          const match = twitchActivity.url?.match(/twitch\.tv\/([^/?]+)/);
+          if (match) {
+            const login = match[1].toLowerCase();
+            await this.checkTwitchPresence(client, gid, login, presenceRules);
+          }
+          break;
+        }
+      }
+    }
+  }
+
+  async checkTwitchPresence(client, guildId, login, presenceRules) {
+    const token = await this.ensureTwitchAppToken();
+    const clientId = twitchConfig?.twitch_client_id;
+    if (!token || !clientId) return;
+
+    try {
+      const streamUrl = `https://api.twitch.tv/helix/streams?user_login=${encodeURIComponent(login)}`;
+      const streamRes = await fetch(streamUrl, { headers: { 'Client-Id': clientId, 'Authorization': `Bearer ${token}` } });
+      
+      if (streamRes.ok) {
+        const streamData = await streamRes.json();
+        const isLive = Array.isArray(streamData?.data) && streamData.data.length > 0;
+        
+        if (isLive) {
+          const s = streamData.data[0];
+          const streamTitle = s.title || 'Live now';
+          const gameTitle = s.game_name || null;
+          const username = s.user_name || login;
+          
+          // Get user avatar
+          let avatar = null;
+          try {
+            const userUrl = `https://api.twitch.tv/helix/users?login=${encodeURIComponent(login)}`;
+            const userRes = await fetch(userUrl, { headers: { 'Client-Id': clientId, 'Authorization': `Bearer ${token}` } });
+            if (userRes.ok) {
+              const userData = await userRes.json();
+              avatar = userData?.data?.[0]?.profile_image_url || null;
+            }
+          } catch {}
+          if (!avatar) {
+            avatar = `https://static-cdn.jtvnw.net/jtv_user_pictures/${login}-profile_image-300x300.png`;
+          }
+          
+          const keyId = login;
+          const alreadyLive = this.state.get(this.key(guildId, 'twitch', keyId))?.status === 'live';
+          if (alreadyLive) return;
+          
+          const watch = `https://twitch.tv/${login}`;
+          const imageUrl = s.thumbnail_url
+            ? s.thumbnail_url.replace('{width}', '1280').replace('{height}', '720')
+            : avatar;
+          
+          const tpl = presenceRules.message || '{name} is live on Twitch: {title} {url}';
+          const content = this.render(tpl, { name: username, title: streamTitle, url: watch });
+          const embed = buildStreamEmbed({ platform: 'twitch', username, avatarUrl: avatar, url: watch, title: streamTitle, game: gameTitle, imageUrl });
+          
+          await this.post(client, presenceRules.channelId, content, [embed]);
+          this.recordState(guildId, 'twitch', keyId, 'live', true);
+        }
+      }
+    } catch {
+      // Ignore presence-based Twitch check errors
     }
   }
 
