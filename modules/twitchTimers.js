@@ -204,10 +204,4 @@ class TwitchTimers {
 
 const timerInstance = new TwitchTimers();
 
-// Test timer system immediately
-setTimeout(() => {
-  console.log('Testing timer system...');
-  timerInstance.manualStart();
-}, 5000);
-
 module.exports = timerInstance;
