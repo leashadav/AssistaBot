@@ -1,11 +1,12 @@
-const { EmbedBuilder, AuditLogEvent } = require('discord.js');
+const { EmbedBuilder, AuditLogEvent, Routes } = require('discord.js');
 
 // Load config for optional embed defaults (author/footer/name)
-const config = require('../config.json');
-// Log channel mappings (adjust channel IDs as needed)
-const logChannels = config.logChannels;
+const configLoader = require('./configLoader');
+const config = configLoader.config;
+const guildSettings = require('./guildSettings');
+const DEBUG = /^(1|true)$/i.test(String(process.env.ASSISTABOT_DEBUG || ''));
 
-
+// Create a log embed with the given title and description
 function createLogEmbed(title, description, color = 0xff6600) {
   const embed = new EmbedBuilder()
     .setColor(color)
@@ -32,62 +33,94 @@ function createLogEmbed(title, description, color = 0xff6600) {
   return embed;
 }
 
-// Send log to a specific channel
-async function sendLog(client, type, content) {
-  const channelId = logChannels[type];
-  if (!channelId) return; // If no channel is specified, do nothing
+// Send log to a specific channel for a given guild
+async function sendLog(client, guildId, type, content) {
+  if (!guildId) return;
+  const channelId = guildSettings.getLogChannel(guildId, type);
+  if (!channelId) return;
+
+  // Resolve guild-specific embed color if configured
+  let color = 0xff6600;
   try {
-    const channel = await client.channels.fetch(channelId);
-    if (channel) {
-      const embed = createLogEmbed(type, content);
-      await channel.send({ embeds: [embed] });
+    const gs = guildSettings.getSettings(guildId);
+    const raw = gs?.embedColor;
+    if (typeof raw === 'number' && Number.isFinite(raw)) {
+      color = raw >>> 0; // ensure uint32
+    } else if (typeof raw === 'string' && raw.trim()) {
+      let s = raw.trim();
+      if (s.startsWith('#')) s = s.slice(1);
+      const n = parseInt(s, 16);
+      if (!Number.isNaN(n)) color = n >>> 0;
     }
-  } catch (err) {
-    console.error(`Logger error for type "${type}":`, err);
+  } catch {
+    // ignore and use default
+  }
+
+  const embed = createLogEmbed(type, content, color);
+  const payload = { embeds: [embed] };
+  try {
+    const cached = client.channels.cache.get(channelId);
+    const channel = cached || await client.channels.fetch(channelId);
+    if (channel?.send) {
+      if (DEBUG) console.info({ event: 'logger_send', guildId, type, channelId, via: 'channel.send' });
+      await channel.send(payload);
+      return;
+    }
+  } catch (error) {
+    console.error(`Logger channel send failed for guild ${guildId} type "${type}" channel ${channelId}:`, error);
+  }
+  try {
+    if (DEBUG) console.info({ event: 'logger_send', guildId, type, channelId, via: 'rest' });
+    await client.rest.post(Routes.channelMessages(channelId), { body: embed.toJSON ? { embeds: [embed.toJSON()] } : payload });
+  } catch (error) {
+    console.error(`Logger REST send failed for guild ${guildId} type "${type}" channel ${channelId}:`, error);
   }
 }
 
 // Log message deletion
 async function logDelete(message, client) {
   // Ignore bot messages to prevent unnecessary logging
-  if (!message || !message.author || typeof message.author.bot === 'undefined') return;
+  if (!message?.author || typeof message.author.bot === 'undefined') return;
   if (message.author.bot) return;
+
+  if (DEBUG) console.info({ event: 'logger_logDelete', message: message.id, author: message.author.id, channel: message.channel?.id, guild: message.guild?.id });
 
   let deleterText = 'Unknown';
 
   // If the message is in a guild, try to fetch audit logs to determine who deleted it
   if (message.guild && message.guild.fetchAuditLogs) {
     try {
-      const fetchedLogs = await message.guild.fetchAuditLogs({ limit: 6, type: AuditLogEvent.MessageDelete });
-      // Look for a log entry where the target is the message author and the entry is recent
-      const deletionLog = fetchedLogs.entries.find(entry => {
-        return entry.target && entry.target.id === message.author.id && (Date.now() - entry.createdTimestamp) < 10000;
-      });
-
-      if (deletionLog && deletionLog.executor) {
-        deleterText = `${deletionLog.executor.tag} (${deletionLog.executor.id})`;
+      const fetchedLogs = await message.guild.fetchAuditLogs({ limit: 1, type: AuditLogEvent.MessageDelete });
+      const deletionLog = fetchedLogs.entries.first();
+      
+      if (deletionLog && (Date.now() - deletionLog.createdTimestamp) < 3000) {
+        if (deletionLog.executor) {
+          deleterText = `${deletionLog.executor.tag} (${deletionLog.executor.id})`;
+        }
       }
-    } catch (err) {
+    } catch (error) {
       // Couldn't fetch audit logs (missing permission or other error). We'll fall back to Unknown.
-      console.error('Logger: could not fetch audit logs to determine deleter:', err);
+      console.error('Logger: could not fetch audit logs to determine deleter:', error);
     }
   }
 
   const content = `A message was deleted in <#${message.channel.id}>:\n**${message.content || '[No Content]'}**\n\nPoster: ${message.author} ${message.author.tag} (${message.author.id})\n\nDeleted by: ${deleterText}`;
-  sendLog(client, 'messageDelete', content);
+  if (message.guild) sendLog(client, message.guild.id, 'messageDelete', content);
 }
 
 // Log member join
 function logMemberJoin(member, client) {
-  const createdAt = member.user && member.user.createdAt ? member.user.createdAt.toUTCString() : 'Unknown';
+  if (DEBUG) console.info({ event: 'logger_logMemberJoin', user: member.user?.id, guild: member.guild?.id });
+  const createdAt = member.user?.createdAt?.toUTCString() || 'Unknown';
   const content = `**Joined**\nDisplay Name: ${member.user}\nUsername: ${member.user.tag}\nUser ID: ${member.user.id}\nAccount created: ${createdAt}`;
-  sendLog(client, 'memberJoin', content);
+  sendLog(client, member.guild.id, 'memberJoin', content);
 }
 
 // Log member leave
 async function logMemberLeave(member, client) {
-  const createdAt = member.user && member.user.createdAt ? member.user.createdAt.toUTCString() : 'Unknown';
-  const joinedAt = member.joinedAt ? member.joinedAt.toUTCString() : 'Unknown';
+  if (DEBUG) console.info({ event: 'logger_logMemberLeave', user: member.user?.id, guild: member.guild?.id });
+  const createdAt = member.user?.createdAt?.toUTCString() || 'Unknown';
+  const joinedAt = member.joinedAt?.toUTCString() || 'Unknown';
 
   let action = 'Left';
   let actorText = 'Unknown';
@@ -98,47 +131,64 @@ async function logMemberLeave(member, client) {
     try {
       // Check for a recent ban entry first
       const banLogs = await member.guild.fetchAuditLogs({ limit: 6, type: AuditLogEvent.MemberBanAdd });
-      const banEntry = banLogs.entries.find(entry => entry.target && entry.target.id === member.id && (Date.now() - entry.createdTimestamp) < 30000);
+      const banEntry = banLogs.entries.find(entry => entry.target?.id === member.id && (Date.now() - entry.createdTimestamp) < 30000);
       if (banEntry) {
         action = 'Banned';
-        if (banEntry.executor) actorText = `${banEntry.executor.tag} (${banEntry.executor.id})`;
-        if (banEntry.reason) reasonText = banEntry.reason;
+        if (banEntry.executor) {
+          actorText = `${banEntry.executor.tag} (${banEntry.executor.id})`;
+        }
+        if (banEntry.reason) {
+          reasonText = banEntry.reason;
+        }
       } else {
         // Check for a recent kick entry
         const kickLogs = await member.guild.fetchAuditLogs({ limit: 6, type: AuditLogEvent.MemberKick });
-        const kickEntry = kickLogs.entries.find(entry => entry.target && entry.target.id === member.id && (Date.now() - entry.createdTimestamp) < 30000);
+        const kickEntry = kickLogs.entries.find(entry => entry.target?.id === member.id && (Date.now() - entry.createdTimestamp) < 30000);
         if (kickEntry) {
           action = 'Kicked';
-          if (kickEntry.executor) actorText = `${kickEntry.executor.tag} (${kickEntry.executor.id})`;
-          if (kickEntry.reason) reasonText = kickEntry.reason;
+          if (kickEntry.executor) {
+            actorText = `${kickEntry.executor.tag} (${kickEntry.executor.id})`;
+          }
+          if (kickEntry.reason) {
+            reasonText = kickEntry.reason;
+          }
         }
       }
-    } catch (err) {
+    } catch (error) {
       // Missing permissions or other error fetching audit logs
-      console.error('Logger: could not fetch audit logs for member leave:', err);
+      console.error('Logger: could not fetch audit logs for member leave:', error);
     }
   }
 
   let content = `**${action}**\nDisplay Name: ${member.user}\nUsername: ${member.user.tag}\nUser ID: ${member.user.id}\nAccount created: ${createdAt}\nJoined at: ${joinedAt}\nActor: ${actorText}`;
   if (reasonText) content += `\nReason: ${reasonText}`;
 
-  sendLog(client, 'memberLeave', content);
+  sendLog(client, member.guild.id, 'memberLeave', content);
 }
 
 // Log ticket creation
 function logTicketCreation(thread, client) {
+  if (DEBUG) console.info({ event: 'logger_logTicketCreation', thread: thread?.id, guild: thread?.guild?.id });
   const content = `A new ticket has been created: ${thread.name} <#${thread.id}>`;
-  sendLog(client, 'ticketCreated', content);
+  if (thread.guild) sendLog(client, thread.guild.id, 'ticketCreated', content);
 }
 
 // Log ticket closed
-function logTicketClosed(thread, client) {
-  const content = `A ticket has been closed: ${thread.name} <#${thread.id}>`;
-  sendLog(client, 'ticketClosed', content);
+function logTicketClosed(thread, client, closedBy = null) {
+  if (DEBUG) console.info({ event: 'logger_logTicketClosed', thread: thread?.id, guild: thread?.guild?.id });
+  const closedByText = closedBy ? `\nClosed by: ${closedBy.tag} (${closedBy.id})` : '';
+  const content = `A ticket has been closed: ${thread.name} <#${thread.id}>${closedByText}`;
+  if (thread.guild) sendLog(client, thread.guild.id, 'ticketClosed', content);
 }
 
-function logGeneral(content, client) {
-  sendLog(client, 'generalLog', content);
+// If guildId is provided, send to that guild's general log; otherwise broadcast to all guilds
+function logGeneral(content, client, guildId) {
+  if (guildId) {
+    return sendLog(client, guildId, 'generalLog', content);
+  }
+  for (const [gid] of client.guilds.cache) {
+    sendLog(client, gid, 'generalLog', content);
+  }
 }
 
 module.exports = {
@@ -148,5 +198,5 @@ module.exports = {
   logTicketCreation,
   logTicketClosed,
   logGeneral,
-  sendLog,  // Export sendLog to be used in invite tracking
+  sendLog // Export sendLog to be used in invite tracking
 };

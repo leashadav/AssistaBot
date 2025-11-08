@@ -3,21 +3,20 @@ const customCommands = require('./customCommands');
 
 class TwitchBot {
     constructor(config) {
-        this.config = config;
-        this.channels = new Set();
-        
+        this.config = config || {};
+
         // Initialize TMI client
         // Request secure, reconnecting connection and, if provided, include the Twitch App clientId
         // Note: marking an account as a "bot" in the Twitch chat user list requires registering the bot
         // through the Twitch Developer Console / Verified Bots & Services program. See README or docs.
         this.client = new tmi.Client({
-            options: { debug: config.debug || false, clientId: config.clientId || undefined },
+            options: { debug: !!this.config.debug, clientId: this.config.twitch_client_id || this.config.clientId || undefined },
             connection: { secure: true, reconnect: true },
             identity: {
-                username: config.username,
-                password: config.oauth // oauth:your_token
+                username: this.config.twitch_username || this.config.username,
+                password: this.config.twitch_oauth || this.config.oauth // oauth:your_token
             },
-            channels: config.channels || []
+            channels: Array.isArray(this.config.twitch_channel) ? this.config.twitch_channel : (Array.isArray(this.config.channels) ? this.config.channels : [])
         });
 
         // Bind handlers
@@ -34,7 +33,7 @@ class TwitchBot {
             await this.client.connect();
             console.log('Connected to Twitch');
         } catch (err) {
-            console.error('Failed to connect to Twitch:', err);
+            console.error('Failed to connect to Twitch:', err?.message || 'Unknown error');
             throw err;
         }
     }
@@ -54,14 +53,26 @@ class TwitchBot {
 
     // Main message handler
     async onMessage(channel, userstate, message, self) {
-        if (self || !message.startsWith('!')) return;
+        if (self || typeof message !== 'string') return;
 
-        const parts = message.slice(1).split(/\s+/);
-        const cmd = parts.shift().toLowerCase();
+        // Check for greetings to the bot
+        const lowerMessage = message.toLowerCase();
+        if (lowerMessage.includes('hi assistabot') || lowerMessage.includes('hi theassistabot') ||
+            lowerMessage.includes('@assistabot') || lowerMessage.includes('@theassistabot')) {
+            try {
+                await this.client.say(channel, `Hi ${userstate.username}!`);
+            } catch (_) { /* ignore send error */ }
+            return;
+        }
+
+        if (message.charAt(0) !== '!') return;
+
+        const parts = message.slice(1).trim().split(/\s+/);
+        const cmd = (parts.shift() || '').toLowerCase();
         const args = parts;
         
         // Get command target (first argument or null)
-        const targetUser = args.length > 0 ? args[0].replace('@', '') : null;
+        const targetUser = args.length > 0 ? args[0].replace(/^@/, '') : null;
 
         // Find the command
         const command = customCommands.getCommand(channel, cmd);
@@ -71,7 +82,9 @@ class TwitchBot {
         const remaining = customCommands.getCooldownRemaining(channel, cmd, userstate['user-id']);
         if (remaining > 0) {
             if (this.config.notifyCooldown) {
-                await this.client.say(channel, `@${userstate.username}, please wait ${remaining}s before using this command again.`);
+                try {
+                    await this.client.say(channel, `@${userstate.username}, please wait ${remaining}s before using this command again.`);
+                } catch (_) { /* ignore send error */ }
             }
             return;
         }
@@ -112,15 +125,23 @@ class TwitchBot {
 
         try {
             const response = await customCommands.processCommand(command, context);
-            if (response) {
-                await this.client.say(channel, response);
-                // Record command use for cooldown
+            if (response !== undefined && response !== null) {
+                const lines = String(response).split(/\r?\n|\\n/g).map(s => s.trim()).filter(Boolean);
+                const toSend = lines.length ? lines : [String(response)];
+                for (const part of toSend) {
+                    try {
+                        await this.client.say(channel, part);
+                    } catch (_) { /* ignore send error */ }
+                    await new Promise(r => setTimeout(r, 350));
+                }
                 customCommands.recordCommandUse(channel, cmd, userstate['user-id']);
             }
         } catch (err) {
-            console.error('Error processing command:', err);
+            console.error('Error processing command:', err?.message || 'Unknown error');
             if (this.config.debug) {
-                await this.client.say(channel, `@${userstate.username}, error processing command: ${err.message}`);
+                try {
+                    await this.client.say(channel, `@${userstate.username}, error processing command: ${err?.message || 'Unknown error'}`);
+                } catch (_) { /* ignore send error */ }
             }
         }
     }
