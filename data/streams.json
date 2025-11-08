@@ -1,0 +1,741 @@
+{
+  "991544116099956766": [
+    {
+      "platform": "youtube",
+      "id": "@sonoflibertyradio",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is live on YouTube!** Let's go hang out with my 2 favorite boys, Patrick and Kevin. Come shoot the shit and maybe learn a thing or two about vaping.",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "youtube",
+      "id": "@dawnoftimebc",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "youtube",
+      "id": "@illwillpress",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "youtube",
+      "id": "@lampymoth6719",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "youtube",
+      "id": "@oliv3rplays",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "youtube",
+      "id": "@unoraptormon",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "youtube",
+      "id": "@leashadav",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "rumble",
+      "id": "LeaShadav",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on Rumble!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "rumble",
+      "id": "sonoflibertyradio",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on Rumble!**",
+      "vodMessage": null,
+      "liveRoleIds": [],
+      "whitelistRoleIds": []
+    },
+    {
+      "platform": "rumble",
+      "id": "Unoraptormon",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on Rumble!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "tiktok",
+      "id": "@lea_shadav",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on TikTok!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "tiktok",
+      "id": "@lampymothvartist",
+      "channelId": "991549277677559953",
+      "message": "**[{name}]({url}) is now broadcasting on TikTok!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": []
+    },
+    {
+      "platform": "tiktok",
+      "id": "@xogradmaxwellvtuber",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on TikTok!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "twitch",
+      "id": "ZombiePandemic",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "kick",
+      "id": "unoraptormon",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on Kick!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "instagram",
+      "id": "ishadav",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on Instagram!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "facebook",
+      "id": "shadav",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on Facebook!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    },
+    {
+      "platform": "x",
+      "id": "leashadav",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on Twitter/X!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [
+        "1175251199193264158",
+        "1012452753978687528"
+      ]
+    }
+  ],
+  "1078005146698657802": [
+    {
+      "platform": "youtube",
+      "id": "@unoraptormon",
+      "channelId": "1078717370408898612",
+      "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1286702849312559175"
+      ],
+      "whitelistRoleIds": [
+        "1286687267058089994",
+        "1078012186414288986"
+      ]
+    },
+    {
+      "platform": "twitch",
+      "id": "thegoldengooes",
+      "channelId": "1331471006312824882",
+      "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1286702849312559175"
+      ],
+      "whitelistRoleIds": [
+        "1286687267058089994",
+        "1078012186414288986"
+      ]
+    },
+    {
+      "platform": "twitch",
+      "id": "reallyjaydea",
+      "channelId": "1176788358391926875",
+      "message": "__**{title}**__ **{name}** *Mastering The Meta* __{game}__  I just went live on Twitch!!! Please come join and follow this gamer girl in the fun as I hang out with all of you, share tips, and master various games!   {url}!!!",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1286702849312559175"
+      ],
+      "whitelistRoleIds": [
+        "1286687267058089994",
+        "1078012186414288986"
+      ]
+    },
+    {
+      "platform": "youtube",
+      "id": "@oliv3rplays",
+      "channelId": "1078717370408898612",
+      "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1286702849312559175"
+      ],
+      "whitelistRoleIds": [
+        "1286687267058089994",
+        "1078012186414288986"
+      ]
+    },
+    {
+      "platform": "twitch",
+      "id": "mrmase370",
+      "channelId": "1085076414556028948",
+      "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1286702849312559175"
+      ],
+      "whitelistRoleIds": [
+        "1286687267058089994",
+        "1078012186414288986"
+      ]
+    },
+    {
+      "platform": "youtube",
+      "id": "@lampymoth6719",
+      "channelId": "1078717370408898612",
+      "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1286702849312559175"
+      ],
+      "whitelistRoleIds": [
+        "1286687267058089994",
+        "1078012186414288986"
+      ]
+    },
+    {
+      "platform": "twitch",
+      "id": "illwillpress",
+      "channelId": "1078717370408898612",
+      "message": "**[{name}]({url}) is now broadcasting on Twitch!** Come hang out with the creator of Foamy The Squirrel",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1286702849312559175"
+      ],
+      "whitelistRoleIds": [
+        "1286687267058089994",
+        "1078012186414288986"
+      ]
+    },
+    {
+      "platform": "twitch",
+      "id": "djc_animation",
+      "channelId": "1092093217656295464",
+      "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1286702849312559175"
+      ],
+      "whitelistRoleIds": [
+        "1286687267058089994",
+        "1078012186414288986"
+      ]
+    },
+    {
+      "platform": "twitch",
+      "id": "diavolical",
+      "channelId": "1083471994462421133",
+      "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1286702849312559175"
+      ],
+      "whitelistRoleIds": [
+        "1286687267058089994",
+        "1078012186414288986"
+      ]
+    },
+    {
+      "platform": "twitch",
+      "id": "deyphid",
+      "channelId": "1164674493969616917",
+      "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1286702849312559175"
+      ],
+      "whitelistRoleIds": [
+        "1286687267058089994",
+        "1078012186414288986"
+      ]
+    },
+    {
+      "platform": "youtube",
+      "id": "@dawnoftimebc",
+      "channelId": "1078717370408898612",
+      "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1286702849312559175"
+      ],
+      "whitelistRoleIds": [
+        "1286687267058089994",
+        "1078012186414288986"
+      ]
+    },
+    {
+      "platform": "twitch",
+      "id": "alienfurs",
+      "channelId": "1081060389753729127",
+      "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1286702849312559175"
+      ],
+      "whitelistRoleIds": [
+        "1286687267058089994",
+        "1078012186414288986"
+      ]
+    },
+    {
+      "platform": "youtube",
+      "id": "@sonoflibertyradio",
+      "channelId": "1078717370408898612",
+      "message": "**[{name}]({url}) is live on YouTube!** Let's go hang out with my 2 favorite boys, Patrick and Kevin. Come shoot the shit and maybe learn a thing or two about vaping.",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1286702849312559175"
+      ],
+      "whitelistRoleIds": [
+        "1286687267058089994",
+        "1078012186414288986"
+      ]
+    }
+  ],
+  "1323558044990181387": [
+    {
+      "platform": "twitch",
+      "id": "shadav",
+      "channelId": "1323776161968558090",
+      "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
+      "liveRoleIds": [
+        "1323713677815185419"
+      ]
+    },
+    {
+      "platform": "youtube",
+      "id": "@leashadav",
+      "channelId": "1323776161968558090",
+      "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1323713677815185419"
+      ]
+    },
+    {
+      "platform": "rumble",
+      "id": "LeaShadav",
+      "channelId": "1323776161968558090",
+      "message": "**[{name}]({url}) is now broadcasting on Rumble!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1323713677815185419"
+      ],
+      "whitelistRoleIds": [
+        "1323729406371434598"
+      ]
+    },
+    {
+      "platform": "tiktok",
+      "id": "@lea_shadav",
+      "channelId": "1323776161968558090",
+      "message": "**[{name}]({url}) is now broadcasting on TikTok!**",
+      "vodMessage": "**{name} published a new video!** [{title}]({url})",
+      "liveRoleIds": [
+        "1323713677815185419"
+      ],
+      "whitelistRoleIds": [
+        "1323729406371434598"
+      ]
+    },
+    {
+      "platform": "kick",
+      "id": "shadav",
+      "channelId": "1323776161968558090",
+      "message": "**[{name}]({url}) is now broadcasting on Kick!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1323713677815185419"
+      ],
+      "whitelistRoleIds": [
+        "1323729406371434598"
+      ]
+    },
+    {
+      "platform": "instagram",
+      "id": "ishadav",
+      "channelId": "1323776161968558090",
+      "message": "**[{name}]({url}) is now broadcasting on Instagram!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1323713677815185419"
+      ],
+      "whitelistRoleIds": [
+        "1323729406371434598"
+      ]
+    },
+    {
+      "platform": "discord",
+      "id": "shadav",
+      "channelId": "1323776161968558090",
+      "message": "**[{name}]({url}) is now broadcasting on Discord!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1323713677815185419"
+      ],
+      "whitelistRoleIds": [
+        "1323723861983887452"
+      ]
+    },
+    {
+      "platform": "facebook",
+      "id": "shadav",
+      "channelId": "1323776161968558090",
+      "message": "**[{name}]({url}) is now broadcasting on Facebook!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1323713677815185419"
+      ],
+      "whitelistRoleIds": [
+        "1323729406371434598"
+      ]
+    },
+    {
+      "platform": "x",
+      "id": "leashadav",
+      "channelId": "1323776161968558090",
+      "message": "**[{name}]({url}) is now broadcasting on Twitter/X!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1323713677815185419"
+      ],
+      "whitelistRoleIds": [
+        "1323729406371434598"
+      ]
+    }
+  ],
+  "1208850182704336967": [],
+  "_presence": {
+    "1078005146698657802": {
+      "twitch": {
+        "channelId": "1078717370408898612",
+        "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
+        "liveRoleIds": [
+          "1286702849312559175"
+        ],
+        "whitelistRoleIds": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ]
+      },
+      "youtube": {
+        "channelId": "1078717370408898612",
+        "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+        "liveRoleIds": [
+          "1286702849312559175"
+        ],
+        "whitelistRoleIds": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ]
+      }
+    },
+    "991544116099956766": {
+      "youtube": {
+        "channelId": "991630218399858738",
+        "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "twitch": {
+        "channelId": "991630218399858738",
+        "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "tiktok": {
+        "channelId": "991630218399858738",
+        "message": "**[{name}]({url}) is now broadcasting on TikTok!**",
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "kick": {
+        "channelId": "991630218399858738",
+        "message": "**[{name}]({url}) is now broadcasting on Kick!**",
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "rumble": {
+        "channelId": "991630218399858738",
+        "message": "**[{name}]({url}) is now broadcasting on Rumble!**",
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "instagram": {
+        "channelId": "991630218399858738",
+        "message": "**[{name}]({url}) is now broadcasting on Instagram!**",
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "facebook": {
+        "channelId": "991630218399858738",
+        "message": "**[{name}]({url}) is now broadcasting on Facebook!**",
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "x": {
+        "channelId": "991630218399858738",
+        "message": "**[{name}]({url}) is now broadcasting on Twitter/X!**",
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      }
+    },
+    "1323558044990181387": {
+      "twitch": {
+        "channelId": "1323776161968558090",
+        "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "youtube": {
+        "channelId": "1323776161968558090",
+        "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "rumble": {
+        "channelId": "1323776161968558090",
+        "message": "**[{name}]({url}) is now broadcasting on Rumble!**",
+        "liveRoleIds": [],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "tiktok": {
+        "channelId": "1323776161968558090",
+        "message": "**[{name}]({url}) is now broadcasting on TikTok!**",
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "instagram": {
+        "channelId": "1323776161968558090",
+        "message": "**[{name}]({url}) is now broadcasting on Instagram!**",
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "discord": {
+        "channelId": "1323776161968558090",
+        "message": "**{name} is now broadcasting on Discord!** ({url}",
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323723861983887452"
+        ]
+      },
+      "facebook": {
+        "channelId": "1323776161968558090",
+        "message": "**[{name}]({url}) is now broadcasting on Facebook!**",
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "x": {
+        "channelId": "1323776161968558090",
+        "message": "**[{name}]({url}) is now broadcasting on Twitter/X!**",
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      }
+    }
+  }
+}

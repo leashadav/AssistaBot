@@ -1,0 +1,196 @@
+{
+  "global": {
+    "Throne-timed-notification": {
+      "message": "If you'd like to send me a gift, I'd be greatly appreciative. https://throne.com/shadav",
+      "interval": 60,
+      "enabled": false,
+      "gameFilter": null,
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "The Box Discord": {
+      "message": "You know you want in the box! Join in the chaos on discord: https://discord.gg/FUY4WAhQkW",
+      "interval": 60,
+      "enabled": false,
+      "gameFilter": null,
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Collabing Community Discord": {
+      "message": "Collabing Community. Helping Others Is Our Goal, What's Yours? : https://discord.gg/HuxQJPudp8",
+      "interval": 1,
+      "enabled": true,
+      "gameFilter": null,
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Donate": {
+      "message": "If you'd like to help me out, any little bit is greatly appreciated. https://paypal.me/TheShadavNetwork THANK YOU! I will never forget what you have done.",
+      "interval": 90,
+      "enabled": true,
+      "gameFilter": null,
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Potion Tycoon": {
+      "message": "Thank you to the developer Snowhound Games and to the publisher Daedalic Entertainment for sponsoring me and gifting their game Potion Tycoon to play on stream https://store.steampowered.com/app/1485690/Potion_Tycoon/ via PressEngine https://pressengine.net/ This stream is brought to you by #SnowhoundGames, #Daedalic, and #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Potion Tycoon"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Innsmouth22": {
+      "message": "Thank you to Raven Novels for gifting me the game Innsmouth 22 to play on stream https://store.steampowered.com/app/2456640/Innsmouth_22/ via KeyMailer https://www.keymailer.co | This stream brought to you by #innsmouth22, #RavenNovels, & #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Innsmouth 22"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "House Builder": {
+      "message": "Thank you to the developer FreeMind S.A. & the publisher PlayWay S.A. for gifting the game House Builder & all of it's dlc to me to play on stream https://store.steampowered.com/app/1244630/House_Builder/ via KeyMailer https://www.keymailer.co | This stream brought to you by #house_builder, #housebuilder, #housebuilderatomic, #housebuilder_medievaldlc, #housebuildergarden, #PlayWay, #GamesFreemind & #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "House Builder"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Tech Store Simulator": {
+      "message": "Thank you to Astrasoft for gifting their game Tech Store Simulator to play on stream https://store.steampowered.com/app/3076400/Tech_Store_Simulator/ via KeyMailer https://www.keymailer.co | This stream brought to you by #TechStoreSimulator, #Astrasoft, & #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Tech Store Simulator"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Vampire Therapist": {
+      "message": "Thank you to the developer Little Bat Games & the promoter 1UP PR for gifting me the game Vampire Therapist https://store.steampowered.com/app/2481020/Vampire_Therapist/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #VampireTherapist, #LittleBatGames, #1UPPR, & #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Vampire Therapist"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Fireworks Mania": {
+      "message": "Thank you to Laumania ApS for gifting me the game Fireworks Mania https://store.steampowered.com/app/1079260/Fireworks_Mania__An_Explosive_Simulator/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #fireworksmania, #laumania, & #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Fireworks Mania"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "DreamWorld": {
+      "message": "Thank you to DreamWorld Realities, Inc. for gifting me the game DreamWorld https://store.steampowered.com/app/3103280/DreamWorld_The_Infinite_Sandbox_MMO/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #dreamworldtheinfinitesandboxmmo, #DreamWorldMMO, @playdreamworld, & #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "DreamWorld"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Villages": {
+      "message": "Thank you to HailFallKompany for gifting me the game Villages to play on stream https://store.steampowered.com/app/749820/Villages/ via Woovit https://woovit.com/ | This stream brought to you by #Villages, #HAILFALLKOMPANY, & #Woovit",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Villages"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Urban Entrepreneur": {
+      "message": "Thank you to ArchDawn for gifting their game Urban Entrepreneur to play on stream https://store.steampowered.com/app/2648080/Urban_Entrepreneur/ via keymailer https://www.keymailer.co  | This stream is brought to you by #UrbanEntrepreneur, #ArchDawn, & #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Urban Entrepreneur"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Instants": {
+      "message": "Thank you to the developer Endflame & the promoter Future Friends Games for gifting the game https://store.steampowered.com/app/2948560/Instants/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #Instants, #Endflame, #FutureFriendsGames & #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Instants"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "The House of Tesla": {
+      "message": "Thank you to Blue Brain Games for gifting the game The House of Tesla to play on stream https://store.steampowered.com/app/2738230/The_House_of_Tesla/ via PressEngine https://pressengine.net/ | This stream brought to you by #TheHouseOfDavinci, #BlueBrainGames, & #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "The House of Tesla"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "KARMA: The Dark World": {
+      "message": "Thank you to the developer Pollard Studio & the publisher Wired Productions for gifting the game KARMA: The Dark World to play on stream https://store.steampowered.com/app/1376200/KARMA_The_Dark_World/ via PressEngine https://pressengine.net/ | This stream brought to you by #KarmaDarkWorld, #PollardStudio, #WiredProductions, & #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "KARMA: The Dark World"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "One Hand Clapping": {
+      "message": "Thank you to the developer Bad Dream Games & the publisher HandyGames for gifting the game One Hand Clapping https://store.steampowered.com/app/893720/One_Hand_Clapping/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #OneHandClapping, #BadDreamGames, #HandyGames, & #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "One Hand Clapping"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Recycling Center Simulator": {
+      "message": "Thank you to the developer Balas Games & the publisher PlayWay S.A. for gifting the game Recycling Center Simulator https://store.steampowered.com/app/2928520/Recycling_Center_Simulator/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #recyclingcentersimulator, #PlayWay, & #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Recycling Center Simulator"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Game Builder Tycoon": {
+      "message": "Thank you to the developer AM Playhouse & the publisher PlayWay S.A. for gifting the game Game Builder Tycoon https://store.steampowered.com/app/2756470/Game_Builder_Tycoon/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #gamebuildertycoon, #AMPlayhouse, #PlayWay, & #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Game Builder Tycoon"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Legends of the Round Table": {
+      "message": "Thank you to Artifice Studio for gifting the game egends of the Round Table https://store.steampowered.com/app/2387040/Legends_of_the_Round_Table/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #LegendsoftheRoundTable, #ArtificesStudio, & #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Legends of the Round Table"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    }
+  }
+}

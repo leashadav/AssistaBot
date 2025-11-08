@@ -1,18 +1,145 @@
 {
-  "GUIKLD ID HERE": {
+  "991544116099956766": {
     "logChannels": {
-      "messageDelete": "",
-      "memberJoin": "",
-      "memberLeave": "",
-      "ticketCreated": "",
-      "ticketClosed": "",
-      "generalLog": "",
-      "inviteLog": ""
+      "supportChannelId": null,
+      "messageDelete": null,
+      "messageUpdate": null,
+      "messageUpdateEdited": null,
+      "memberJoin": "1384988943921057974",
+      "memberLeave": "1384988943921057974",
+      "ticketCreated": null,
+      "ticketClosed": null,
+      "generalLog": "1333363511220371486",
+      "inviteLog": "1384989324004692038",
+      "assistabotsayLog": "1384989123995107429",
+      "assistabotLogging": null
     },
     "birthdayInfo": {
-      "birthdayRole": "",
-      "birthdayChannel": ""
+      "birthdayRole": "991814873052876840",
+      "birthdayChannel": "991807868057698394"
     },
-    "supportChannelId": "",
-    "prefix": "!"
+    "supportChannelId": null,
+    "prefix": "!",
+    "embedColor": "0xff6600",
+    "welcome": {
+      "enabled": true,
+      "channelId": "991825358309572698",
+      "dm": false,
+      "message": null,
+      "content": "Hey {mention} Welcome to {server}!"
+    },
+    "goodbye": {
+      "enabled": true,
+      "channelId": "991825358309572698",
+      "message": null,
+      "content": "Goodbye {mention}, we will miss you."
+    }
+  },
+  "1323558044990181387": {
+    "logChannels": {
+      "messageDelete": "1323706450417025024",
+      "messageUpdate": "1323706450417025024",
+      "messageUpdateEdited": "1323706450417025024",
+      "memberJoin": "1323706620844314625",
+      "memberLeave": "1323706620844314625",
+      "ticketCreated": "1413335312683372596",
+      "ticketClosed": "1413335312683372596",
+      "generalLog": "1323818296847372320",
+      "inviteLog": "1323706770983747615",
+      "assistabotsayLog": "1323706450417025024",
+      "assistabotLogging": "1323818296847372320"
+    },
+    "birthdayInfo": {
+      "birthdayRole": "1323713890424717423",
+      "birthdayChannel": "1323754917298700328"
+    },
+    "supportChannelId": "1323750550990229685",
+    "prefix": "!",
+    "embedColor": "0xff6600",
+    "welcome": {
+      "enabled": true,
+      "channelId": "1323752430306857142",
+      "dm": false,
+      "message": null,
+      "content": "Hey {mention} Welcome to {server}!"
+    },
+    "goodbye": {
+      "enabled": true,
+      "channelId": "1323752430306857142",
+      "message": null,
+      "content": "Goodbye {mention}, we will miss you."
+    },
+    "supportRoleId": "1323714008645111829"
+  },
+  "1078005146698657802": {
+    "logChannels": {
+      "messageDelete": "1317278921963606036",
+      "messageUpdate": "1317278921963606036",
+      "messageUpdateEdited": "1317278921963606036",
+      "memberJoin": "1317281707321327656",
+      "memberLeave": "1317281707321327656",
+      "ticketCreated": "1436185287817429114",
+      "ticketClosed": "1436185287817429114",
+      "generalLog": "1186140475820875838",
+      "inviteLog": "1322743814598819841",
+      "assistabotsayLog": "1317278921963606036",
+      "assistabotLogging": null
+    },
+    "birthdayInfo": {
+      "birthdayRole": "1078017675558662194",
+      "birthdayChannel": "1078108196431990904"
+    },
+    "supportChannelId": "1164660676720078968",
+    "prefix": "!",
+    "embedColor": "0xff6600",
+    "welcome": {
+      "enabled": true,
+      "channelId": "1078103075937591326",
+      "dm": false,
+      "message": null,
+      "content": "Hey {mention} Welcome to {server}!"
+    },
+    "goodbye": {
+      "enabled": true,
+      "channelId": "1078103075937591326",
+      "message": null,
+      "content": "Goodbye {mention}, we will miss you."
+    },
+    "supportRoleId": "1165692061182328932"
+  },
+  "1208850182704336967": {
+    "logChannels": {
+      "messageDelete": null,
+      "messageUpdate": null,
+      "messageUpdateEdited": null,
+      "memberJoin": null,
+      "memberLeave": null,
+      "ticketCreated": null,
+      "ticketClosed": null,
+      "generalLog": null,
+      "inviteLog": null,
+      "assistabotsayLog": null,
+      "assistabotLogging": null
+    },
+    "birthdayInfo": {
+      "birthdayRole": null,
+      "birthdayChannel": null
+    },
+    "welcome": {
+      "enabled": true,
+      "channelId": "1208889957830098954",
+      "dm": false,
+      "message": "Hey {user}, Welcome to {server}!",
+      "content": "Hey {mention} Welcome to {server}!"
+    },
+    "goodbye": {
+      "enabled": true,
+      "channelId": "1208889957830098954",
+      "message": "Goodbye {displayName}, we will miss you.",
+      "content": "Goodbye {mention}, we will miss you."
+    },
+    "supportChannelId": null,
+    "prefix": "!",
+    "embedColor": "0xff6600"
   }
+}

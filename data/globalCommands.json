@@ -5,6 +5,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "advice": {
@@ -13,6 +14,7 @@
     "createdAt": 1761707867048,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "bagel": {
@@ -21,6 +23,7 @@
     "createdAt": 1761708563696,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "bageltoppings": {
@@ -29,6 +32,7 @@
     "createdAt": 1761708563696,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "belt": {
@@ -37,6 +41,7 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "brain": {
@@ -45,6 +50,7 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "breakfast": {
@@ -53,14 +59,7 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
-    "allowedRoles": []
-  },
-  "cappachino": {
-    "response": "{user} gives {touser:everyone} a cup of cappuccino!",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "cappuccino": {
@@ -69,6 +68,7 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": ["cappachino"],
     "allowedRoles": []
   },
   "coffee": {
@@ -77,6 +77,7 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "coinflip": {
@@ -85,6 +86,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "collabing": {
@@ -93,6 +95,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "cuddle": {
@@ -101,14 +104,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
-    "allowedRoles": []
-  },
-  "cuddles": {
-    "response": "{user} is cuddling with {touser:everyone}!",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
+    "aliases": ["cuddles","cuddling"],
     "allowedRoles": []
   },
   "dadjoke": {
@@ -117,6 +113,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "deity": {
@@ -125,14 +122,16 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "dice": {
-    "response": "🎲 {user} just rolled a {eval:Math.floor((Math.random() * (query)))} on a (query) sided die!",
+    "response": "🎲 {user} just rolled a {rand:1-(query)} on a (query) sided die!",
     "creatorId": "SYSTEM",
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "dinner": {
@@ -141,6 +140,7 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "discord": {
@@ -149,6 +149,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "donate": {
@@ -157,6 +158,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "drink": {
@@ -165,22 +167,16 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": ["drinks"],
     "allowedRoles": []
   },
-  "drinks": {
-    "response": "{user} gives {urlfetchpick:text:https://pastebin.com/raw/sk7Y8Ue1} to {touser:everyone}!",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "allowedRoles": []
-  },
-    "facebook": {
+  "facebook": {
     "response": "You might find me here: https://facebook.com/ShadavInTheBox",
     "creatorId": "SYSTEM",
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "ff": {
@@ -189,30 +185,25 @@
     "createdAt": 1761882233285,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": ["foodfight"],
     "allowedRoles": []
   },
   "followage": {
-    "response": "{urlfetch:json:https://commands.garretcharp.com/twitch/followage/$(channel)/$(touser)?format=ymd&ping=false}",
+    "response": "{urlfetch:json:https://commands.garretcharp.com/twitch/followage/{channel}/{touser}?format=ymd&ping=false}",
     "creatorId": "SYSTEM",
     "createdAt": 1761882233285,
     "cooldown": 5,
     "requiredPermission": null,
-    "allowedRoles": []
-  },
-  "foodfight": {
-    "response": "{user} yells food fight and throws {urlfetchpick:text:https://pastebin.com/raw/gHEvc3mE} at {touser:everyone}",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761882233285,
-    "cooldown": 5,
-    "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "gift": {
-    "response": "If you'd like to send me a gift, I'd be greatly appreciative. https://throne.com/shadav | https://amazon.com/hz/wishlist/ls/UC20USQ3YKK8 | https://walmart.com/lists/shared/WL/a4fcf0c1-5678-46ad-9ac3-bb1d05a4c54f | https://store.steampowered.com/wishlist/id/shadav",
+    "response": "If you'd like to send me a gift, I'd be greatly appreciative. https://throne.com/shadav | https://amazon.com/hz/wishlist/ls/UC20USQ3YKK8 | https://walmart.com/lists/shared/WL/a4fcf0c1-5678-46ad-9ac3-bb1d05a4c54f | https://store.steampowered.com/wishlist/id/shadav | 3918 Clark Ave #23192, San Antonio, TX 78223",
     "creatorId": "SYSTEM",
     "createdAt": 1761882233285,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": ["wishlist"],
     "allowedRoles": []
   },
   "headpat": {
@@ -221,14 +212,7 @@
     "createdAt": 1761882233285,
     "cooldown": 5,
     "requiredPermission": null,
-    "allowedRoles": []
-  },
-  "headpats": {
-    "response": "{user} gives {touser:everyone} a headpat!",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761882233285,
-    "cooldown": 5,
-    "requiredPermission": null,
+    "aliases": ["headpats"],
     "allowedRoles": []
   },
   "hit": {
@@ -237,14 +221,7 @@
     "createdAt": 1761882233285,
     "cooldown": 5,
     "requiredPermission": null,
-    "allowedRoles": []
-  },
-  "hits": {
-    "response": "{user} just hit {touser:everyone} with a {urlfetchpick:text:https://twitch.center/customapi/quote?token=35b52140&no_id=1}!",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761882233285,
-    "cooldown": 5,
-    "requiredPermission": null,
+    "aliases": ["hits"],
     "allowedRoles": []
   },
   "hug": {
@@ -253,14 +230,7 @@
     "createdAt": 1761882233285,
     "cooldown": 5,
     "requiredPermission": null,
-    "allowedRoles": []
-  },
-  "hugs": {
-    "response": "{user} hugged {touser:everyone}!",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761882233285,
-    "cooldown": 5,
-    "requiredPermission": null,
+    "aliases": ["hugs", "hugged"],
     "allowedRoles": []
   },
   "kofi": {
@@ -269,6 +239,7 @@
     "createdAt": 1761882233285,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "lunch": {
@@ -277,6 +248,7 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "lurk": {
@@ -285,6 +257,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": ["lurking","lurks"],
     "allowedRoles": []
   },
   "mood": {
@@ -293,6 +266,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "patreon": {
@@ -301,6 +275,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "paypal": {
@@ -309,6 +284,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "pizza": {
@@ -317,6 +293,16 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "pobox": {
+    "response": "If for some strange reason you would like to send Shadav or Deyphid something, 3918 Clark Ave #23192, San Antonio, TX 78223",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["address"],
     "allowedRoles": []
   },
   "raiders": {
@@ -325,6 +311,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "rate": {
@@ -333,14 +320,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
-    "allowedRoles": []
-  },
-  "rates": {
-    "response": "{user} rates {touser} a {eval:Math.floor((Math.random() * 10))}/10",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
+    "aliases": ["rates"],
     "allowedRoles": []
   },
   "roll": {
@@ -349,6 +329,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "shot": {
@@ -357,14 +338,7 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
-    "allowedRoles": []
-  },
-  "shots": {
-    "response": "{user} buys {touser:everyone} a shot!",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
+    "aliases": ["shots"],
     "allowedRoles": []
   },
   "so": {
@@ -373,14 +347,16 @@
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": ["shoutout"],
     "allowedRoles": []
   },
   "socials": {
-    "response": "You might find me here: http://twitter.com/leashadav | Sometimes I'm here: https://facebook.com/ShadavInTheBox | A few people found me here: https://bsky.app/profile/shadav.bsky.social | You can maybe find me here: https://www.threads.com/@ishadav | You can almost always find me in the Collabing Community: https://discord.gg/HuxQJPudp8",
+    "response": "You might find me here: https://x.com/leashadav\nSometimes I'm here: https://facebook.com/ShadavInTheBox\nA few people found me here: https://bsky.app/profile/shadav.bsky.social\nYou can maybe find me here: https://www.threads.com/@ishadav\nYou can almost always find me in the Collabing Community: https://discord.gg/HuxQJPudp8",
     "creatorId": "SYSTEM",
     "createdAt": 1761674263601,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "sponsor": {
@@ -389,6 +365,7 @@
     "createdAt": 1761882233285,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "subs": {
@@ -397,6 +374,7 @@
     "createdAt": 1761882233285,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "tea": {
@@ -405,6 +383,7 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "throne": {
@@ -413,6 +392,7 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "tinkerspy": {
@@ -421,14 +401,16 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "twitter": {
-    "response": "You might find me here, maybe: http://twitter.com/leashadav",
+    "response": "You might find me here, maybe: https://x.com/leashadav",
     "creatorId": "SYSTEM",
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": ["x"],
     "allowedRoles": []
   },
   "uptime": {
@@ -437,6 +419,7 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   },
   "youtube": {
@@ -445,14 +428,7 @@
     "createdAt": 1761630254747,
     "cooldown": 5,
     "requiredPermission": null,
-    "allowedRoles": []
-  },
-  "wishlist": {
-    "response": "If you'd like to send me a gift, I'd be greatly appreciative. https://throne.com/shadav | https://amazon.com/hz/wishlist/ls/UC20USQ3YKK8 | https://walmart.com/lists/shared/WL/a4fcf0c1-5678-46ad-9ac3-bb1d05a4c54f | https://store.steampowered.com/wishlist/id/shadav",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761882233285,
-    "cooldown": 5,
-    "requiredPermission": null,
+    "aliases": [],
     "allowedRoles": []
   }
 }
