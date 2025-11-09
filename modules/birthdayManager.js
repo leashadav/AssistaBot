@@ -91,7 +91,7 @@ function getAge(dateString) {
       age--;
     }
     return age > 0 ? age : null;
-  } catch {
+  } catch (error) {
     return null;
   }
 }

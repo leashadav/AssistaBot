@@ -235,7 +235,7 @@ module.exports = {
         row.components.forEach(btn => btn.setDisabled(true));
         try {
           await message.edit({ components: [row] });
-        } catch {}
+        } catch (error) {}
       });
     }
 

@@ -14,6 +14,8 @@ class StreamNotifier {
     this.twitchToken = null;
     this.twitchTokenExpiry = 0;
     this.twitchUserIdCache = new Map(); // login -> display name/avatar
+    this.twitchStreamCache = new Map(); // login -> { isLive, data, exp }
+    this.twitchUserCache = new Map(); // login -> { userData, exp }
     this.youtubeHandleCache = new Map(); // handle/@name -> channelId (cached for 24h)
     this.youtubeChannelCache = new Map(); // channelId -> { avatar, title, exp }
     this.youtubeLiveCache = new Map(); // channelId -> { isLive, data, exp }
@@ -30,6 +32,14 @@ class StreamNotifier {
     const tick = async () => {
       try {
         await this.checkTwitch(client);
+        await this.checkYouTube(client);
+        await this.checkRumble(client);
+        await this.checkTikTok(client);
+        await this.checkKick(client);
+        await this.checkInstagram(client);
+        await this.checkDiscord(client);
+        await this.checkFacebook(client);
+        await this.checkX(client);
         await this.checkPresenceBasedYouTube(client);
         await this.checkPresenceBasedRumble(client);
         await this.checkPresenceBasedTikTok(client);
@@ -39,7 +49,7 @@ class StreamNotifier {
         await this.checkPresenceBasedFacebook(client);
         await this.checkPresenceBasedX(client);
         await this.checkPresenceBasedTwitch(client);
-      } catch {
+      } catch (error) {
         // Ignore errors in tick function
       }
     };
@@ -59,7 +69,7 @@ class StreamNotifier {
         const data = JSON.parse(fs.readFileSync(this.stateFile, 'utf8'));
         this.state = new Map(Object.entries(data));
       }
-    } catch {
+    } catch (error) {
       // Ignore load errors
     }
   }
@@ -69,7 +79,7 @@ class StreamNotifier {
       const fs = require('fs');
       const data = Object.fromEntries(this.state);
       fs.writeFileSync(this.stateFile, JSON.stringify(data, null, 2));
-    } catch {
+    } catch (error) {
       // Ignore save errors
     }
   }
@@ -80,6 +90,8 @@ class StreamNotifier {
     this.youtubeLiveCache.clear();
     this.youtubeVodCache.clear();
     this.twitchUserIdCache.clear();
+    this.twitchStreamCache.clear();
+    this.twitchUserCache.clear();
     this.state.clear();
     this.quotaExceededUntil = 0;
     this.saveState();
@@ -155,31 +167,63 @@ class StreamNotifier {
               }
             }
             return v.toLowerCase();
-          } catch {
+          } catch (error) {
             return String(entry.id).toLowerCase();
           }
         })();
-        const url = `https://api.twitch.tv/helix/streams?user_login=${encodeURIComponent(login)}`;
+        // Check stream cache first (3 minute cache)
+        const now = Date.now();
+        const streamCached = this.twitchStreamCache.get(login);
+        let streamData = null;
+        
+        if (streamCached && streamCached.exp > now) {
+          streamData = streamCached;
+        } else {
+          const url = `https://api.twitch.tv/helix/streams?user_login=${encodeURIComponent(login)}`;
+          try {
+            const res = await fetch(url, { headers: { 'Client-Id': clientId, 'Authorization': `Bearer ${token}` } });
+            if (!res.ok) continue;
+            const data = await res.json();
+            streamData = {
+              isLive: Array.isArray(data?.data) && data.data.length > 0,
+              data: data?.data?.[0] || null,
+              exp: now + (3 * 60 * 1000) // 3 minutes cache
+            };
+            this.twitchStreamCache.set(login, streamData);
+          } catch (error) {
+            continue;
+          }
+        }
+        
+        const live = streamData.isLive;
         try {
-          const res = await fetch(url, { headers: { 'Client-Id': clientId, 'Authorization': `Bearer ${token}` } });
-          if (!res.ok) continue;
-          const data = await res.json();
-          const live = Array.isArray(data?.data) && data.data.length > 0;
           if (live) {
-            const s = data.data[0];
+            const s = streamData.data;
             const streamTitle = s.title || 'Live now';
             const gameTitle = s.game_name || null;
             const username = s.user_name || login;
-            // Get user info for avatar
+            // Get user info for avatar (cached)
             let avatar = null;
-            try {
-              const userUrl = `https://api.twitch.tv/helix/users?login=${encodeURIComponent(login)}`;
-              const userRes = await fetch(userUrl, { headers: { 'Client-Id': clientId, 'Authorization': `Bearer ${token}` } });
-              if (userRes.ok) {
-                const userData = await userRes.json();
-                avatar = userData?.data?.[0]?.profile_image_url || null;
-              }
-            } catch {}
+            const userCached = this.twitchUserCache.get(login);
+            if (userCached && userCached.exp > now) {
+              avatar = userCached.userData?.profile_image_url;
+            } else {
+              try {
+                const userUrl = `https://api.twitch.tv/helix/users?login=${encodeURIComponent(login)}`;
+                const userRes = await fetch(userUrl, { headers: { 'Client-Id': clientId, 'Authorization': `Bearer ${token}` } });
+                if (userRes.ok) {
+                  const userData = await userRes.json();
+                  const user = userData?.data?.[0];
+                  if (user) {
+                    this.twitchUserCache.set(login, {
+                      userData: user,
+                      exp: now + (6 * 60 * 60 * 1000) // 6 hours cache
+                    });
+                    avatar = user.profile_image_url;
+                  }
+                }
+              } catch (error) {}
+            }
             if (!avatar) {
               avatar = `https://static-cdn.jtvnw.net/jtv_user_pictures/${login}-profile_image-300x300.png`;
             }
@@ -227,7 +271,7 @@ class StreamNotifier {
                   }
                 }
               }
-            } catch {
+            } catch (error) {
               // Ignore role assignment errors
             }
             this.recordState(gid, 'twitch', keyId, 'live', true, message?.id);
@@ -268,7 +312,7 @@ class StreamNotifier {
                     }
                   }
                 }
-              } catch {
+              } catch (error) {
                 // Ignore role assignment errors
               }
               // Cleanup: delete previous stream notification if configured
@@ -279,14 +323,14 @@ class StreamNotifier {
                   if (channel) {
                     await channel.messages.delete(prevState.messageId).catch(() => {});
                   }
-                } catch {}
+                } catch (error) {}
               }
             }
             this.recordState(gid, 'twitch', login, 'offline', false);
             // Stop timers when stream goes offline
             twitchTimers.onStreamEnd();
           }
-        } catch {
+        } catch (error) {
           // Ignore stream check errors
         }
       }
@@ -320,7 +364,7 @@ class StreamNotifier {
     if (channelId) {
       this.youtubeHandleCache.set(identifier, {
         channelId,
-        exp: Date.now() + (24 * 60 * 60 * 1000)
+        exp: Date.now() + (48 * 60 * 60 * 1000)
       });
     }
     
@@ -347,13 +391,13 @@ class StreamNotifier {
       const info = {
         avatar: snippet.thumbnails?.default?.url || null,
         title: snippet.title || null,
-        exp: Date.now() + (6 * 60 * 60 * 1000) // 6 hours
+        exp: Date.now() + (12 * 60 * 60 * 1000) // 12 hours
       };
       
       // Cache the result
       this.youtubeChannelCache.set(channelId, info);
       return info;
-    } catch {
+    } catch (error) {
       return null;
     }
   }
@@ -373,7 +417,7 @@ class StreamNotifier {
         let channelId = await this.resolveYouTubeChannelId(entry.id, apiKey);
         if (!channelId) continue;
         
-        // Check live cache first (2 minute cache)
+        // Check live cache first (5 minute cache)
         const liveCached = this.youtubeLiveCache.get(channelId);
         let liveData = null;
         
@@ -411,12 +455,12 @@ class StreamNotifier {
             liveData = {
               isLive: items.length > 0,
               data: items.length > 0 ? items[0] : null,
-              exp: now + (2 * 60 * 1000) // 2 minutes cache
+              exp: now + (5 * 60 * 1000) // 5 minutes cache
             };
             
             // Cache the result
             this.youtubeLiveCache.set(channelId, liveData);
-          } catch {
+          } catch (error) {
             continue;
           }
         }
@@ -461,7 +505,7 @@ class StreamNotifier {
                   }
                 }
               }
-            } catch {
+            } catch (error) {
               // Ignore role assignment errors
             }
             this.recordState(gid, 'youtube', keyId, 'live', true);
@@ -482,16 +526,16 @@ class StreamNotifier {
                   }
                 }
               }
-            } catch {
+            } catch (error) {
               // Ignore role assignment errors
             }
             this.recordState(gid, 'youtube', channelId, 'offline', false);
           }
 
           // Check for new VOD uploads (most recent non-live video) - only if VOD message is configured
-          if (entry.vodMessage) {
+          if (entry.vodMessage && entry.id === channelId) {
             try {
-              // Check VOD cache first (10 minute cache)
+              // Check VOD cache first (30 minute cache)
               const vodCached = this.youtubeVodCache.get(channelId);
               let vodData = null;
               
@@ -506,7 +550,7 @@ class StreamNotifier {
                     const latest = Array.isArray(vodApiData?.items) && vodApiData.items.length ? vodApiData.items[0] : null;
                     vodData = {
                       latestVideo: latest,
-                      exp: now + (10 * 60 * 1000) // 10 minutes cache
+                      exp: now + (30 * 60 * 1000) // 30 minutes cache
                     };
                     this.youtubeVodCache.set(channelId, vodData);
                   }
@@ -520,31 +564,37 @@ class StreamNotifier {
                   const cacheKey = `${gid}:${channelId}`;
                   const last = this.lastVodByGuildChannel.get(cacheKey);
                   if (last !== videoId) {
-                    // Get channel info (cached)
-                    const channelInfo = await this.fetchYouTubeChannelInfo(channelId, apiKey);
-                    const username = latest?.snippet?.channelTitle || channelInfo?.title || channelId;
-                    const title = latest?.snippet?.title || 'New upload';
-                    const watch = `https://www.youtube.com/watch?v=${videoId}`;
-                    const avatar = channelInfo?.avatar;
-                    const imageUrl = latest?.snippet?.thumbnails?.high?.url 
-                      || latest?.snippet?.thumbnails?.medium?.url 
-                      || avatar;
-                    const tpl = entry.vodMessage;
-                    const content = this.render(tpl, { name: username, title, url: watch });
-                    const embed = buildStreamEmbed({ platform: 'youtube', username, avatarUrl: avatar, url: watch, title, imageUrl });
+                    // Check if video is recent (within last 24 hours)
+                    const publishedAt = new Date(latest?.snippet?.publishedAt);
+                    const now = new Date();
+                    const hoursSincePublish = (now - publishedAt) / (1000 * 60 * 60);
+                    
+                    if (hoursSincePublish <= 24) {
+                      // Get channel info (cached)
+                      const channelInfo = await this.fetchYouTubeChannelInfo(channelId, apiKey);
+                      const username = latest?.snippet?.channelTitle || channelInfo?.title || channelId;
+                      const title = latest?.snippet?.title || 'New upload';
+                      const watch = `https://www.youtube.com/watch?v=${videoId}`;
+                      const avatar = channelInfo?.avatar;
+                      const imageUrl = latest?.snippet?.thumbnails?.high?.url 
+                        || latest?.snippet?.thumbnails?.medium?.url 
+                        || avatar;
+                      const tpl = entry.vodMessage;
+                      const content = this.render(tpl, { name: username, title, url: watch });
+                      const embed = buildStreamEmbed({ platform: 'youtube', username, avatarUrl: avatar, url: watch, title, imageUrl });
 
-                    // Respect cooldown to reduce spam if needed
-                    const keyIdVod = `${channelId}:vod`;
-                    const alreadyPosted = this.state.get(this.key(gid, 'youtube', keyIdVod))?.status === 'vod';
-                    if (!alreadyPosted || !this.withinCooldown(gid, 'youtube', keyIdVod, this.defaultCooldownMinutes)) {
-                      await this.post(client, entry.channelId, content, [embed]);
-                      this.recordState(gid, 'youtube', keyIdVod, 'vod', true);
-                      this.lastVodByGuildChannel.set(cacheKey, videoId);
+                      // Respect cooldown to reduce spam if needed
+                      const keyIdVod = `${channelId}:vod`;
+                      if (!this.withinCooldown(gid, 'youtube', keyIdVod, this.defaultCooldownMinutes)) {
+                        await this.post(client, entry.channelId, content, [embed]);
+                        this.recordState(gid, 'youtube', keyIdVod, 'vod', true);
+                      }
                     }
+                    this.lastVodByGuildChannel.set(cacheKey, videoId);
                   }
                 }
               }
-            } catch {
+            } catch (error) {
               // Ignore VOD errors
             }
           }
@@ -564,9 +614,33 @@ class StreamNotifier {
           a.name === 'YouTube' || a.url?.includes('youtube.com')
         );
         
-        if (ytActivity && presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r))) {
-          await this.checkYouTube(client);
+        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
+        
+        if (ytActivity && ytActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
+          // Assign live roles
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && !member.roles.cache.has(rid)) {
+                await member.roles.add(rid).catch(() => {});
+              }
+            }
+          }
+          // Extract channel info from activity and check with API
+          const channelMatch = ytActivity.url?.match(/youtube\.com\/(?:channel\/|@|c\/)([^/?]+)/);
+          if (channelMatch) {
+            const channelIdentifier = channelMatch[1];
+            await this.checkYouTubePresence(client, gid, channelIdentifier, presenceRules);
+          }
           break;
+        } else {
+          // Remove live roles if not streaming
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && member.roles.cache.has(rid)) {
+                await member.roles.remove(rid).catch(() => {});
+              }
+            }
+          }
         }
       }
     }
@@ -584,9 +658,28 @@ class StreamNotifier {
           a.name === 'Rumble' || a.url?.includes('rumble.com')
         );
         
-        if (rumbleActivity && presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r))) {
+        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
+        
+        if (rumbleActivity && rumbleActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
+          // Assign live roles
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && !member.roles.cache.has(rid)) {
+                await member.roles.add(rid).catch(() => {});
+              }
+            }
+          }
           await this.checkRumble(client);
           break;
+        } else {
+          // Remove live roles if not streaming
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && member.roles.cache.has(rid)) {
+                await member.roles.remove(rid).catch(() => {});
+              }
+            }
+          }
         }
       }
     }
@@ -604,9 +697,28 @@ class StreamNotifier {
           a.name === 'TikTok' || a.url?.includes('tiktok.com')
         );
         
-        if (tiktokActivity && presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r))) {
+        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
+        
+        if (tiktokActivity && tiktokActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
+          // Assign live roles
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && !member.roles.cache.has(rid)) {
+                await member.roles.add(rid).catch(() => {});
+              }
+            }
+          }
           await this.checkTikTok(client);
           break;
+        } else {
+          // Remove live roles if not streaming
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && member.roles.cache.has(rid)) {
+                await member.roles.remove(rid).catch(() => {});
+              }
+            }
+          }
         }
       }
     }
@@ -624,9 +736,33 @@ class StreamNotifier {
           a.name === 'Kick' || a.url?.includes('kick.com')
         );
         
-        if (kickActivity && presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r))) {
-          await this.checkKick(client);
+        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
+        
+        if (kickActivity && kickActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
+          // Assign live roles
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && !member.roles.cache.has(rid)) {
+                await member.roles.add(rid).catch(() => {});
+              }
+            }
+          }
+          // Extract Kick username from activity URL
+          const match = kickActivity.url?.match(/kick\.com\/([^/?]+)/);
+          if (match) {
+            const username = match[1];
+            await this.checkKickPresence(client, gid, username, presenceRules);
+          }
           break;
+        } else {
+          // Remove live roles if not streaming
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && member.roles.cache.has(rid)) {
+                await member.roles.remove(rid).catch(() => {});
+              }
+            }
+          }
         }
       }
     }
@@ -644,9 +780,28 @@ class StreamNotifier {
           a.name === 'Instagram' || a.url?.includes('instagram.com')
         );
         
-        if (instagramActivity && presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r))) {
+        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
+        
+        if (instagramActivity && instagramActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
+          // Assign live roles
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && !member.roles.cache.has(rid)) {
+                await member.roles.add(rid).catch(() => {});
+              }
+            }
+          }
           await this.checkInstagram(client);
           break;
+        } else {
+          // Remove live roles if not streaming
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && member.roles.cache.has(rid)) {
+                await member.roles.remove(rid).catch(() => {});
+              }
+            }
+          }
         }
       }
     }
@@ -661,9 +816,26 @@ class StreamNotifier {
         const isInVoice = member.voice?.channel;
         const hasWhitelistRole = presenceRules.whitelistRoleIds?.length ? presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r)) : true;
         
-        if (isInVoice && hasWhitelistRole) {
+        if (isInVoice && hasWhitelistRole && !member.user.bot) {
+          // Assign live roles
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && !member.roles.cache.has(rid)) {
+                await member.roles.add(rid).catch(() => {});
+              }
+            }
+          }
           await this.checkDiscord(client);
           break;
+        } else {
+          // Remove live roles if not in voice
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && member.roles.cache.has(rid)) {
+                await member.roles.remove(rid).catch(() => {});
+              }
+            }
+          }
         }
       }
     }
@@ -674,43 +846,43 @@ class StreamNotifier {
       // Rumble has no public API - only presence-based detection
       const now = Date.now();
       
-      for (const [gid, guild] of client.guilds.cache) {
-      const entries = streamRegistry.list(gid).filter(e => e.platform === 'rumble');
-      if (!entries.length) continue;
-      
-      for (const entry of entries) {
-        // Check if user is live via presence
-        if (entry.discordUser) {
-          const member = guild.members.cache.get(entry.discordUser);
-          if (!member?.presence?.activities) continue;
+        for (const [gid, guild] of client.guilds.cache) {
+          const entries = streamRegistry.list(gid).filter(e => e.platform === 'rumble');
+          if (!entries.length) continue;
           
-          const rumbleActivity = member.presence.activities.find(a => 
-            a.name === 'Rumble' || a.url?.includes('rumble.com')
-          );
-          
-          if (rumbleActivity) {
-            const keyId = entry.id;
-            const alreadyLive = this.state.get(this.key(gid, 'rumble', keyId))?.status === 'live';
-            if (alreadyLive) continue;
-            
-            const username = entry.id; // Use Rumble username
-            const watch = `https://rumble.com/user/${entry.id}`;
-            const streamTitle = rumbleActivity.details || 'Live on Rumble';
-            
-            const tpl = entry.message || '{name} is live on Rumble: {title} {url}';
-            const content = this.render(tpl, { name: username, title: streamTitle, url: watch });
-            const avatarUrl = 'https://rumble.com/favicon.ico'; // Use Rumble favicon as default
-            const embed = buildStreamEmbed({ platform: 'rumble', username, avatarUrl, url: watch, title: streamTitle });
-            
-            await this.post(client, entry.channelId, content, [embed]);
-            this.recordState(gid, 'rumble', keyId, 'live', true);
-          } else {
-            this.recordState(gid, 'rumble', entry.id, 'offline', false);
+          for (const entry of entries) {
+            // Check if user is live via presence
+            if (entry.discordUser) {
+              const member = guild.members.cache.get(entry.discordUser);
+              if (!member?.presence?.activities) continue;
+              
+              const rumbleActivity = member.presence.activities.find(a => 
+                a.name === 'Rumble' || a.url?.includes('rumble.com')
+              );
+              
+              if (rumbleActivity) {
+                const keyId = entry.id;
+                const alreadyLive = this.state.get(this.key(gid, 'rumble', keyId))?.status === 'live';
+                if (alreadyLive) continue;
+                
+                const username = entry.id; // Use Rumble username
+                const watch = `https://rumble.com/user/${entry.id}`;
+                const streamTitle = rumbleActivity.details || 'Live on Rumble';
+                
+                const tpl = entry.message || '{name} is live on Rumble: {title} {url}';
+                const content = this.render(tpl, { name: username, title: streamTitle, url: watch });
+                const avatarUrl = 'https://rumble.com/favicon.ico'; // Use Rumble favicon as default
+                const embed = buildStreamEmbed({ platform: 'rumble', username, avatarUrl, url: watch, title: streamTitle });
+                
+                await this.post(client, entry.channelId, content, [embed]);
+                this.recordState(gid, 'rumble', keyId, 'live', true);
+              } else {
+                this.recordState(gid, 'rumble', entry.id, 'offline', false);
+              }
+            }
           }
         }
-      }
-    }
-    } catch {
+    } catch (error) {
       // Ignore Rumble check errors
     }
   }
@@ -720,43 +892,43 @@ class StreamNotifier {
       // TikTok has no public API - only presence-based detection
       const now = Date.now();
       
-      for (const [gid, guild] of client.guilds.cache) {
-      const entries = streamRegistry.list(gid).filter(e => e.platform === 'tiktok');
-      if (!entries.length) continue;
-      
-      for (const entry of entries) {
-        // Check if user is live via presence
-        if (entry.discordUser) {
-          const member = guild.members.cache.get(entry.discordUser);
-          if (!member?.presence?.activities) continue;
+        for (const [gid, guild] of client.guilds.cache) {
+          const entries = streamRegistry.list(gid).filter(e => e.platform === 'tiktok');
+          if (!entries.length) continue;
           
-          const tiktokActivity = member.presence.activities.find(a => 
-            a.name === 'TikTok' || a.url?.includes('tiktok.com')
-          );
-          
-          if (tiktokActivity) {
-            const keyId = entry.id;
-            const alreadyLive = this.state.get(this.key(gid, 'tiktok', keyId))?.status === 'live';
-            if (alreadyLive) continue;
-            
-            const username = entry.id; // Use TikTok username
-            const watch = `https://tiktok.com/@${entry.id}`;
-            const streamTitle = tiktokActivity.details || 'Live on TikTok';
-            
-            const tpl = entry.message || '{name} is live on TikTok: {title} {url}';
-            const content = this.render(tpl, { name: username, title: streamTitle, url: watch });
-            const avatarUrl = 'https://sf16-website-login.neutral.ttwstatic.com/obj/tiktok_web_login_static/tiktok/webapp/main/webapp-desktop/8152caf0c8e8bc67ae0d.ico';
-            const embed = buildStreamEmbed({ platform: 'tiktok', username, avatarUrl, url: watch, title: streamTitle });
-            
-            await this.post(client, entry.channelId, content, [embed]);
-            this.recordState(gid, 'tiktok', keyId, 'live', true);
-          } else {
-            this.recordState(gid, 'tiktok', entry.id, 'offline', false);
+          for (const entry of entries) {
+            // Check if user is live via presence
+            if (entry.discordUser) {
+              const member = guild.members.cache.get(entry.discordUser);
+              if (!member?.presence?.activities) continue;
+              
+              const tiktokActivity = member.presence.activities.find(a => 
+                a.name === 'TikTok' || a.url?.includes('tiktok.com')
+              );
+              
+              if (tiktokActivity) {
+                const keyId = entry.id;
+                const alreadyLive = this.state.get(this.key(gid, 'tiktok', keyId))?.status === 'live';
+                if (alreadyLive) continue;
+                
+                const username = entry.id; // Use TikTok username
+                const watch = `https://tiktok.com/@${entry.id}`;
+                const streamTitle = tiktokActivity.details || 'Live on TikTok';
+                
+                const tpl = entry.message || '{name} is live on TikTok: {title} {url}';
+                const content = this.render(tpl, { name: username, title: streamTitle, url: watch });
+                const avatarUrl = 'https://sf16-website-login.neutral.ttwstatic.com/obj/tiktok_web_login_static/tiktok/webapp/main/webapp-desktop/8152caf0c8e8bc67ae0d.ico';
+                const embed = buildStreamEmbed({ platform: 'tiktok', username, avatarUrl, url: watch, title: streamTitle });
+                
+                await this.post(client, entry.channelId, content, [embed]);
+                this.recordState(gid, 'tiktok', keyId, 'live', true);
+              } else {
+                this.recordState(gid, 'tiktok', entry.id, 'offline', false);
+              }
+            }
           }
         }
-      }
-    }
-    } catch {
+    } catch (error) {
       // Ignore TikTok check errors
     }
   }
@@ -887,42 +1059,42 @@ class StreamNotifier {
 
   async checkFacebook(client) {
     try {
-      for (const [gid, guild] of client.guilds.cache) {
-      const entries = streamRegistry.list(gid).filter(e => e.platform === 'facebook');
-      if (!entries.length) continue;
-      
-      for (const entry of entries) {
-        if (entry.discordUser) {
-          const member = guild.members.cache.get(entry.discordUser);
-          if (!member?.presence?.activities) continue;
+        for (const [gid, guild] of client.guilds.cache) {
+          const entries = streamRegistry.list(gid).filter(e => e.platform === 'facebook');
+          if (!entries.length) continue;
           
-          const facebookActivity = member.presence?.activities?.find(a => 
-            a.name === 'Facebook' || a.url?.includes('facebook.com')
-          );
-          
-          if (facebookActivity) {
-            const keyId = entry.id;
-            const alreadyLive = this.state.get(this.key(gid, 'facebook', keyId))?.status === 'live';
-            if (alreadyLive) continue;
-            
-            const username = entry.id;
-            const watch = `https://facebook.com/${entry.id}`;
-            const streamTitle = facebookActivity.details || 'Live on Facebook';
-            
-            const tpl = entry.message || '{name} is live on Facebook: {title} {url}';
-            const content = this.render(tpl, { name: username, title: streamTitle, url: watch });
-            const avatarUrl = 'https://facebook.com/favicon.ico';
-            const embed = buildStreamEmbed({ platform: 'facebook', username, avatarUrl, url: watch, title: streamTitle });
-            
-            await this.post(client, entry.channelId, content, [embed]);
-            this.recordState(gid, 'facebook', keyId, 'live', true);
-          } else {
-            this.recordState(gid, 'facebook', entry.id, 'offline', false);
+          for (const entry of entries) {
+            if (entry.discordUser) {
+              const member = guild.members.cache.get(entry.discordUser);
+              if (!member?.presence?.activities) continue;
+              
+              const facebookActivity = member.presence?.activities?.find(a => 
+                a.name === 'Facebook' || a.url?.includes('facebook.com')
+              );
+              
+              if (facebookActivity) {
+                const keyId = entry.id;
+                const alreadyLive = this.state.get(this.key(gid, 'facebook', keyId))?.status === 'live';
+                if (alreadyLive) continue;
+                
+                const username = entry.id;
+                const watch = `https://facebook.com/${entry.id}`;
+                const streamTitle = facebookActivity.details || 'Live on Facebook';
+                
+                const tpl = entry.message || '{name} is live on Facebook: {title} {url}';
+                const content = this.render(tpl, { name: username, title: streamTitle, url: watch });
+                const avatarUrl = 'https://facebook.com/favicon.ico';
+                const embed = buildStreamEmbed({ platform: 'facebook', username, avatarUrl, url: watch, title: streamTitle });
+                
+                await this.post(client, entry.channelId, content, [embed]);
+                this.recordState(gid, 'facebook', keyId, 'live', true);
+              } else {
+                this.recordState(gid, 'facebook', entry.id, 'offline', false);
+              }
+            }
           }
         }
-      }
-    }
-    } catch {
+    } catch (error) {
       // Ignore Facebook check errors
     }
   }
@@ -977,9 +1149,28 @@ class StreamNotifier {
           a.name === 'Facebook' || a.url?.includes('facebook.com')
         );
         
-        if (facebookActivity && presenceRules.whitelistRoleIds?.length ? presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r)) : true) {
+        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
+        
+        if (facebookActivity && facebookActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
+          // Assign live roles
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && !member.roles.cache.has(rid)) {
+                await member.roles.add(rid).catch(() => {});
+              }
+            }
+          }
           await this.checkFacebook(client);
           break;
+        } else {
+          // Remove live roles if not streaming
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && member.roles.cache.has(rid)) {
+                await member.roles.remove(rid).catch(() => {});
+              }
+            }
+          }
         }
       }
     }
@@ -997,9 +1188,28 @@ class StreamNotifier {
           a.name === 'X' || a.name === 'Twitter' || a.url?.includes('x.com') || a.url?.includes('twitter.com')
         );
         
-        if (xActivity && presenceRules.whitelistRoleIds?.length ? presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r)) : true) {
+        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
+        
+        if (xActivity && xActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
+          // Assign live roles
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && !member.roles.cache.has(rid)) {
+                await member.roles.add(rid).catch(() => {});
+              }
+            }
+          }
           await this.checkX(client);
           break;
+        } else {
+          // Remove live roles if not streaming
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && member.roles.cache.has(rid)) {
+                await member.roles.remove(rid).catch(() => {});
+              }
+            }
+          }
         }
       }
     }
@@ -1017,7 +1227,17 @@ class StreamNotifier {
           a.name === 'Twitch' && a.url?.includes('twitch.tv')
         );
         
-        if (twitchActivity && presenceRules.whitelistRoleIds?.length ? presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r)) : true) {
+        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
+        
+        if (twitchActivity && twitchActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
+          // Assign live roles
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && !member.roles.cache.has(rid)) {
+                await member.roles.add(rid).catch(() => {});
+              }
+            }
+          }
           // Extract Twitch username from activity URL
           const match = twitchActivity.url?.match(/twitch\.tv\/([^/?]+)/);
           if (match) {
@@ -1025,6 +1245,15 @@ class StreamNotifier {
             await this.checkTwitchPresence(client, gid, login, presenceRules);
           }
           break;
+        } else {
+          // Remove live roles if not streaming
+          if (presenceRules.liveRoleIds?.length) {
+            for (const rid of presenceRules.liveRoleIds) {
+              if (rid && member.roles.cache.has(rid)) {
+                await member.roles.remove(rid).catch(() => {});
+              }
+            }
+          }
         }
       }
     }
@@ -1049,16 +1278,29 @@ class StreamNotifier {
           const gameTitle = s.game_name || null;
           const username = s.user_name || login;
           
-          // Get user avatar
+          // Get user avatar (cached)
           let avatar = null;
-          try {
-            const userUrl = `https://api.twitch.tv/helix/users?login=${encodeURIComponent(login)}`;
-            const userRes = await fetch(userUrl, { headers: { 'Client-Id': clientId, 'Authorization': `Bearer ${token}` } });
-            if (userRes.ok) {
-              const userData = await userRes.json();
-              avatar = userData?.data?.[0]?.profile_image_url || null;
-            }
-          } catch {}
+          const now = Date.now();
+          const userCached = this.twitchUserCache.get(login);
+          if (userCached && userCached.exp > now) {
+            avatar = userCached.userData?.profile_image_url;
+          } else {
+            try {
+              const userUrl = `https://api.twitch.tv/helix/users?login=${encodeURIComponent(login)}`;
+              const userRes = await fetch(userUrl, { headers: { 'Client-Id': clientId, 'Authorization': `Bearer ${token}` } });
+              if (userRes.ok) {
+                const userData = await userRes.json();
+                const user = userData?.data?.[0];
+                if (user) {
+                  this.twitchUserCache.set(login, {
+                    userData: user,
+                    exp: now + (6 * 60 * 60 * 1000) // 6 hours cache
+                  });
+                  avatar = user.profile_image_url;
+                }
+              }
+            } catch (error) {}
+          }
           if (!avatar) {
             avatar = `https://static-cdn.jtvnw.net/jtv_user_pictures/${login}-profile_image-300x300.png`;
           }
@@ -1080,8 +1322,71 @@ class StreamNotifier {
           this.recordState(guildId, 'twitch', keyId, 'live', true);
         }
       }
-    } catch {
+    } catch (error) {
       // Ignore presence-based Twitch check errors
+    }
+  }
+
+  async checkKickPresence(client, guildId, username, presenceRules) {
+    try {
+      const keyId = username;
+      const alreadyLive = this.state.get(this.key(guildId, 'kick', keyId))?.status === 'live';
+      if (alreadyLive) return;
+      
+      const watch = `https://kick.com/${username}`;
+      const streamTitle = 'Live on Kick';
+      
+      const tpl = presenceRules.message || '{name} is live on Kick: {title} {url}';
+      const content = this.render(tpl, { name: username, title: streamTitle, url: watch });
+      const avatarUrl = 'https://kick.com/favicon.ico';
+      const embed = buildStreamEmbed({ platform: 'kick', username, avatarUrl, url: watch, title: streamTitle });
+      
+      await this.post(client, presenceRules.channelId, content, [embed]);
+      this.recordState(guildId, 'kick', keyId, 'live', true);
+    } catch (error) {
+      // Ignore Kick presence check errors
+    }
+  }
+
+  async checkYouTubePresence(client, guildId, channelIdentifier, presenceRules) {
+    const apiKey = youtubeConfig?.youtube_api_key;
+    if (!apiKey) return;
+
+    try {
+      const channelId = await this.resolveYouTubeChannelId(channelIdentifier, apiKey);
+      if (!channelId) return;
+
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${encodeURIComponent(channelId)}&eventType=live&type=video&maxResults=1&key=${encodeURIComponent(apiKey)}`;
+      const res = await fetch(url);
+      if (!res.ok) return;
+      
+      const data = await res.json();
+      const items = Array.isArray(data?.items) ? data.items : [];
+      
+      if (items.length > 0) {
+        const it = items[0];
+        const streamTitle = it?.snippet?.title || 'Live now';
+        const vid = it?.id?.videoId;
+        const watch = vid ? `https://www.youtube.com/watch?v=${vid}` : `https://www.youtube.com/@${channelIdentifier}`;
+        
+        const channelInfo = await this.fetchYouTubeChannelInfo(channelId, apiKey);
+        const username = it?.snippet?.channelTitle || channelInfo?.title || channelId;
+        const avatar = channelInfo?.avatar;
+        const imageUrl = it?.snippet?.thumbnails?.high?.url || it?.snippet?.thumbnails?.medium?.url || avatar;
+        
+        const keyId = channelId;
+        const alreadyLive = this.state.get(this.key(guildId, 'youtube', keyId))?.status === 'live';
+        if (alreadyLive) return;
+        
+        const tpl = presenceRules.message || '{name} is live on YouTube: {title} {url}';
+        const content = this.render(tpl, { name: username, title: streamTitle, url: watch });
+        const embed = buildStreamEmbed({ platform: 'youtube', username, avatarUrl: avatar, url: watch, title: streamTitle, imageUrl });
+        
+        await this.post(client, presenceRules.channelId, content, [embed]);
+        this.recordState(guildId, 'youtube', keyId, 'live', true);
+      }
+    } catch (error) {
+      // Ignore YouTube presence check errors
     }
   }
 
@@ -1091,7 +1396,7 @@ class StreamNotifier {
       if (ch?.send) {
         return await ch.send({ content, embeds });
       }
-    } catch {
+    } catch (error) {
       // Ignore post errors
     }
     return null;

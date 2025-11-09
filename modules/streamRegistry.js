@@ -21,7 +21,7 @@ function ensureFiles() {
     if (!fs.existsSync(DATA_PATH)) {
       fs.writeFileSync(DATA_PATH, JSON.stringify({ _presence: {} }, null, 2), 'utf8');
     }
-  } catch (e) {
+  } catch (error) {
     console.error('streamRegistry ensureFiles error:', e?.message || 'Unknown error');
   }
 }
@@ -53,7 +53,7 @@ function load() {
       }
     }
     if (mutated) save();
-  } catch (e) {
+  } catch (error) {
     console.error('streamRegistry load error:', e?.message || 'Unknown error');
     db = {};
     presence = {};
@@ -64,7 +64,7 @@ function save() {
   try {
     const toWrite = { ...db, _presence: presence };
     fs.writeFileSync(DATA_PATH, JSON.stringify(toWrite, null, 2), 'utf8');
-  } catch (e) {
+  } catch (error) {
     console.error('streamRegistry save error:', e?.message || 'Unknown error');
   }
 }

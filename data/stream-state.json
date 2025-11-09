@@ -58,5 +58,13 @@
   "1323558044990181387:x:leashadav": {
     "status": "offline",
     "lastPostAt": 0
+  },
+  "991544116099956766:twitch:treyiand": {
+    "status": "live",
+    "lastPostAt": 1762659289157
+  },
+  "1078005146698657802:twitch:treyiand": {
+    "status": "live",
+    "lastPostAt": 1762659289813
   }
 }

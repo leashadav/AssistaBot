@@ -158,17 +158,17 @@ const shutdown = async (signal) => {
         (async () => {
           try {
             await sendLog(client, gid, 'assistabotLogging', base);
-          } catch {
-            try { await sendLog(client, gid, 'generalLog', base); } catch {}
+          } catch (error) {
+            try { await sendLog(client, gid, 'generalLog', base); } catch (error) {}
           }
         })()
       );
     }
     await Promise.allSettled(tasks);
     await new Promise((r) => setTimeout(r, 1000));
-  } catch (_) {}
+  } catch (error) {}
   // Allow a brief window for gateway to flush, then destroy
-  try { await client.destroy(); } catch (_) {}
+  try { await client.destroy(); } catch (error) {}
   // Give a moment after destroy
   setTimeout(() => process.exit(0), 250);
 };

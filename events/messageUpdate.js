@@ -24,7 +24,7 @@ module.exports = {
       if (oldMessage?.partial && typeof oldMessage.fetch === 'function') {
         oldMessage = await oldMessage.fetch();
       }
-    } catch {
+    } catch (error) {
       // Ignore fetch errors for partial messages
     }
 
@@ -32,7 +32,7 @@ module.exports = {
       if (newMessage?.partial && typeof newMessage.fetch === 'function') {
         newMessage = await newMessage.fetch();
       }
-    } catch {
+    } catch (error) {
       // Ignore fetch errors for partial messages
     }
 
@@ -70,7 +70,7 @@ module.exports = {
       ].join('\n');
       try {
         await sendLog(client, guildId, 'messageUpdate', content);
-      } catch {
+      } catch (error) {
         // Ignore log send errors
       }
     }

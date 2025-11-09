@@ -51,7 +51,7 @@ function transformDollarVars(text) {
         const encUrl = encodeURIComponent(url);
         const encPath = path ? encodeURIComponent(path) : null;
         return `{urlfetchpick:${type}:${encUrl}${encPath ? ':' + encPath : ''}}`;
-      } catch {
+      } catch (error) {
         return `{urlfetchpick:${type}:${url}${path ? ':' + path : ''}}`;
       }
     }
@@ -63,7 +63,7 @@ function transformDollarVars(text) {
         const encUrl = encodeURIComponent(url);
         const encPath = path ? encodeURIComponent(path) : null;
         return `{urlfetch:${type}:${encUrl}${encPath ? ':' + encPath : ''}}`;
-      } catch {
+      } catch (error) {
         return `{urlfetch:${type}:${url}${path ? ':' + path : ''}}`;
       }
     }
@@ -99,7 +99,7 @@ function transformDollarVars(text) {
       // it's ambiguous. We'll assume the whole rest is the URL (common case).
       const enc = encodeURIComponent(rest.trim());
       return `{urlfetch:${type}:${enc}}`;
-    } catch {
+    } catch (error) {
       return m;
     }
   });
@@ -108,7 +108,7 @@ function transformDollarVars(text) {
     try {
       const enc = encodeURIComponent(rest.trim());
       return `{urlfetchpick:${type}:${enc}}`;
-    } catch {
+    } catch (error) {
       return m;
     }
   });

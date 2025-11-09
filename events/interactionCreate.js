@@ -30,7 +30,7 @@ module.exports = {
           } else {
             await interaction.reply(errorMessage);
           }
-        } catch {
+        } catch (error) {
           // Swallow follow-up errors like Unknown interaction
         }
       }

@@ -38,7 +38,7 @@ function sendWebhookEmbed(title, data, color = 0xff6600) {
     req.on('error', () => {});
     req.write(body);
     req.end();
-  } catch (_) {}
+  } catch (error) {}
 }
 
 // Track child processes
@@ -93,10 +93,10 @@ async function shutdown() {
             if (proc.connected && typeof proc.send === 'function') {
                 proc.send('graceful_shutdown');
             }
-        } catch {}
+        } catch (error) {}
         // Fallback to SIGINT after a short grace period to allow the bot to post shutdown logs
         setTimeout(() => {
-            try { proc.kill('SIGINT'); } catch {}
+            try { proc.kill('SIGINT'); } catch (error) {}
         }, 1500);
     }
 
@@ -107,7 +107,7 @@ async function shutdown() {
         for (const [name, proc] of processes) {
             console.warn({ event: 'bot_force_stop', script: name, signal: 'SIGTERM' });
             sendWebhookEmbed('Bot Force Stop', { script: name, signal: 'SIGTERM' }, 0xef4444);
-            try { proc.kill('SIGTERM'); } catch {}
+            try { proc.kill('SIGTERM'); } catch (error) {}
         }
         process.exit(0);
     }, 7000); // Slightly longer to allow Discord sends to complete

@@ -23,7 +23,7 @@ function inferPlatformFromUrl(url) {
     const h = u.hostname.toLowerCase();
     if (h.includes('twitch.tv')) return 'twitch';
     if (h.includes('youtube.com') || h.includes('youtu.be')) return 'youtube';
-  } catch {
+  } catch (error) {
     // Invalid URL, default to twitch
   }
   return 'twitch';
@@ -58,7 +58,7 @@ module.exports = {
       for (const [gid] of client.guilds.cache) {
         await sendLog(client, gid, 'assistabotLogging', content);
       }
-    } catch {
+    } catch (error) {
       // Ignore log send errors
     }
 
@@ -103,7 +103,7 @@ module.exports = {
                 // Assign live roles from rule
                 for (const rid of (rule.liveRoleIds || [])) {
                   if (rid && !member.roles.cache.has(rid)) {
-                    await member.roles.add(rid).catch(() => {
+                    await member.roles.add(rid).catch((error) => {
                       // Ignore role add errors
                     });
                   }
@@ -115,7 +115,7 @@ module.exports = {
                     if (ch?.isTextBased()) {
                       const embed = buildStreamEmbed({ platform, username, avatarUrl, url, title, game, imageUrl });
                       const content = renderMessage(rule.message, { name: username, title, url });
-                      await ch.send({ content, embeds: [embed] }).catch(() => {
+                      await ch.send({ content, embeds: [embed] }).catch((error) => {
                         // Ignore message send errors
                       });
                     }
@@ -132,7 +132,7 @@ module.exports = {
               const roles = Array.isArray(entry.liveRoleIds) ? entry.liveRoleIds : (entry.liveRoleId ? [entry.liveRoleId] : []);
               for (const rid of roles) {
                 if (rid && !member.roles.cache.has(rid)) {
-                  await member.roles.add(rid).catch(() => {
+                  await member.roles.add(rid).catch((error) => {
                     // Ignore role add errors
                   });
                 }
@@ -143,7 +143,7 @@ module.exports = {
                 if (entry.channelId) {
                   const ch = client.channels.cache.get(entry.channelId);
                   if (ch?.isTextBased()) {
-                    await ch.send({ content, embeds: [embed] }).catch(() => {
+                    await ch.send({ content, embeds: [embed] }).catch((error) => {
                       // Ignore message send errors
                     });
                   }
@@ -162,7 +162,7 @@ module.exports = {
               if (rule && member) {
                 for (const rid of (rule.liveRoleIds || [])) {
                   if (rid && member.roles.cache.has(rid)) {
-                    await member.roles.remove(rid).catch(() => {
+                    await member.roles.remove(rid).catch((error) => {
                       // Ignore role remove errors
                     });
                   }
@@ -176,7 +176,7 @@ module.exports = {
                 const roles = Array.isArray(entry.liveRoleIds) ? entry.liveRoleIds : (entry.liveRoleId ? [entry.liveRoleId] : []);
                 for (const rid of roles) {
                   if (rid && member.roles.cache.has(rid)) {
-                    await member.roles.remove(rid).catch(() => {
+                    await member.roles.remove(rid).catch((error) => {
                       // Ignore role remove errors
                     });
                   }
@@ -187,7 +187,7 @@ module.exports = {
           const currentState = presenceState.get(key);
           presenceState.set(key, { live: false, lastPostAt: currentState?.lastPostAt || 0 });
         }
-      } catch {
+      } catch (error) {
         // Ignore presence update errors
       }
     });
@@ -196,7 +196,7 @@ module.exports = {
     if (!/^(1|true)$/i.test(String(process.env.ASSISTABOT_DISABLE_STREAM_POLLING || ''))) {
       try {
         await streamNotifier.start(client, 120000);
-      } catch {
+      } catch (error) {
         // Ignore stream notifier start errors
       }
     }

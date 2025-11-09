@@ -342,7 +342,12 @@ module.exports = {
             { name: 'tiktok', value: 'tiktok' },
             { name: 'instagram', value: 'instagram' },
             { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' }
-          ))),
+          )))
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('check_live_roles')
+        .setDescription('Manually check and assign live roles to users currently streaming')
+        .addStringOption(o => o.setName('platform').setDescription('Check specific platform or all').addChoices({ name: 'all', value: 'all' }, { name: 'twitch', value: 'twitch' }, { name: 'youtube', value: 'youtube' }, { name: 'kick', value: 'kick' }, { name: 'rumble', value: 'rumble' }, { name: 'tiktok', value: 'tiktok' }, { name: 'instagram', value: 'instagram' }, { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' }))),
 
   /**
    * Execute the stream command
@@ -762,6 +767,73 @@ module.exports = {
       const registry = require('../modules/streamRegistry');
       registry.clearPresence(interaction.guild.id, platform || undefined);
       return await interaction.editReply({ content: platform ? `Cleared presence rule for ${platform}.` : 'Cleared all presence rules for this server.' });
+    }
+
+    if (sub === 'check_live_roles') {
+      const filterPlatform = interaction.options.getString('platform') || 'all';
+      const registry = require('../modules/streamRegistry');
+      const presenceRules = registry.getPresence(interaction.guild.id);
+      
+      let assigned = 0;
+      let checked = 0;
+      const results = [];
+      
+      const platforms = filterPlatform === 'all' ? ['twitch', 'youtube', 'kick', 'rumble', 'tiktok', 'instagram', 'discord', 'facebook', 'x'] : [filterPlatform];
+      
+      for (const platform of platforms) {
+        const rules = presenceRules[platform];
+        if (!rules || !rules.liveRoleIds?.length) continue;
+        
+        for (const [userId, member] of interaction.guild.members.cache) {
+          if (!member.presence?.activities || member.user.bot) continue;
+          
+          let isStreaming = false;
+          
+          if (platform === 'twitch') {
+            isStreaming = member.presence.activities.some(a => a.name === 'Twitch' && a.url?.includes('twitch.tv'));
+          } else if (platform === 'youtube') {
+            isStreaming = member.presence.activities.some(a => a.name === 'YouTube' || a.url?.includes('youtube.com'));
+          } else if (platform === 'kick') {
+            isStreaming = member.presence.activities.some(a => a.name === 'Kick' || a.url?.includes('kick.com'));
+          } else if (platform === 'rumble') {
+            isStreaming = member.presence.activities.some(a => a.name === 'Rumble' || a.url?.includes('rumble.com'));
+          } else if (platform === 'tiktok') {
+            isStreaming = member.presence.activities.some(a => a.name === 'TikTok' || a.url?.includes('tiktok.com'));
+          } else if (platform === 'instagram') {
+            isStreaming = member.presence.activities.some(a => a.name === 'Instagram' || a.url?.includes('instagram.com'));
+          } else if (platform === 'discord') {
+            isStreaming = !!member.voice?.channel;
+          } else if (platform === 'facebook') {
+            isStreaming = member.presence.activities.some(a => a.name === 'Facebook' || a.url?.includes('facebook.com'));
+          } else if (platform === 'x') {
+            isStreaming = member.presence.activities.some(a => a.name === 'X' || a.name === 'Twitter' || a.url?.includes('x.com') || a.url?.includes('twitter.com'));
+          }
+          
+          if (isStreaming && rules.whitelistRoleIds?.some(r => member.roles.cache.has(r))) {
+            checked++;
+            let rolesAdded = 0;
+            
+            for (const rid of rules.liveRoleIds) {
+              if (rid && !member.roles.cache.has(rid)) {
+                try {
+                  await member.roles.add(rid);
+                  rolesAdded++;
+                  assigned++;
+                } catch {}
+              }
+            }
+            
+            if (rolesAdded > 0) {
+              results.push(`${member.user.username} (${platform}) - added ${rolesAdded} role(s)`);
+            }
+          }
+        }
+      }
+      
+      const summary = `Checked ${checked} streaming users, assigned ${assigned} roles.`;
+      const details = results.length > 0 ? '\n\n' + results.join('\n') : '';
+      
+      return await interaction.editReply({ content: summary + details });
     }
     } catch (error) {
       console.error('Error in stream command:', error);

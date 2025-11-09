@@ -358,7 +358,7 @@ module.exports = {
           try {
             const member = await message.guild.members.fetch(raw);
             if (member) targetUser = member.user;
-          } catch {
+          } catch (error) {
             // ignore
           }
         }
@@ -435,7 +435,7 @@ module.exports = {
             // eslint-disable-next-line no-new-func
             const val = Function('return (' + replaced + ')')();
             resp = resp.replace(match, String(Math.floor(Number(val) || 0)));
-          } catch {
+          } catch (error) {
             resp = resp.replace(match, '');
           }
         }
@@ -543,7 +543,7 @@ module.exports = {
             const result = fn(Math);
             return String(result === undefined ? '' : result);
           }
-        } catch {
+        } catch (error) {
           return '';
         }
       });
