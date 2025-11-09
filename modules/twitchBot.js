@@ -162,9 +162,13 @@ class TwitchBot {
         console.log(`${userstate.username} cheered ${userstate.bits} bits in ${channel}`);
     }
 
-    async onRaid(channel, username, viewers) {
-        // Add custom raid handling here
+    async onRaid(channel, username, viewers, tags) {
         console.log(`${username} raided ${channel} with ${viewers} viewers`);
+        try {
+            await this.client.say(channel, `Thank you @${username} for the raid! Please go check them out over at https://twitch.tv/${username} , the last activity they were doing was ${tags?.game || 'something awesome'} and if you would please toss them a follow, thank you!`);
+        } catch (err) {
+            console.error('Error sending raid shoutout:', err);
+        }
     }
 
     // Helper methods

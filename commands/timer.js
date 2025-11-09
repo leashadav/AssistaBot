@@ -21,12 +21,12 @@ module.exports = {
       subcommand
         .setName('remove')
         .setDescription('Remove a timer')
-        .addStringOption(option => option.setName('name').setDescription('Timer name').setRequired(true)))
+        .addStringOption(option => option.setName('name').setDescription('Timer name').setRequired(true).setAutocomplete(true)))
     .addSubcommand(subcommand =>
       subcommand
         .setName('toggle')
         .setDescription('Enable/disable a timer')
-        .addStringOption(option => option.setName('name').setDescription('Timer name').setRequired(true)))
+        .addStringOption(option => option.setName('name').setDescription('Timer name').setRequired(true).setAutocomplete(true)))
     .addSubcommand(subcommand =>
       subcommand
         .setName('list')
@@ -35,7 +35,7 @@ module.exports = {
       subcommand
         .setName('edit')
         .setDescription('Edit an existing timer')
-        .addStringOption(option => option.setName('name').setDescription('Timer name').setRequired(true))
+        .addStringOption(option => option.setName('name').setDescription('Timer name').setRequired(true).setAutocomplete(true))
         .addStringOption(option => option.setName('message').setDescription('New message'))
         .addIntegerOption(option => option.setName('interval').setDescription('New interval in minutes').setMinValue(1).setMaxValue(120))
         .addStringOption(option => option.setName('games').setDescription('New game filter (comma-separated)'))
@@ -43,12 +43,21 @@ module.exports = {
         .addIntegerOption(option => option.setName('min_lines').setDescription('New minimum chat lines').setMinValue(0))
         .addBooleanOption(option => option.setName('enabled').setDescription('Enable/disable timer'))),
 
+  async autocomplete(interaction) {
+    const focusedOption = interaction.options.getFocused(true);
+    if (focusedOption.name === 'name') {
+      const timers = twitchTimers.listTimers(interaction.guild.id);
+      const allNames = [...Object.keys(timers.global), ...Object.keys(timers.guild)];
+      const filtered = allNames.filter(name => name.toLowerCase().includes(focusedOption.value.toLowerCase()));
+      await interaction.respond(filtered.slice(0, 25).map(name => ({ name, value: name })));
+    }
+  },
+
   async execute(interaction) {
     if (!interaction.inGuild()) {
       return interaction.reply({ content: '❌ This command can only be used in a server.', flags: 64 });
     }
 
-    await interaction.deferReply({ flags: 64 });
     const subcommand = interaction.options.getSubcommand();
 
     try {
@@ -82,9 +91,9 @@ module.exports = {
           if (gameFilter) {
             response += `\n🎮 Games: ${gameFilter.join(', ')}`;
           }
-          return interaction.editReply(response);
+          return interaction.reply({ content: response, flags: 64 });
         } else {
-          return interaction.editReply('❌ Failed to add timer.');
+          return interaction.reply({ content: '❌ Failed to add timer.', flags: 64 });
         }
       }
 
@@ -93,9 +102,12 @@ module.exports = {
         const success = twitchTimers.removeTimer(interaction.guild.id, name);
 
         if (success) {
-          return interaction.editReply(`✅ Removed timer "${name}"`);
+          return interaction.reply({ content: `✅ Removed timer "${name}"`, flags: 64 });
         } else {
-          return interaction.editReply(`❌ Timer "${name}" not found.`);
+          const timers = twitchTimers.listTimers(interaction.guild.id);
+          const allNames = [...Object.keys(timers.global), ...Object.keys(timers.guild)];
+          const namesList = allNames.length > 0 ? `\n\nAvailable timers: ${allNames.join(', ')}` : '';
+          return interaction.reply({ content: `❌ Timer "${name}" not found.${namesList}`, flags: 64 });
         }
       }
 
@@ -105,9 +117,12 @@ module.exports = {
 
         if (newState !== null) {
           const status = newState ? 'enabled' : 'disabled';
-          return interaction.editReply(`✅ Timer "${name}" ${status}`);
+          return interaction.reply({ content: `✅ Timer "${name}" ${status}`, flags: 64 });
         } else {
-          return interaction.editReply(`❌ Timer "${name}" not found.`);
+          const timers = twitchTimers.listTimers(interaction.guild.id);
+          const allNames = [...Object.keys(timers.global), ...Object.keys(timers.guild)];
+          const namesList = allNames.length > 0 ? `\n\nAvailable timers: ${allNames.join(', ')}` : '';
+          return interaction.reply({ content: `❌ Timer "${name}" not found.${namesList}`, flags: 64 });
         }
       }
 
@@ -142,7 +157,7 @@ module.exports = {
           response += 'No timers configured.';
         }
 
-        return interaction.editReply(response);
+        return interaction.reply({ content: response, flags: 64 });
       }
 
       if (subcommand === 'edit') {
@@ -158,7 +173,9 @@ module.exports = {
         const existingTimer = timers.global[name] || timers.guild[name];
         
         if (!existingTimer) {
-          return interaction.editReply(`❌ Timer "${name}" not found.`);
+          const allNames = [...Object.keys(timers.global), ...Object.keys(timers.guild)];
+          const namesList = allNames.length > 0 ? `\n\nAvailable timers: ${allNames.join(', ')}` : '';
+          return interaction.reply({ content: `❌ Timer "${name}" not found.${namesList}`, flags: 64 });
         }
 
         const updates = {};
@@ -185,15 +202,15 @@ module.exports = {
           if (updatedTimer.gameFilter) {
             response += `\n🎮 Games: ${updatedTimer.gameFilter.join(', ')}`;
           }
-          return interaction.editReply(response);
+          return interaction.reply({ content: response, flags: 64 });
         } else {
-          return interaction.editReply('❌ Failed to update timer.');
+          return interaction.reply({ content: '❌ Failed to update timer.', flags: 64 });
         }
       }
 
     } catch (error) {
       console.error('Timer command error:', error);
-      return interaction.editReply('❌ An error occurred while processing the timer command.');
+      return interaction.reply({ content: '❌ An error occurred while processing the timer command.', flags: 64 });
     }
   },
 };

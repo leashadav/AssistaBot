@@ -18,7 +18,7 @@
     },
     "Collabing Community Discord": {
       "message": "Collabing Community. Helping Others Is Our Goal, What's Yours? : https://discord.gg/HuxQJPudp8",
-      "interval": 1,
+      "interval": 90,
       "enabled": true,
       "gameFilter": null,
       "minViewers": 0,

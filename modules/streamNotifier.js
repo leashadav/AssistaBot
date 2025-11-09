@@ -364,7 +364,7 @@ class StreamNotifier {
     if (channelId) {
       this.youtubeHandleCache.set(identifier, {
         channelId,
-        exp: Date.now() + (48 * 60 * 60 * 1000)
+        exp: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
       });
     }
     
@@ -391,7 +391,7 @@ class StreamNotifier {
       const info = {
         avatar: snippet.thumbnails?.default?.url || null,
         title: snippet.title || null,
-        exp: Date.now() + (12 * 60 * 60 * 1000) // 12 hours
+        exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
       };
       
       // Cache the result
@@ -455,7 +455,7 @@ class StreamNotifier {
             liveData = {
               isLive: items.length > 0,
               data: items.length > 0 ? items[0] : null,
-              exp: now + (5 * 60 * 1000) // 5 minutes cache
+              exp: now + (10 * 60 * 1000) // 10 minutes cache
             };
             
             // Cache the result
@@ -550,7 +550,7 @@ class StreamNotifier {
                     const latest = Array.isArray(vodApiData?.items) && vodApiData.items.length ? vodApiData.items[0] : null;
                     vodData = {
                       latestVideo: latest,
-                      exp: now + (30 * 60 * 1000) // 30 minutes cache
+                      exp: now + (60 * 60 * 1000) // 1 hour cache
                     };
                     this.youtubeVodCache.set(channelId, vodData);
                   }

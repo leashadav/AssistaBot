@@ -70,7 +70,7 @@ function transformDollarVars(text) {
   );
 
   // Known simple tokens mapping (case-insensitive)
-  const tokens = ['touser','user','username','tag','id','channel','server','guild','user_id','userid','user_mention','mention'];
+  const tokens = ['touser','user','username','tag','id','channel','server','guild','user_id','userid','user_mention','mention','uptime'];
 
   // ${token} -> {token}
   result = result.replace(/\$\{\s*([a-zA-Z0-9_]+)\s*\}/g, (m, tk) => {
@@ -448,6 +448,30 @@ async function processResponse(response, context) {
         resp = resp.replace(/\{subcount\}/g, subCountVal);
       } catch {
         resp = resp.replace(/\{subcount\}/g, '0');
+      }
+    }
+
+    // Resolve Twitch uptime if requested
+    if (resp.includes('{uptime}')) {
+      try {
+        const login = (context.channel || message.username || '').toLowerCase();
+        // Try IVR.fi API first (no rate limits)
+        const ivr = await urlFetcher.fetchJson(`https://api.ivr.fi/v2/twitch/user?login=${encodeURIComponent(login)}`);
+        const user = Array.isArray(ivr) && ivr.length ? ivr[0] : null;
+        
+        if (user?.stream?.startedAt) {
+          const startTime = new Date(user.stream.startedAt);
+          const now = new Date();
+          const diffMs = now - startTime;
+          const hours = Math.floor(diffMs / (1000 * 60 * 60));
+          const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+          const uptimeText = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+          resp = resp.replace(/\{uptime\}/g, uptimeText);
+        } else {
+          resp = resp.replace(/\{uptime\}/g, 'Stream is offline');
+        }
+      } catch {
+        resp = resp.replace(/\{uptime\}/g, 'Stream is offline');
       }
     }
   } else {

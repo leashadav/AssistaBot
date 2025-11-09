@@ -189,7 +189,7 @@
     "allowedRoles": []
   },
   "followage": {
-    "response": "{urlfetch:json:https://commands.garretcharp.com/twitch/followage/{channel}/{touser}?format=ymd&ping=false}",
+    "response": "{urlfetch:text:https://commands.garretcharp.com/twitch/followage/{channel}/{touser}?format=ymd&ping=false}",
     "creatorId": "SYSTEM",
     "createdAt": 1761882233285,
     "cooldown": 5,

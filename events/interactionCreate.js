@@ -27,7 +27,7 @@ module.exports = {
           const errorMessage = { content: '❌ Error executing command.', flags: 64 };
           if (interaction.deferred || interaction.replied) {
             await interaction.followUp(errorMessage);
-          } else {
+          } else if (!interaction.deferred && !interaction.replied) {
             await interaction.reply(errorMessage);
           }
         } catch (error) {
