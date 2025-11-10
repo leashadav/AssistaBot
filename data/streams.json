@@ -305,10 +305,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "youtube",
@@ -319,10 +316,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "youtube",
@@ -333,10 +327,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "youtube",
@@ -347,10 +338,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "youtube",
@@ -361,10 +349,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "youtube",
@@ -375,10 +360,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "youtube",
@@ -389,10 +371,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "rumble",
@@ -403,10 +382,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "rumble",
@@ -415,7 +391,7 @@
       "message": "**[{name}]({url}) is now broadcasting on Rumble!**",
       "vodMessage": null,
       "liveRoleIds": [],
-      "whitelistRoleIds": []
+      "cleanup": true
     },
     {
       "platform": "rumble",
@@ -426,10 +402,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "tiktok",
@@ -440,10 +413,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "tiktok",
@@ -454,7 +424,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": []
+      "cleanup": true
     },
     {
       "platform": "tiktok",
@@ -465,10 +435,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "twitch",
@@ -479,10 +446,8 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "discordUser": "244591812583489538",
+      "cleanup": true
     },
     {
       "platform": "kick",
@@ -493,10 +458,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "instagram",
@@ -507,10 +469,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "facebook",
@@ -521,10 +480,7 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
     },
     {
       "platform": "x",
@@ -535,10 +491,55 @@
       "liveRoleIds": [
         "1012537343816773662"
       ],
-      "whitelistRoleIds": [
-        "1175251199193264158",
-        "1012452753978687528"
-      ]
+      "cleanup": true
+    },
+    {
+      "platform": "twitch",
+      "id": "deyphid",
+      "channelId": "991630218399858738",
+      "discordUser": "896948176764932117",
+      "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
+      "vodMessage": null,
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [],
+      "cleanup": true
+    },
+    {
+      "platform": "twitch",
+      "id": "Unoraptormon",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
+      "vodMessage": null,
+      "discordUser": "312405137949720576",
+      "liveRoleIds": [
+        "1012537343816773662"
+      ],
+      "whitelistRoleIds": [],
+      "cleanup": true
+    },
+    {
+      "platform": "facebook",
+      "id": "100063747842144",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on FaceBook!**",
+      "vodMessage": null,
+      "discordUser": null,
+      "liveRoleIds": [],
+      "whitelistRoleIds": [],
+      "cleanup": true
+    },
+    {
+      "platform": "facebook",
+      "id": "ShadavInTheBox",
+      "channelId": "991630218399858738",
+      "message": "**[{name}]({url}) is now broadcasting on FaceBook!**",
+      "vodMessage": null,
+      "discordUser": "460291964248522753",
+      "liveRoleIds": [],
+      "whitelistRoleIds": [],
+      "cleanup": true
     }
   ],
   "1078005146698657802": [
@@ -551,10 +552,7 @@
       "liveRoleIds": [
         "1286702849312559175"
       ],
-      "whitelistRoleIds": [
-        "1286687267058089994",
-        "1078012186414288986"
-      ]
+      "cleanup": true
     },
     {
       "platform": "twitch",
@@ -565,10 +563,7 @@
       "liveRoleIds": [
         "1286702849312559175"
       ],
-      "whitelistRoleIds": [
-        "1286687267058089994",
-        "1078012186414288986"
-      ]
+      "cleanup": true
     },
     {
       "platform": "twitch",
@@ -579,10 +574,7 @@
       "liveRoleIds": [
         "1286702849312559175"
       ],
-      "whitelistRoleIds": [
-        "1286687267058089994",
-        "1078012186414288986"
-      ]
+      "cleanup": true
     },
     {
       "platform": "youtube",
@@ -593,10 +585,7 @@
       "liveRoleIds": [
         "1286702849312559175"
       ],
-      "whitelistRoleIds": [
-        "1286687267058089994",
-        "1078012186414288986"
-      ]
+      "cleanup": true
     },
     {
       "platform": "twitch",
@@ -607,10 +596,7 @@
       "liveRoleIds": [
         "1286702849312559175"
       ],
-      "whitelistRoleIds": [
-        "1286687267058089994",
-        "1078012186414288986"
-      ]
+      "cleanup": true
     },
     {
       "platform": "youtube",
@@ -621,10 +607,7 @@
       "liveRoleIds": [
         "1286702849312559175"
       ],
-      "whitelistRoleIds": [
-        "1286687267058089994",
-        "1078012186414288986"
-      ]
+      "cleanup": true
     },
     {
       "platform": "twitch",
@@ -635,10 +618,7 @@
       "liveRoleIds": [
         "1286702849312559175"
       ],
-      "whitelistRoleIds": [
-        "1286687267058089994",
-        "1078012186414288986"
-      ]
+      "cleanup": true
     },
     {
       "platform": "twitch",
@@ -649,10 +629,7 @@
       "liveRoleIds": [
         "1286702849312559175"
       ],
-      "whitelistRoleIds": [
-        "1286687267058089994",
-        "1078012186414288986"
-      ]
+      "cleanup": true
     },
     {
       "platform": "twitch",
@@ -663,24 +640,19 @@
       "liveRoleIds": [
         "1286702849312559175"
       ],
-      "whitelistRoleIds": [
-        "1286687267058089994",
-        "1078012186414288986"
-      ]
+      "cleanup": true
     },
     {
       "platform": "twitch",
       "id": "deyphid",
       "channelId": "1164674493969616917",
+      "discordUser": "896948176764932117",
       "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
       "vodMessage": null,
       "liveRoleIds": [
         "1286702849312559175"
       ],
-      "whitelistRoleIds": [
-        "1286687267058089994",
-        "1078012186414288986"
-      ]
+      "cleanup": true
     },
     {
       "platform": "youtube",
@@ -691,10 +663,7 @@
       "liveRoleIds": [
         "1286702849312559175"
       ],
-      "whitelistRoleIds": [
-        "1286687267058089994",
-        "1078012186414288986"
-      ]
+      "cleanup": true
     },
     {
       "platform": "twitch",
@@ -705,10 +674,7 @@
       "liveRoleIds": [
         "1286702849312559175"
       ],
-      "whitelistRoleIds": [
-        "1286687267058089994",
-        "1078012186414288986"
-      ]
+      "cleanup": true
     },
     {
       "platform": "youtube",
@@ -719,10 +685,7 @@
       "liveRoleIds": [
         "1286702849312559175"
       ],
-      "whitelistRoleIds": [
-        "1286687267058089994",
-        "1078012186414288986"
-      ]
+      "cleanup": true
     }
   ],
   "1323558044990181387": [
@@ -753,9 +716,6 @@
       "vodMessage": null,
       "liveRoleIds": [
         "1323713677815185419"
-      ],
-      "whitelistRoleIds": [
-        "1323729406371434598"
       ]
     },
     {
@@ -766,9 +726,6 @@
       "vodMessage": "**{name} published a new video!** [{title}]({url})",
       "liveRoleIds": [
         "1323713677815185419"
-      ],
-      "whitelistRoleIds": [
-        "1323729406371434598"
       ]
     },
     {
@@ -779,9 +736,6 @@
       "vodMessage": null,
       "liveRoleIds": [
         "1323713677815185419"
-      ],
-      "whitelistRoleIds": [
-        "1323729406371434598"
       ]
     },
     {
@@ -792,9 +746,6 @@
       "vodMessage": null,
       "liveRoleIds": [
         "1323713677815185419"
-      ],
-      "whitelistRoleIds": [
-        "1323729406371434598"
       ]
     },
     {
@@ -805,9 +756,6 @@
       "vodMessage": null,
       "liveRoleIds": [
         "1323713677815185419"
-      ],
-      "whitelistRoleIds": [
-        "1323723861983887452"
       ]
     },
     {
@@ -818,9 +766,6 @@
       "vodMessage": null,
       "liveRoleIds": [
         "1323713677815185419"
-      ],
-      "whitelistRoleIds": [
-        "1323729406371434598"
       ]
     },
     {
@@ -831,9 +776,6 @@
       "vodMessage": null,
       "liveRoleIds": [
         "1323713677815185419"
-      ],
-      "whitelistRoleIds": [
-        "1323729406371434598"
       ]
     }
   ],

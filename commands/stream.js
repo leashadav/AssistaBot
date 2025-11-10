@@ -3,6 +3,67 @@ const logger = require('../modules/logger');
 const configLoader = require('../modules/configLoader');
 const config = configLoader.config;
 const twitchConfig = configLoader.twitch;
+const kickConfig = configLoader.kick;
+
+// Rate limiter class
+class RateLimiter {
+  constructor(limit, interval) {
+    this.limit = limit; // Number of requests allowed
+    this.interval = interval; // Time window in milliseconds
+    this.requests = []; // Timestamps of recent requests
+  }
+
+  // Check if a request is allowed
+  canProceed() {
+    const now = Date.now();
+    // Remove timestamps older than the interval
+    this.requests = this.requests.filter(timestamp => now - timestamp < this.interval);
+    
+    if (this.requests.length >= this.limit) {
+      return false;
+    }
+    
+    this.requests.push(now);
+    return true;
+  }
+  
+  // Get time until next available request in ms
+  getTimeUntilNext() {
+    const now = Date.now();
+    this.requests = this.requests.filter(timestamp => now - timestamp < this.interval);
+    
+    if (this.requests.length < this.limit) {
+      return 0;
+    }
+    
+    return (this.requests[0] + this.interval) - now;
+  }
+}
+
+// Initialize rate limiters for different services
+const rateLimiters = {
+  twitch: new RateLimiter(20, 60 * 1000), // 20 requests per minute (Twitch rate limit is 30/min, keeping it safe)
+  youtube: new RateLimiter(90, 60 * 1000), // 90 requests per minute (YouTube's limit is 10,000 per day, ~7 per minute)
+  kick: new RateLimiter(60, 60 * 1000), // 60 requests per minute (Kick API rate limit)
+  default: new RateLimiter(10, 60 * 1000) // Default rate limiter for other services
+};
+
+// Helper function to handle rate limiting
+async function withRateLimit(service, fn) {
+  const limiter = rateLimiters[service] || rateLimiters.default;
+  
+  // Check if we can proceed
+  if (!limiter.canProceed()) {
+    const waitTime = limiter.getTimeUntilNext();
+    if (waitTime > 0) {
+      console.log(`[Rate Limit] Waiting ${Math.ceil(waitTime/1000)}s for ${service} rate limit...`);
+      await new Promise(resolve => setTimeout(resolve, waitTime + 100)); // Add small buffer
+    }
+  }
+  
+  return fn();
+}
+const registry = require('../modules/streamRegistry');
 const { buildStreamEmbed } = require('../modules/streamEmbeds');
 
 const fetch = globalThis.fetch || ((...args) => import('node-fetch').then(({ default: f }) => f(...args)));
@@ -17,7 +78,10 @@ const _cache = {
   ytChannelId: new Map(),
   ytAvatar: new Map(),
   ytLive: new Map(),
-  ytChannelInfo: new Map() // Combined avatar + title cache
+  ytChannelInfo: new Map(), // Combined avatar + title cache
+  kickToken: { access_token: null, expires_at: 0 },
+  kickUser: new Map(),
+  kickLive: new Map()
 };
 
 function _getFromMapCache(map, key) {
@@ -88,50 +152,94 @@ async function getTwitchAppToken() {
 }
 
 async function getTwitchUser(login, auth) {
-  try {
-    const key = String(login).toLowerCase();
-    const cached = _getFromMapCache(_cache.twitchUser, key);
-    if (cached) return cached;
-    const url = `https://api.twitch.tv/helix/users?login=${encodeURIComponent(login)}`;
-    const res = await fetch(url, { headers: { 'Client-Id': auth.clientId, 'Authorization': `Bearer ${auth.token}` } });
-    if (!res.ok) return null;
-    const data = await res.json();
-    const val = data?.data?.[0] || null;
-    if (val) _setMapCache(_cache.twitchUser, key, val, 10 * 60 * 1000);
-    return val;
-  } catch {
-    return null;
-  }
+  return withRateLimit('twitch', async () => {
+    try {
+      const key = String(login).toLowerCase();
+      const cached = _getFromMapCache(_cache.twitchUser, key);
+      if (cached) return cached;
+      const url = `https://api.twitch.tv/helix/users?login=${encodeURIComponent(login)}`;
+      const res = await fetch(url, { 
+        headers: { 
+          'Client-Id': auth.clientId, 
+          'Authorization': `Bearer ${auth.token}`,
+          'Accept': 'application/vnd.twitchtv.v5+json'
+        },
+        timeout: 10000 // 10 second timeout
+      });
+      
+      if (!res.ok) {
+        console.error(`[Twitch API] Error ${res.status} fetching user ${login}: ${res.statusText}`);
+        return null;
+      }
+      
+      const data = await res.json();
+      const val = data?.data?.[0] || null;
+      if (val) _setMapCache(_cache.twitchUser, key, val, 10 * 60 * 1000);
+      return val;
+    } catch (error) {
+      console.error(`[Twitch API] Error fetching user ${login}:`, error.message);
+      return null;
+    }
+  });
 }
 
 async function getTwitchLive(login, auth) {
-  try {
-    const key = String(login).toLowerCase();
-    const cached = _getFromMapCache(_cache.twitchLive, key);
-    if (cached !== null && cached !== undefined) return cached;
-    const url = `https://api.twitch.tv/helix/streams?user_login=${encodeURIComponent(login)}`;
-    const res = await fetch(url, { headers: { 'Client-Id': auth.clientId, 'Authorization': `Bearer ${auth.token}` } });
-    if (!res.ok) return null;
-    const data = await res.json();
-    const val = Array.isArray(data?.data) && data.data.length ? data.data[0] : null;
-    _setMapCache(_cache.twitchLive, key, val, 30 * 1000);
-    return val;
-  } catch { return null; }
+  return withRateLimit('twitch', async () => {
+    try {
+      const key = String(login).toLowerCase();
+      const cached = _getFromMapCache(_cache.twitchLive, key);
+      if (cached !== null && cached !== undefined) return cached;
+      
+      const url = `https://api.twitch.tv/helix/streams?user_login=${encodeURIComponent(login)}`;
+      const res = await fetch(url, { 
+        headers: { 
+          'Client-Id': auth.clientId, 
+          'Authorization': `Bearer ${auth.token}`,
+          'Accept': 'application/vnd.twitchtv.v5+json'
+        },
+        timeout: 10000 // 10 second timeout
+      });
+      
+      if (!res.ok) {
+        console.error(`[Twitch API] Error ${res.status} fetching stream ${login}: ${res.statusText}`);
+        return null;
+      }
+      
+      const data = await res.json();
+      const val = Array.isArray(data?.data) && data.data.length ? data.data[0] : null;
+      _setMapCache(_cache.twitchLive, key, val, 30 * 1000);
+      return val;
+    } catch (error) {
+      console.error(`[Twitch API] Error fetching stream ${login}:`, error.message);
+      return null;
+    }
+  });
 }
 
 async function getYouTubeLive(channelId, apiKey) {
-  try {
-    const key = String(channelId);
-    const cached = _getFromMapCache(_cache.ytLive, key);
-    if (cached !== null && cached !== undefined) return cached;
-    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${encodeURIComponent(channelId)}&eventType=live&type=video&maxResults=1&key=${encodeURIComponent(apiKey)}`;
-    const res = await fetch(url);
-    if (!res.ok) return null;
-    const data = await res.json();
-    const val = Array.isArray(data?.items) && data.items.length ? data.items[0] : null;
-    _setMapCache(_cache.ytLive, key, val, 30 * 1000);
-    return val;
-  } catch { return null; }
+  return withRateLimit('youtube', async () => {
+    try {
+      const key = String(channelId);
+      const cached = _getFromMapCache(_cache.ytLive, key);
+      if (cached !== null && cached !== undefined) return cached;
+      
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${encodeURIComponent(channelId)}&eventType=live&type=video&maxResults=1&key=${encodeURIComponent(apiKey)}`;
+      const res = await fetch(url, { timeout: 10000 });
+      
+      if (!res.ok) {
+        console.error(`[YouTube API] Error ${res.status} fetching live stream for ${channelId}: ${res.statusText}`);
+        return null;
+      }
+      
+      const data = await res.json();
+      const val = Array.isArray(data?.items) && data.items.length ? data.items[0] : null;
+      _setMapCache(_cache.ytLive, key, val, 30 * 1000);
+      return val;
+    } catch (error) {
+      console.error(`[YouTube API] Error fetching live stream for ${channelId}:`, error.message);
+      return null;
+    }
+  });
 }
 
 async function getYouTubeChannelIdFromVideo(videoId, apiKey) {
@@ -222,27 +330,38 @@ async function resolveYouTubeChannelId(identifier, apiKey) {
 }
 
 async function getYouTubeChannelInfo(channelId, apiKey) {
-  try {
-    // Check cache first
-    const cached = _getYtChannelInfo(channelId);
-    if (cached) return { avatar: cached.avatar, title: cached.title };
-    
-    const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${encodeURIComponent(channelId)}&key=${encodeURIComponent(apiKey)}`;
-    const res = await fetch(url);
-    if (!res.ok) return { avatar: null, title: null };
-    const data = await res.json();
-    if (data.error) return { avatar: null, title: null };
-    
-    const snippet = data?.items?.[0]?.snippet;
-    const info = {
-      avatar: snippet?.thumbnails?.default?.url || null,
-      title: snippet?.title || null
-    };
-    
-    // Cache for 6 hours
-    _setYtChannelInfo(channelId, info);
-    return info;
-  } catch { return { avatar: null, title: null }; }
+  return withRateLimit('youtube', async () => {
+    try {
+      const cached = _getYtChannelInfo(channelId);
+      if (cached) return cached;
+      
+      const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,contentDetails&id=${encodeURIComponent(channelId)}&key=${encodeURIComponent(apiKey)}`;
+      const res = await fetch(url, { timeout: 10000 });
+      
+      if (!res.ok) {
+        console.error(`[YouTube API] Error ${res.status} fetching channel info for ${channelId}: ${res.statusText}`);
+        return { avatar: null, title: null };
+      }
+      
+      const data = await res.json();
+      const item = data?.items?.[0];
+      if (!item) {
+        console.error(`[YouTube API] No channel found with ID: ${channelId}`);
+        return { avatar: null, title: null };
+      }
+      
+      const result = {
+        avatar: item.snippet?.thumbnails?.high?.url || null,
+        title: item.snippet?.title || null
+      };
+      
+      _setYtChannelInfo(channelId, result);
+      return result;
+    } catch (error) {
+      console.error(`[YouTube API] Error fetching channel info for ${channelId}:`, error.message);
+      return { avatar: null, title: null };
+    }
+  });
 }
 
 // Legacy functions for backward compatibility
@@ -273,7 +392,8 @@ module.exports = {
         .addStringOption(o => o.setName('live_roles').setDescription('Comma-separated role mentions/IDs to assign while live (or mention a single role)'))
         .addStringOption(o => o.setName('whitelist_roles').setDescription('Comma-separated role mentions/IDs required to trigger notifications'))
         .addStringOption(o => o.setName('message').setDescription('Custom live message: {name} {title} {url}'))
-        .addStringOption(o => o.setName('vod_message').setDescription('Custom VOD message: {name} {title} {url} (YouTube only)')))
+        .addStringOption(o => o.setName('vod_message').setDescription('Custom VOD message: {name} {title} {url} (YouTube only)'))
+        .addBooleanOption(o => o.setName('cleanup').setDescription('Automatically delete previous notification when stream goes offline (default: false)').setRequired(false)))
     .addSubcommand(subcommand =>
       subcommand
         .setName('remove')
@@ -284,7 +404,21 @@ module.exports = {
       subcommand
         .setName('edit')
         .setDescription('Edit a streamer entry for this server registry')
-        .addStringOption(o => o.setName('platform').setDescription('twitch, youtube, rumble, tiktok, or kick').setRequired(true).addChoices({ name: 'twitch', value: 'twitch' }, { name: 'youtube', value: 'youtube' }, { name: 'kick', value: 'kick' }, { name: 'rumble', value: 'rumble' }, { name: 'tiktok', value: 'tiktok' }, { name: 'instagram', value: 'instagram' }, { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' }))
+        .addStringOption(o => o.setName('platform')
+          .setDescription('Platform of the streamer to edit')
+          .setRequired(true)
+          .addChoices(
+            { name: 'Twitch', value: 'twitch' },
+            { name: 'YouTube', value: 'youtube' },
+            { name: 'Kick', value: 'kick' },
+            { name: 'Rumble', value: 'rumble' },
+            { name: 'TikTok', value: 'tiktok' },
+            { name: 'Instagram', value: 'instagram' },
+            { name: 'Discord', value: 'discord' },
+            { name: 'Facebook', value: 'facebook' },
+            { name: 'X (Twitter)', value: 'x' },
+            { name: 'All Platforms', value: 'all' }
+          ))
         .addStringOption(o => o.setName('id').setDescription('Existing username or id / @handle').setRequired(true).setAutocomplete(true))
         .addChannelOption(o => o.setName('channel').setDescription('New channel for notifications'))
         .addUserOption(o => o.setName('discord_user').setDescription('Discord user to give live role to'))
@@ -292,19 +426,35 @@ module.exports = {
         .addStringOption(o => o.setName('live_roles').setDescription('Comma-separated role mentions/IDs to assign while live'))
         .addStringOption(o => o.setName('whitelist_roles').setDescription('Comma-separated role mentions/IDs required to trigger notifications'))
         .addStringOption(o => o.setName('message').setDescription('New live message: {name} {title} {url}'))
-        .addStringOption(o => o.setName('vod_message').setDescription('New VOD message (YouTube): {name} {title} {url}')))
+        .addStringOption(o => o.setName('vod_message').setDescription('New VOD message (YouTube): {name} {title} {url}'))
+        .addBooleanOption(o => o.setName('cleanup').setDescription('Automatically delete previous notification when stream goes offline').setRequired(false)))
     .addSubcommand(subcommand =>
       subcommand
         .setName('edit_all')
         .setDescription('Bulk edit all entries for a platform in this server')
-        .addStringOption(o => o.setName('platform').setDescription('twitch, youtube, rumble, tiktok, or kick').setRequired(true).addChoices({ name: 'twitch', value: 'twitch' }, { name: 'youtube', value: 'youtube' }, { name: 'kick', value: 'kick' }, { name: 'rumble', value: 'rumble' }, { name: 'tiktok', value: 'tiktok' }, { name: 'instagram', value: 'instagram' }, { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' }))
+        .addStringOption(o => o.setName('platform')
+          .setDescription('Platform to update (or ALL for all platforms)')
+          .setRequired(true)
+          .addChoices(
+            { name: 'All Platforms', value: 'all' },
+            { name: 'Twitch', value: 'twitch' },
+            { name: 'YouTube', value: 'youtube' },
+            { name: 'Kick', value: 'kick' },
+            { name: 'Rumble', value: 'rumble' },
+            { name: 'TikTok', value: 'tiktok' },
+            { name: 'Instagram', value: 'instagram' },
+            { name: 'Discord', value: 'discord' },
+            { name: 'Facebook', value: 'facebook' },
+            { name: 'X (Twitter)', value: 'x' }
+          ))
         .addChannelOption(o => o.setName('channel').setDescription('New channel for notifications'))
         .addUserOption(o => o.setName('discord_user').setDescription('Discord user to give live role to'))
         .addRoleOption(o => o.setName('live_role').setDescription('Role to assign while live'))
         .addStringOption(o => o.setName('live_roles').setDescription('Comma-separated role mentions/IDs to assign while live'))
         .addStringOption(o => o.setName('whitelist_roles').setDescription('Comma-separated role mentions/IDs required to trigger notifications'))
         .addStringOption(o => o.setName('message').setDescription('New live message: {name} {title} {url}'))
-        .addStringOption(o => o.setName('vod_message').setDescription('New VOD message (YouTube): {name} {title} {url}')))
+        .addStringOption(o => o.setName('vod_message').setDescription('New VOD message (YouTube): {name} {title} {url}'))
+        .addBooleanOption(o => o.setName('cleanup').setDescription('Automatically delete previous notification when stream goes offline').setRequired(false)))
     .addSubcommand(subcommand =>
       subcommand
         .setName('list')
@@ -470,8 +620,7 @@ module.exports = {
         }
         
         const liveRoleIds = parseIds(liveRolesStr);
-        
-        const whitelistRoleIds = parseIds(whitelistRolesStr);
+        const whitelistRoleIds = whitelistRolesStr ? parseIds(whitelistRolesStr) : [];
         
         const res = registry.add(interaction.guild.id, { 
           platform, 
@@ -481,7 +630,7 @@ module.exports = {
           vodMessage, 
           discordUser: discordUser?.id, 
           liveRoleIds, 
-          whitelistRoleIds 
+          whitelistRoleIds
         });
         
         if (!res.ok) {
@@ -630,27 +779,57 @@ module.exports = {
       const liveRole = interaction.options.getRole('live_role');
       const liveRolesStr = interaction.options.getString('live_roles');
       const whitelistRolesStr = interaction.options.getString('whitelist_roles');
+      const cleanup = interaction.options.getBoolean('cleanup');
       const parseIds = (str) => (str || '').split(',').map(s => s.trim()).filter(Boolean).map(s => s.replace(/[^0-9]/g, '')).filter(Boolean);
 
-      if (!channel && (message === null || message === undefined) && (vodMessage === null || vodMessage === undefined) && !discordUser && !liveRolesStr && !whitelistRolesStr) {
-        return await interaction.editReply({ content: 'Provide at least one field to update: channel, message, vod_message, discord_user, live_role, live_roles, or whitelist_roles.' });
+      if (!channel && (message === null || message === undefined) && (vodMessage === null || vodMessage === undefined) && 
+          !discordUser && !liveRole && !liveRolesStr && !whitelistRolesStr && cleanup === null) {
+        return await interaction.editReply({ 
+          content: '❌ Provide at least one field to update: channel, message, vod_message, discord_user, live_role, live_roles, whitelist_oles, or cleanup.',
+          flags: 64
+        });
       }
 
       const registry = require('../modules/streamRegistry');
-      const list = registry.list(interaction.guild.id).filter(e => e.platform === platform);
-      if (!list.length) return await interaction.editReply({ content: `No ${platform} entries found.` });
+      let list = registry.list(interaction.guild.id);
+      
+      // Filter by platform if not 'all'
+      if (platform !== 'all') {
+        list = list.filter(e => e.platform === platform);
+      }
+      
+      if (!list.length) {
+        return await interaction.editReply({ 
+          content: `❌ No ${platform === 'all' ? '' : platform + ' '}entries found.`,
+          flags: 64
+        });
+      }
 
       let updated = 0;
+      const updates = [];
+      if (channel) updates.push(`channel: ${channel}`);
+      if (message !== null && message !== undefined) updates.push(`live message: ${message}`);
+      if (vodMessage !== null && vodMessage !== undefined) updates.push(`VOD message: ${vodMessage}`);
+      if (discordUser) updates.push(`user: ${discordUser}`);
+      if (liveRole) updates.push(`live role: ${liveRole}`);
+      if (liveRolesStr) updates.push(`live roles: ${liveRolesStr}`);
+      if (whitelistRolesStr) updates.push(`whitelist roles: ${whitelistRolesStr}`);
+      if (cleanup !== null) updates.push(`cleanup: ${cleanup ? 'enabled' : 'disabled'}`);
+      
       for (const e of list) {
         const patch = {};
         if (channel) patch.channelId = channel.id;
         if (message !== null && message !== undefined) patch.message = message;
         if (vodMessage !== null && vodMessage !== undefined) patch.vodMessage = vodMessage;
         if (discordUser) patch.discordUser = discordUser.id;
+        if (liveRole) patch.liveRoleIds = [liveRole.id];
         if (liveRolesStr) patch.liveRoleIds = parseIds(liveRolesStr);
         if (whitelistRolesStr) patch.whitelistRoleIds = parseIds(whitelistRolesStr);
-        const res = registry.update(interaction.guild.id, platform, e.id, patch);
-        if (res.ok) updated++;
+        if (cleanup !== null) patch.cleanup = cleanup;
+        
+        // Use the entry's platform instead of the command's platform parameter
+        const res = registry.update(interaction.guild.id, e.platform, e.id, patch);
+        if (res && res.ok) updated++;
       }
 
       return await interaction.editReply({ content: `Updated ${updated} ${platform} entr${updated === 1 ? 'y' : 'ies'}.` });
@@ -766,9 +945,28 @@ module.exports = {
             displayName = baseName;
             notes.push('TikTok has no API - presence-based only');
           } else if (e.platform === 'kick') {
-            // Kick has no API - just use test data
-            displayName = baseName;
-            notes.push('Kick has no API - presence-based only');
+            try {
+              const kickUser = await getKickUser(baseName);
+              if (kickUser) {
+                displayName = kickUser.display_name || baseName;
+                avatarUrl = kickUser.profile_image_url || null;
+                
+                const liveData = await checkKickStream(baseName);
+                if (liveData) {
+                  titleText = liveData.title || titleText;
+                  gameText = liveData.game || gameText;
+                  imageUrl = liveData.thumbnail || null;
+                  watchUrl = liveData.url || watchUrl;
+                } else {
+                  notes.push('Kick user is offline');
+                }
+              } else {
+                notes.push('Kick user not found');
+              }
+            } catch (error) {
+              console.error('Error fetching Kick data:', error);
+              notes.push(`Kick API error: ${error.message}`);
+            }
           } else if (e.platform === 'instagram') {
             // Instagram has no API - just use test data
             displayName = baseName;
@@ -1074,67 +1272,213 @@ module.exports = {
       const filterPlatform = interaction.options.getString('platform') || 'all';
       const registry = require('../modules/streamRegistry');
       const presenceRules = registry.getPresence(interaction.guild.id);
+      const streamEntries = registry.list(interaction.guild.id);
       
       let assigned = 0;
       let checked = 0;
       const results = [];
+      const processedMembers = new Set(); // Track processed members to avoid duplicates
       
       const platforms = filterPlatform === 'all' ? ['twitch', 'youtube', 'kick', 'rumble', 'tiktok', 'instagram', 'discord', 'facebook', 'x'] : [filterPlatform];
       
+      // 1. First check presence-based live roles
       for (const platform of platforms) {
         const rules = presenceRules[platform];
         if (!rules || !rules.liveRoleIds?.length) continue;
         
         for (const [userId, member] of interaction.guild.members.cache) {
-          if (!member.presence?.activities || member.user.bot) continue;
+          if (member.user.bot) continue;
           
           let isStreaming = false;
           
-          if (platform === 'twitch') {
-            isStreaming = member.presence.activities.some(a => a.name === 'Twitch' && a.url?.includes('twitch.tv'));
-          } else if (platform === 'youtube') {
-            isStreaming = member.presence.activities.some(a => a.name === 'YouTube' || a.url?.includes('youtube.com'));
-          } else if (platform === 'kick') {
-            isStreaming = member.presence.activities.some(a => a.name === 'Kick' || a.url?.includes('kick.com'));
-          } else if (platform === 'rumble') {
-            isStreaming = member.presence.activities.some(a => a.name === 'Rumble' || a.url?.includes('rumble.com'));
-          } else if (platform === 'tiktok') {
-            isStreaming = member.presence.activities.some(a => a.name === 'TikTok' || a.url?.includes('tiktok.com'));
-          } else if (platform === 'instagram') {
-            isStreaming = member.presence.activities.some(a => a.name === 'Instagram' || a.url?.includes('instagram.com'));
-          } else if (platform === 'discord') {
-            isStreaming = !!member.voice?.channel;
-          } else if (platform === 'facebook') {
-            isStreaming = member.presence.activities.some(a => a.name === 'Facebook' || a.url?.includes('facebook.com'));
-          } else if (platform === 'x') {
-            isStreaming = member.presence.activities.some(a => a.name === 'X' || a.name === 'Twitter' || a.url?.includes('x.com') || a.url?.includes('twitter.com'));
+          if (member.presence?.activities) {
+            if (platform === 'twitch') {
+              isStreaming = member.presence.activities.some(a => a.name === 'Twitch' && a.url?.includes('twitch.tv'));
+            } else if (platform === 'youtube') {
+              isStreaming = member.presence.activities.some(a => a.name === 'YouTube' || a.url?.includes('youtube.com'));
+            } else if (platform === 'kick') {
+              isStreaming = member.presence.activities.some(a => a.name === 'Kick' || a.url?.includes('kick.com'));
+            } else if (platform === 'rumble') {
+              isStreaming = member.presence.activities.some(a => a.name === 'Rumble' || a.url?.includes('rumble.com'));
+            } else if (platform === 'tiktok') {
+              isStreaming = member.presence.activities.some(a => a.name === 'TikTok' || a.url?.includes('tiktok.com'));
+            } else if (platform === 'instagram') {
+              isStreaming = member.presence.activities.some(a => a.name === 'Instagram' || a.url?.includes('instagram.com'));
+            } else if (platform === 'discord') {
+              isStreaming = !!member.voice?.channel;
+            } else if (platform === 'facebook') {
+              isStreaming = member.presence.activities.some(a => a.name === 'Facebook' || a.url?.includes('facebook.com'));
+            } else if (platform === 'x') {
+              isStreaming = member.presence.activities.some(a => a.name === 'X' || a.name === 'Twitter' || a.url?.includes('x.com') || a.url?.includes('twitter.com'));
+            }
           }
           
-          if (isStreaming && rules.whitelistRoleIds?.some(r => member.roles.cache.has(r))) {
-            checked++;
-            let rolesAdded = 0;
+          if (isStreaming) {
+            const hasWhitelistRole = !rules.whitelistRoleIds?.length || 
+                                   rules.whitelistRoleIds.some(r => member.roles.cache.has(r));
             
-            for (const rid of rules.liveRoleIds) {
-              if (rid && !member.roles.cache.has(rid)) {
-                try {
-                  await member.roles.add(rid);
-                  rolesAdded++;
-                  assigned++;
-                } catch {}
+            if (hasWhitelistRole) {
+              checked++;
+              let rolesAdded = 0;
+              
+              for (const rid of rules.liveRoleIds) {
+                if (rid && !member.roles.cache.has(rid)) {
+                  try {
+                    await member.roles.add(rid);
+                    rolesAdded++;
+                    assigned++;
+                  } catch (error) {
+                    console.error(`[Check Live Roles] Failed to add role ${rid} to ${member.user.tag}:`, error.message);
+                  }
+                }
               }
-            }
-            
-            if (rolesAdded > 0) {
-              results.push(`${member.user.username} (${platform}) - added ${rolesAdded} role(s)`);
+              
+              if (rolesAdded > 0) {
+                // Only log errors, not successful role additions
+              }
+              
+              processedMembers.add(member.id);
             }
           }
         }
       }
       
-      const summary = `Checked ${checked} streaming users, assigned ${assigned} roles.`;
-      const details = results.length > 0 ? '\n\n' + results.join('\n') : '';
+      // 2. Then check API-based live roles from stream registry
+      for (const entry of streamEntries) {
+        if (!entry.liveRoleIds?.length) continue;
+        if (filterPlatform !== 'all' && entry.platform !== filterPlatform) continue;
+        
+        // Skip if the entry doesn't have a Discord user specified
+        if (!entry.discordUser) continue;
+        
+        try {
+          const member = await interaction.guild.members.fetch(entry.discordUser).catch(() => null);
+          if (!member || member.user.bot) continue;
+          
+          // Skip if we already processed this member from presence check
+          if (processedMembers.has(member.id)) continue;
+          
+          // Check if the user is actually live via API
+          let isLive = false;
+          const streamNotifier = interaction.client.streamNotifier;
+          
+          if (!streamNotifier) continue;
+          
+          switch (entry.platform) {
+            case 'twitch': {
+              const login = entry.id.toLowerCase();
+              const stateKey = streamNotifier.key(interaction.guild.id, 'twitch', login);
+              const currentState = streamNotifier.state.get(stateKey) || {};
+              isLive = currentState.status === 'live';
+              
+              if (isLive) {
+                console.log(`[Check Live Roles] ${member.user.tag} is live on Twitch (${login})`);
+              }
+              break;
+            }
+            
+            case 'youtube': {
+              // For YouTube, we'll check if there's an active stream in the state
+              const channelId = entry.id.replace(/^@/, ''); // Remove @ if present
+              const stateKey = streamNotifier.key(interaction.guild.id, 'youtube', channelId);
+              const currentState = streamNotifier.state.get(stateKey) || {};
+              isLive = currentState.status === 'live';
+              
+              if (isLive) {
+                console.log(`[Check Live Roles] ${member.user.tag} is live on YouTube (${channelId})`);
+              }
+              break;
+            }
+            
+            case 'kick': {
+              // For Kick, we'll use a similar approach to Twitch
+              const username = entry.id.toLowerCase();
+              const stateKey = streamNotifier.key(interaction.guild.id, 'kick', username);
+              const currentState = streamNotifier.state.get(stateKey) || {};
+              isLive = currentState.status === 'live';
+              
+              if (isLive) {
+                console.log(`[Check Live Roles] ${member.user.tag} is live on Kick (${username})`);
+              }
+              break;
+            }
+            
+            case 'rumble': {
+              // For Rumble, we'll check the state similar to other platforms
+              const channelName = entry.id.toLowerCase();
+              const stateKey = streamNotifier.key(interaction.guild.id, 'rumble', channelName);
+              const currentState = streamNotifier.state.get(stateKey) || {};
+              isLive = currentState.status === 'live';
+              
+              if (isLive) {
+                console.log(`[Check Live Roles] ${member.user.tag} is live on Rumble (${channelName})`);
+              }
+              break;
+            }
+            
+            case 'tiktok':
+            case 'instagram':
+            case 'facebook':
+            case 'x':
+              // For these platforms, we'll check Discord presence since they don't have direct API integration
+              isLive = member.presence?.activities.some(activity => {
+                const platformName = entry.platform === 'x' ? ['x', 'twitter'] : [entry.platform];
+                return platformName.some(name => 
+                  activity.name.toLowerCase().includes(name) || 
+                  activity.url?.includes(name)
+                );
+              });
+              
+              if (isLive) {
+                console.log(`[Check Live Roles] ${member.user.tag} is live on ${entry.platform} (via presence)`);
+              }
+              break;
+              
+            case 'discord':
+              // For Discord, check if user is in a voice channel
+              isLive = !!member.voice?.channel;
+              if (isLive) {
+                console.log(`[Check Live Roles] ${member.user.tag} is in a voice channel`);
+              }
+              break;
+          }
+          
+          // Only proceed if the user is actually live
+          if (isLive) {
+            const hasWhitelistRole = !entry.whitelistRoleIds?.length || 
+                                   entry.whitelistRoleIds.some(r => member.roles.cache.has(r));
+          
+            if (hasWhitelistRole) {
+              checked++;
+              let rolesAdded = 0;
+              
+              for (const rid of entry.liveRoleIds) {
+                if (rid && !member.roles.cache.has(rid)) {
+                  try {
+                    await member.roles.add(rid);
+                    rolesAdded++;
+                    assigned++;
+                    console.log(`[Check Live Roles] Assigned role ${rid} to ${member.user.tag}`);
+                  } catch (error) {
+                    console.error(`[Check Live Roles] Failed to add role ${rid} to ${member.user.tag}:`, error.message);
+                  }
+                }
+              }
+              
+              if (rolesAdded > 0) {
+                console.log(`[Check Live Roles] Assigned ${rolesAdded} roles to ${member.user.tag}`);
+              }
+              
+              processedMembers.add(member.id);
+            }
+          }
+        } catch (error) {
+          console.error(`[Check Live Roles] Error processing ${entry.platform} stream for user ${entry.discordUser}:`, error);
+        }
+      }
       
-      return await interaction.editReply({ content: summary + details });
+      const summary = `✅ Live role check complete. Checked ${checked} users.`;
+      return await interaction.editReply({ content: summary });
     }
     } catch (error) {
       console.error('Error in stream command:', error);

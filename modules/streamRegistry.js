@@ -24,6 +24,8 @@ const cleanIds = (ids) => uniq((Array.isArray(ids) ? ids : [ids]).filter(Boolean
  * @property {string|null} message - Custom notification message
  * @property {string[]} liveRoleIds - Array of role IDs to assign when live
  * @property {string[]} whitelistRoleIds - Array of role IDs that can trigger notifications
+ * @property {number} [cooldownMinutes=30] - Cooldown in minutes between notifications
+ * @property {boolean} [cleanup=false] - Whether to delete previous notification when a new one is sent
  */
 
 /**
@@ -138,8 +140,11 @@ function add(guildId, entry) {
     channelId: entry.channelId || null,
     message: entry.message || null,
     vodMessage: entry.vodMessage || null,
+    discordUser: entry.discordUser || null,
     liveRoleIds: cleanIds(entry.liveRoleIds || []),
-    whitelistRoleIds: cleanIds(entry.whitelistRoleIds || [])
+    whitelistRoleIds: cleanIds(entry.whitelistRoleIds || []),
+    cooldownMinutes: typeof entry.cooldownMinutes === 'number' ? Math.max(1, Math.min(1440, entry.cooldownMinutes)) : 30,
+    cleanup: Boolean(entry.cleanup)
   };
   
   arr.push(newEntry);
@@ -170,11 +175,13 @@ function update(guildId, platform, id, patch) {
   if (patch.channelId !== undefined) entry.channelId = patch.channelId;
   if (patch.message !== undefined) entry.message = patch.message;
   if (patch.vodMessage !== undefined) entry.vodMessage = patch.vodMessage;
+  if (patch.discordUser !== undefined) entry.discordUser = patch.discordUser;
   if (patch.liveRoleIds) entry.liveRoleIds = cleanIds(patch.liveRoleIds);
   if (patch.whitelistRoleIds) entry.whitelistRoleIds = cleanIds(patch.whitelistRoleIds);
+  if (patch.cleanup !== undefined) entry.cleanup = Boolean(patch.cleanup);
+  if (patch.cooldownMinutes !== undefined) entry.cooldownMinutes = Math.max(1, Math.min(1440, Number(patch.cooldownMinutes) || 30));
   
   // Clean up any legacy fields
-  if (Object.prototype.hasOwnProperty.call(entry, 'discordUser')) delete entry.discordUser;
   if (Object.prototype.hasOwnProperty.call(entry, 'liveRoleId')) delete entry.liveRoleId;
   
   save();
