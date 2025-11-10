@@ -270,8 +270,7 @@ module.exports = {
         .addStringOption(o => o.setName('id').setDescription('Username or id / @handle').setRequired(true))
         .addChannelOption(o => o.setName('channel').setDescription('Channel to post notifications').setRequired(true))
         .addUserOption(o => o.setName('discord_user').setDescription('Discord user to give live role to (optional)'))
-        .addRoleOption(o => o.setName('live_role').setDescription('Role to assign while live (optional)'))
-        .addStringOption(o => o.setName('live_roles').setDescription('Comma-separated role mentions/IDs to assign while live'))
+        .addStringOption(o => o.setName('live_roles').setDescription('Comma-separated role mentions/IDs to assign while live (or mention a single role)'))
         .addStringOption(o => o.setName('whitelist_roles').setDescription('Comma-separated role mentions/IDs required to trigger notifications'))
         .addStringOption(o => o.setName('message').setDescription('Custom live message: {name} {title} {url}'))
         .addStringOption(o => o.setName('vod_message').setDescription('Custom VOD message: {name} {title} {url} (YouTube only)')))
@@ -311,21 +310,107 @@ module.exports = {
         .setName('list')
         .setDescription('List streamer entries for this server')
         .addStringOption(o => o.setName('platform').setDescription('Filter by platform').addChoices({ name: 'twitch', value: 'twitch' }, { name: 'youtube', value: 'youtube' }, { name: 'kick', value: 'kick' }, { name: 'rumble', value: 'rumble' }, { name: 'tiktok', value: 'tiktok' }, { name: 'instagram', value: 'instagram' }, { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' })))
+    // Live Roles Commands
     .addSubcommand(subcommand =>
       subcommand
-        .setName('presence_set')
-        .setDescription('Set presence-based live notifications (no per-user entries needed)')
-        .addStringOption(o => o.setName('platform').setDescription('twitch, youtube, rumble, tiktok, or kick').setRequired(true).addChoices({ name: 'twitch', value: 'twitch' }, { name: 'youtube', value: 'youtube' }, { name: 'kick', value: 'kick' }, { name: 'rumble', value: 'rumble' }, { name: 'tiktok', value: 'tiktok' }, { name: 'instagram', value: 'instagram' }, { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' }))
-        .addChannelOption(o => o.setName('channel').setDescription('Channel to post notifications').setRequired(true))
-        .addStringOption(o => o.setName('whitelist_roles').setDescription('Comma-separated role mentions/IDs required to trigger notifications').setRequired(true))
-        .addRoleOption(o => o.setName('live_role').setDescription('Role to assign while live'))
-        .addStringOption(o => o.setName('live_roles').setDescription('Comma-separated role mentions/IDs to assign while live'))
-        .addStringOption(o => o.setName('message').setDescription('Custom live message: {name} {title} {url}')))
+        .setName('live_roles_set')
+        .setDescription('Configure automatic role assignments for streamers')
+        .addStringOption(o => 
+          o.setName('platform')
+           .setDescription('Platform to configure (or ALL for all platforms)')
+           .setRequired(true)
+           .addChoices(
+             { name: 'All Platforms', value: 'all' },
+             { name: 'Twitch', value: 'twitch' },
+             { name: 'YouTube', value: 'youtube' },
+             { name: 'Kick', value: 'kick' },
+             { name: 'Rumble', value: 'rumble' },
+             { name: 'TikTok', value: 'tiktok' },
+             { name: 'Instagram', value: 'instagram' },
+             { name: 'Discord', value: 'discord' },
+             { name: 'Facebook', value: 'facebook' },
+             { name: 'X (Twitter)', value: 'x' }
+           ))
+        .addStringOption(o => 
+          o.setName('whitelist_roles')
+           .setDescription('Comma-separated role mentions/IDs that can receive the live role')
+           .setRequired(true))
+        .addStringOption(o => 
+          o.setName('live_roles')
+           .setDescription('Comma-separated role mentions/IDs to assign when streaming')
+           .setRequired(true)))
     .addSubcommand(subcommand =>
       subcommand
-        .setName('presence_clear')
-        .setDescription('Clear presence-based live notifications for a platform (or all if omitted)')
-        .addStringOption(o => o.setName('platform').setDescription('twitch, youtube, rumble, tiktok, or kick (omit to clear all)').addChoices({ name: 'twitch', value: 'twitch' }, { name: 'youtube', value: 'youtube' }, { name: 'kick', value: 'kick' }, { name: 'rumble', value: 'rumble' }, { name: 'tiktok', value: 'tiktok' }, { name: 'instagram', value: 'instagram' }, { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' })))
+        .setName('live_roles_clear')
+        .setDescription('Remove automatic role assignments for a platform')
+        .addStringOption(o => 
+          o.setName('platform')
+           .setDescription('Platform to clear (or ALL for all platforms)')
+           .setRequired(false)
+           .addChoices(
+             { name: 'All Platforms', value: 'all' },
+             { name: 'Twitch', value: 'twitch' },
+             { name: 'YouTube', value: 'youtube' },
+             { name: 'Kick', value: 'kick' },
+             { name: 'Rumble', value: 'rumble' },
+             { name: 'TikTok', value: 'tiktok' },
+             { name: 'Instagram', value: 'instagram' },
+             { name: 'Discord', value: 'discord' },
+             { name: 'Facebook', value: 'facebook' },
+             { name: 'X (Twitter)', value: 'x' }
+           )))
+    
+    // Stream Notifications Commands
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('notifications_set')
+        .setDescription('Configure stream notifications')
+        .addStringOption(o => 
+          o.setName('platform')
+           .setDescription('Platform to configure')
+           .setRequired(true)
+           .addChoices(
+             { name: 'Twitch', value: 'twitch' },
+             { name: 'YouTube', value: 'youtube' },
+             { name: 'Kick', value: 'kick' },
+             { name: 'Rumble', value: 'rumble' },
+             { name: 'TikTok', value: 'tiktok' },
+             { name: 'Instagram', value: 'instagram' },
+             { name: 'Discord', value: 'discord' },
+             { name: 'Facebook', value: 'facebook' },
+             { name: 'X (Twitter)', value: 'x' }
+           ))
+        .addChannelOption(o => 
+          o.setName('channel')
+           .setDescription('Channel to post notifications')
+           .setRequired(true))
+        .addStringOption(o => 
+          o.setName('whitelist_roles')
+           .setDescription('Comma-separated role mentions/IDs that can trigger notifications')
+           .setRequired(true))
+        .addStringOption(o => 
+          o.setName('message')
+           .setDescription('Custom notification message (use {name} for username, {title} for stream title)')
+           .setRequired(false)))
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('notifications_clear')
+        .setDescription('Remove stream notifications for a platform')
+        .addStringOption(o => 
+          o.setName('platform')
+           .setDescription('Platform to clear (leave empty for all platforms)')
+           .setRequired(false)
+           .addChoices(
+             { name: 'Twitch', value: 'twitch' },
+             { name: 'YouTube', value: 'youtube' },
+             { name: 'Kick', value: 'kick' },
+             { name: 'Rumble', value: 'rumble' },
+             { name: 'TikTok', value: 'tiktok' },
+             { name: 'Instagram', value: 'instagram' },
+             { name: 'Discord', value: 'discord' },
+             { name: 'Facebook', value: 'facebook' },
+             { name: 'X (Twitter)', value: 'x' }
+           )))
     .addSubcommand(subcommand =>
       subcommand
         .setName('test')
@@ -358,67 +443,86 @@ module.exports = {
       if (!interaction.inGuild()) {
         return interaction.reply({ 
           content: '❌ This command can only be used in a server.',
-          flags: 64,
-          ephemeral: true 
+          flags: 64 // EPHEMERAL
         });
       }
 
-      await interaction.deferReply({ flags: 64 });
-
-    const sub = interaction.options.getSubcommand();
+      // Defer the reply to give us more time to process
+      await interaction.deferReply({ flags: 64 }); // EPHEMERAL
+      
+      const sub = interaction.options.getSubcommand();
+      const registry = require('../modules/streamRegistry');
 
     if (sub === 'add') {
-      const platform = interaction.options.getString('platform', true);
-      const id = interaction.options.getString('id', true);
-      const channel = interaction.options.getChannel('channel', true);
-      const message = interaction.options.getString('message');
-      const vodMessage = interaction.options.getString('vod_message');
-      const discordUser = interaction.options.getUser('discord_user');
-      const liveRole = interaction.options.getRole('live_role');
-      const liveRolesStr = interaction.options.getString('live_roles');
-      const whitelistRolesStr = interaction.options.getString('whitelist_roles');
-      const liveRoleIds = Array.from(new Set([...(liveRole ? [liveRole.id] : []), ...parseIds(liveRolesStr)]));
-      const whitelistRoleIds = parseIds(whitelistRolesStr);
-      const registry = require('../modules/streamRegistry');
-      const res = registry.add(interaction.guild.id, { 
-        platform, 
-        id, 
-        channelId: channel.id, 
-        message, 
-        vodMessage, 
-        discordUser: discordUser ? discordUser.id : null, 
-        liveRoleIds, 
-        whitelistRoleIds 
-      });
-      
-      if (!res.ok) {
-        return interaction.editReply({ 
-          content: `❌ Failed to add streamer: ${res.reason || 'Unknown error'}`,
-          flags: 64
+      try {
+        const platform = interaction.options.getString('platform', true);
+        const id = interaction.options.getString('id', true);
+        const channel = interaction.options.getChannel('channel', true);
+        const message = interaction.options.getString('message');
+        const vodMessage = interaction.options.getString('vod_message');
+        const discordUser = interaction.options.getUser('discord_user');
+        const liveRolesStr = interaction.options.getString('live_roles');
+        const whitelistRolesStr = interaction.options.getString('whitelist_roles');
+        
+        // Validate input
+        if (!id || !channel) {
+          return interaction.editReply('❌ Missing required fields: id and channel are required');
+        }
+        
+        const liveRoleIds = parseIds(liveRolesStr);
+        
+        const whitelistRoleIds = parseIds(whitelistRolesStr);
+        
+        const res = registry.add(interaction.guild.id, { 
+          platform, 
+          id, 
+          channelId: channel.id, 
+          message, 
+          vodMessage, 
+          discordUser: discordUser?.id, 
+          liveRoleIds, 
+          whitelistRoleIds 
         });
+        
+        if (!res.ok) {
+          return interaction.editReply(`❌ Failed to add streamer: ${res.reason || 'Unknown error'}`);
+        }
+        
+        return interaction.editReply(`✅ Added ${platform} streamer: ${id} -> ${channel}`);
+        
+      } catch (error) {
+        console.error('Error in stream add:', error);
+        return interaction.editReply('❌ An error occurred while adding the streamer.');
       }
-      
-      return interaction.editReply({ 
-        content: `✅ Added ${platform}:${id} -> ${channel}`,
-        flags: 64
-      });
     }
 
     if (sub === 'remove') {
-      const platform = interaction.options.getString('platform', true);
-      const id = interaction.options.getString('id', true);
-      const registry = require('../modules/streamRegistry');
-      const res = registry.remove(interaction.guild.id, platform, id);
-      if (res.removed) {
-        return interaction.editReply({ content: `✅ Removed ${platform}:${id}`, flags: 64 });
+      try {
+        const platform = interaction.options.getString('platform', true);
+        const id = interaction.options.getString('id', true);
+        
+        const res = registry.remove(interaction.guild.id, platform, id);
+        
+        if (res.removed) {
+          return interaction.editReply(`✅ Removed ${platform} streamer: ${id}`);
+        }
+        
+        // If not found, show current entries for this platform to help user
+        const list = registry.list(interaction.guild.id).filter(e => e.platform === platform);
+        if (!list.length) {
+          return interaction.editReply(`❌ No ${platform} entries are currently configured.`);
+        }
+        
+        const names = list.map(e => `• ${e.id}`).join('\n');
+        return interaction.editReply({
+          content: `❌ No matching entry found. Current ${platform} streamers:\n${names}`,
+          flags: 64 // EPHEMERAL
+        });
+        
+      } catch (error) {
+        console.error('Error in stream remove:', error);
+        return interaction.editReply('❌ An error occurred while removing the streamer.');
       }
-      // If not found, show current entries for this platform to help user
-      const list = registry.list(interaction.guild.id).filter(e => e.platform === platform);
-      if (!list.length) {
-        return interaction.editReply({ content: `❌ No matching entry found. No ${platform} entries configured.`, flags: 64 });
-      }
-      const names = list.map(e => e.id).join(', ');
-      return interaction.editReply({ content: `❌ No matching entry found. Available ${platform} IDs: ${names}`, flags: 64 });
     }
 
     if (sub === 'edit') {
@@ -432,7 +536,7 @@ module.exports = {
       const liveRolesStr = interaction.options.getString('live_roles');
       const whitelistRolesStr = interaction.options.getString('whitelist_roles');
       const parseIds = (str) => (str || '').split(',').map(s => s.trim()).filter(Boolean).map(s => s.replace(/[^0-9]/g, '')).filter(Boolean);
-      if (!channel && (message === null || message === undefined) && (vodMessage === null || vodMessage === undefined) && !discordUser && !liveRole && !liveRolesStr && !whitelistRolesStr) {
+      if (!channel && (message === null || message === undefined) && (vodMessage === null || vodMessage === undefined) && !discordUser && !liveRolesStr && !whitelistRolesStr) {
         return await interaction.editReply({ content: 'Provide at least one field to update: channel, message, vod_message, discord_user, live_role, live_roles, or whitelist_roles.' });
       }
       const registry = require('../modules/streamRegistry');
@@ -528,7 +632,7 @@ module.exports = {
       const whitelistRolesStr = interaction.options.getString('whitelist_roles');
       const parseIds = (str) => (str || '').split(',').map(s => s.trim()).filter(Boolean).map(s => s.replace(/[^0-9]/g, '')).filter(Boolean);
 
-      if (!channel && (message === null || message === undefined) && (vodMessage === null || vodMessage === undefined) && !discordUser && !liveRole && !liveRolesStr && !whitelistRolesStr) {
+      if (!channel && (message === null || message === undefined) && (vodMessage === null || vodMessage === undefined) && !discordUser && !liveRolesStr && !whitelistRolesStr) {
         return await interaction.editReply({ content: 'Provide at least one field to update: channel, message, vod_message, discord_user, live_role, live_roles, or whitelist_roles.' });
       }
 
@@ -543,7 +647,6 @@ module.exports = {
         if (message !== null && message !== undefined) patch.message = message;
         if (vodMessage !== null && vodMessage !== undefined) patch.vodMessage = vodMessage;
         if (discordUser) patch.discordUser = discordUser.id;
-        if (liveRole) patch.liveRoleId = liveRole.id; // normalized to array in registry.update
         if (liveRolesStr) patch.liveRoleIds = parseIds(liveRolesStr);
         if (whitelistRolesStr) patch.whitelistRoleIds = parseIds(whitelistRolesStr);
         const res = registry.update(interaction.guild.id, platform, e.id, patch);
@@ -745,28 +848,226 @@ module.exports = {
       return interaction.editReply(`Stream test results:\n\n${sections}`);
     }
 
-    if (sub === 'presence_set') {
-      const platform = interaction.options.getString('platform', true);
-      const channel = interaction.options.getChannel('channel', true);
-      const whitelistRolesStr = interaction.options.getString('whitelist_roles', true);
-      const liveRole = interaction.options.getRole('live_role');
-      const liveRolesStr = interaction.options.getString('live_roles');
-      const message = interaction.options.getString('message');
-      const parseIds = (str) => (str || '').split(',').map(s => s.trim()).filter(Boolean).map(s => s.replace(/[^0-9]/g, '')).filter(Boolean);
-      const whitelistRoleIds = parseIds(whitelistRolesStr);
-      const liveRoleIds = Array.from(new Set([...(liveRole ? [liveRole.id] : []), ...parseIds(liveRolesStr)]));
-      if (!whitelistRoleIds.length) return await interaction.editReply({ content: 'Provide at least one whitelist role.' });
-      const registry = require('../modules/streamRegistry');
-      const res = registry.setPresence(interaction.guild.id, platform, { channelId: channel.id, message: message || null, liveRoleIds, whitelistRoleIds });
-      if (!res.ok) return await interaction.editReply({ content: 'Failed to set presence rule.' });
-      return await interaction.editReply({ content: `Presence rule set for ${platform} -> <#${channel.id}> | whitelist: ${whitelistRolesStr}${liveRoleIds.length ? ` | roles: ${liveRoleIds.map(id => `<@&${id}>`).join(', ')}` : ''}` });
+    // Live Roles Commands
+    if (sub === 'live_roles_set') {
+      try {
+        const platform = interaction.options.getString('platform', true);
+        const whitelistRolesStr = interaction.options.getString('whitelist_roles', true);
+        const liveRolesStr = interaction.options.getString('live_roles', true);
+        
+        // Parse role IDs
+        const parseIds = (str) => (str || '').split(',').map(s => s.trim()).filter(Boolean).map(s => s.replace(/[^0-9]/g, '')).filter(Boolean);
+        const whitelistRoleIds = parseIds(whitelistRolesStr);
+        const liveRoleIds = parseIds(liveRolesStr);
+
+        const platforms = platform.toLowerCase() === 'all' 
+          ? ['twitch', 'youtube', 'kick', 'rumble', 'tiktok', 'instagram', 'discord', 'facebook', 'x']
+          : [platform];
+
+        const results = [];
+        
+        for (const plat of platforms) {
+          // Get current presence settings
+          const currentPresence = registry.getPresence(interaction.guild.id)[plat] || {};
+          
+          // Update presence with new role settings
+          const res = registry.setPresence(
+            interaction.guild.id, 
+            plat, 
+            { 
+              ...currentPresence, // Keep existing settings
+              liveRoleIds,
+              whitelistRoleIds
+            }
+          );
+          
+          if (res.ok) {
+            results.push(`✅ **${plat.charAt(0).toUpperCase() + plat.slice(1)}**: Updated`);
+          } else {
+            results.push(`❌ **${plat.charAt(0).toUpperCase() + plat.slice(1)}**: Failed to update`);
+          }
+        }
+        
+        const embed = {
+          title: `✅ Live Roles ${platform.toLowerCase() === 'all' ? 'for All Platforms' : 'Updated'}`,
+          description: [
+            `**Live Roles:** ${liveRoleIds.map(id => `<@&${id}>`).join(', ')}`,
+            `**Whitelist Roles:** ${whitelistRoleIds.map(id => `<@&${id}>`).join(', ')}`,
+            '',
+            '**Results:**',
+            ...results
+          ].join('\n'),
+          color: 0x00ff00,
+          timestamp: new Date()
+        };
+        
+        return interaction.editReply({ embeds: [embed] });
+        
+      } catch (error) {
+        console.error('Error in live_roles_set:', error);
+        return interaction.editReply('❌ An error occurred while updating live role settings.');
+      }
     }
 
-    if (sub === 'presence_clear') {
-      const platform = interaction.options.getString('platform');
-      const registry = require('../modules/streamRegistry');
-      registry.clearPresence(interaction.guild.id, platform || undefined);
-      return await interaction.editReply({ content: platform ? `Cleared presence rule for ${platform}.` : 'Cleared all presence rules for this server.' });
+    if (sub === 'live_roles_clear') {
+      try {
+        const platform = interaction.options.getString('platform');
+        
+        const platforms = [];
+        if (!platform || platform.toLowerCase() === 'all') {
+          // Clear all platforms
+          platforms.push(...['twitch', 'youtube', 'kick', 'rumble', 'tiktok', 'instagram', 'discord', 'facebook', 'x']);
+        } else {
+          // Clear specific platform
+          platforms.push(platform);
+        }
+
+        const results = [];
+        
+        for (const plat of platforms) {
+          const currentPresence = registry.getPresence(interaction.guild.id)[plat] || {};
+          if (!currentPresence || (!currentPresence.liveRoleIds?.length && !currentPresence.whitelistRoleIds?.length)) {
+            results.push(`ℹ️ **${plat.charAt(0).toUpperCase() + plat.slice(1)}**: No live roles configured`);
+            continue;
+          }
+          
+          // Keep other settings, just clear the roles
+          const res = registry.setPresence(
+            interaction.guild.id,
+            plat,
+            {
+              ...currentPresence,
+              liveRoleIds: [],
+              whitelistRoleIds: []
+            }
+          );
+          
+          if (res.ok) {
+            results.push(`✅ **${plat.charAt(0).toUpperCase() + plat.slice(1)}**: Cleared`);
+          } else {
+            results.push(`❌ **${plat.charAt(0).toUpperCase() + plat.slice(1)}**: Failed to clear`);
+          }
+        }
+        
+        const embed = {
+          title: `✅ Live Roles Cleared`,
+          description: [
+            `Cleared live roles for ${platforms.length} platform${platforms.length === 1 ? '' : 's'}.`,
+            '',
+            '**Results:**',
+            ...results
+          ].join('\n'),
+          color: 0x00ff00,
+          timestamp: new Date()
+        };
+        
+        return interaction.editReply({ embeds: [embed] });
+      } catch (error) {
+        console.error('Error in live_roles_clear:', error);
+        return interaction.editReply('❌ An error occurred while clearing live roles.');
+      }
+    }
+
+    // Stream Notifications Commands
+    if (sub === 'notifications_set') {
+      try {
+        const platform = interaction.options.getString('platform', true);
+        const channel = interaction.options.getChannel('channel', true);
+        const whitelistRolesStr = interaction.options.getString('whitelist_roles', true);
+        const message = interaction.options.getString('message');
+        
+        // Parse role IDs
+        const parseIds = (str) => (str || '').split(',').map(s => s.trim()).filter(Boolean).map(s => s.replace(/[^0-9]/g, '')).filter(Boolean);
+        const whitelistRoleIds = parseIds(whitelistRolesStr);
+        
+        if (!whitelistRoleIds.length) {
+          return interaction.editReply('❌ You must provide at least one whitelist role.');
+        }
+        
+        // Get current presence settings
+        const currentPresence = registry.getPresence(interaction.guild.id)[platform] || {};
+        
+        // Update presence with new notification settings
+        const res = registry.setPresence(
+          interaction.guild.id, 
+          platform, 
+          { 
+            ...currentPresence, // Keep existing settings
+            channelId: channel.id,
+            message: message || null,
+            whitelistRoleIds
+          }
+        );
+        
+        if (!res.ok) {
+          return interaction.editReply('❌ Failed to update notification settings. Please check the logs for more details.');
+        }
+        
+        const embed = {
+          title: `✅ ${platform.charAt(0).toUpperCase() + platform.slice(1)} Notifications Updated`,
+          description: [
+            `**Channel:** <#${channel.id}>`,
+            `**Whitelist Roles:** ${whitelistRoleIds.map(id => `<@&${id}>`).join(', ')}`,
+            message ? `**Custom Message:** "${message}"` : '**Using default notification message**'
+          ].join('\n'),
+          color: 0x00ff00,
+          timestamp: new Date()
+        };
+        
+        return interaction.editReply({ embeds: [embed] });
+        
+      } catch (error) {
+        console.error('Error in notifications_set:', error);
+        return interaction.editReply('❌ An error occurred while updating notification settings.');
+      }
+    }
+
+    if (sub === 'notifications_clear') {
+      try {
+        const platform = interaction.options.getString('platform');
+        
+        if (platform) {
+          // Clear notifications for specific platform
+          const currentPresence = registry.getPresence(interaction.guild.id)[platform] || {};
+          if (!currentPresence) {
+            return interaction.editReply(`❌ No notifications configured for ${platform}.`);
+          }
+          
+          // Keep other settings, just clear the notification settings
+          registry.setPresence(
+            interaction.guild.id,
+            platform,
+            {
+              ...currentPresence,
+              channelId: null,
+              message: null
+            }
+          );
+          
+          return interaction.editReply(`✅ Cleared notifications for ${platform}.`);
+        } else {
+          // Clear all notifications across all platforms
+          const allPlatforms = ['twitch', 'youtube', 'kick', 'rumble', 'tiktok', 'instagram', 'discord', 'facebook', 'x'];
+          for (const p of allPlatforms) {
+            const current = registry.getPresence(interaction.guild.id)[p];
+            if (current) {
+              registry.setPresence(
+                interaction.guild.id,
+                p,
+                {
+                  ...current,
+                  channelId: null,
+                  message: null
+                }
+              );
+            }
+          }
+          return interaction.editReply('✅ Cleared all notifications for all platforms.');
+        }
+      } catch (error) {
+        console.error('Error in notifications_clear:', error);
+        return interaction.editReply('❌ An error occurred while clearing notifications.');
+      }
     }
 
     if (sub === 'check_live_roles') {
@@ -845,25 +1146,64 @@ module.exports = {
       } else {
         await interaction.reply({
           content: '❌ An error occurred while processing this command.',
-          flags: 64,
-          ephemeral: true
+          flags: 64 // EPHEMERAL
         });
       }
     }
   },
 
   async autocomplete(interaction) {
-    const focusedOption = interaction.options.getFocused(true);
-    if (focusedOption.name === 'id') {
-      const platform = interaction.options.getString('platform');
-      if (platform) {
-        const registry = require('../modules/streamRegistry');
-        const entries = registry.list(interaction.guild.id).filter(e => e.platform === platform);
-        const choices = entries.map(e => ({ name: e.id, value: e.id })).slice(0, 25);
-        await interaction.respond(choices);
-      } else {
-        await interaction.respond([]);
+    try {
+      const focusedOption = interaction.options.getFocused(true);
+      const subcommand = interaction.options.getSubcommand();
+      
+      // Handle ID autocomplete for relevant subcommands
+      if (['edit', 'remove'].includes(subcommand) && focusedOption.name === 'id') {
+        const platform = interaction.options.getString('platform');
+        if (platform) {
+          const entries = registry.list(interaction.guild.id)
+            .filter(e => e.platform === platform)
+            .map(e => ({
+              name: `${e.id} (${e.platform})`,
+              value: e.id
+            }))
+            .slice(0, 25);
+          
+          return interaction.respond(entries);
+        }
       }
+      
+      // Handle platform autocomplete if needed
+      if (focusedOption.name === 'platform') {
+        const platforms = [
+          { name: 'Twitch', value: 'twitch' },
+          { name: 'YouTube', value: 'youtube' },
+          { name: 'Kick', value: 'kick' },
+          { name: 'Rumble', value: 'rumble' },
+          { name: 'TikTok', value: 'tiktok' },
+          { name: 'Instagram', value: 'instagram' },
+          { name: 'Discord', value: 'discord' },
+          { name: 'Facebook', value: 'facebook' },
+          { name: 'X (Twitter)', value: 'x' }
+        ];
+        
+        const search = focusedOption.value.toLowerCase();
+        const filtered = search 
+          ? platforms.filter(p => 
+              p.name.toLowerCase().includes(search) || 
+              p.value.includes(search)
+            )
+          : platforms;
+          
+        return interaction.respond(filtered.slice(0, 25));
+      }
+      
+      // Default empty response if no matches
+      return interaction.respond([]);
+      
+    } catch (error) {
+      console.error('Error in autocomplete:', error);
+      return interaction.respond([]);
     }
   },
 };

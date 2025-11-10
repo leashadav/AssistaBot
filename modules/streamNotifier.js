@@ -275,8 +275,11 @@ class StreamNotifier {
               // Ignore role assignment errors
             }
             this.recordState(gid, 'twitch', keyId, 'live', true, message?.id);
-            // Start timers when stream goes live
-            twitchTimers.onStreamStart();
+            // Start timers only for your channel
+            const myChannel = twitchConfig?.twitch_username || twitchConfig?.username;
+            if (myChannel && login.toLowerCase() === myChannel.toLowerCase()) {
+              twitchTimers.onStreamStart();
+            }
           } else {
             // Only remove roles if stream was previously live
             const wasLive = this.state.get(this.key(gid, 'twitch', login))?.status === 'live';
@@ -327,8 +330,11 @@ class StreamNotifier {
               }
             }
             this.recordState(gid, 'twitch', login, 'offline', false);
-            // Stop timers when stream goes offline
-            twitchTimers.onStreamEnd();
+            // Stop timers only for your channel
+            const myChannel = twitchConfig?.twitch_username || twitchConfig?.username;
+            if (myChannel && login.toLowerCase() === myChannel.toLowerCase()) {
+              twitchTimers.onStreamEnd();
+            }
           }
         } catch (error) {
           // Ignore stream check errors
@@ -341,9 +347,15 @@ class StreamNotifier {
     if (!identifier) return null;
     if (identifier.startsWith('UC')) return identifier; // already a channel ID
     
+    // Check quota exceeded
+    const now = Date.now();
+    if (this.quotaExceededUntil && now < this.quotaExceededUntil) {
+      return null;
+    }
+    
     // Check cache first (24h cache)
     const cached = this.youtubeHandleCache.get(identifier);
-    if (cached && cached.exp > Date.now()) {
+    if (cached && cached.exp > now) {
       return cached.channelId;
     }
     
@@ -372,9 +384,15 @@ class StreamNotifier {
   }
 
   async fetchYouTubeChannelInfo(channelId, apiKey) {
+    // Check quota exceeded
+    const now = Date.now();
+    if (this.quotaExceededUntil && now < this.quotaExceededUntil) {
+      return null;
+    }
+    
     // Check cache first (6h cache for channel info)
     const cached = this.youtubeChannelCache.get(channelId);
-    if (cached && cached.exp > Date.now()) {
+    if (cached && cached.exp > now) {
       return cached;
     }
     
@@ -603,242 +621,154 @@ class StreamNotifier {
   }
 
   async checkPresenceBasedYouTube(client) {
+    await this.managePresenceRoles(client, 'youtube');
+    await this.postPresenceNotifications(client, 'youtube');
+  }
+
+  async managePresenceRoles(client, platform) {
     for (const [gid, guild] of client.guilds.cache) {
-      const presenceRules = streamRegistry.getPresence(gid)?.youtube;
-      if (!presenceRules) continue;
+      const presenceRules = streamRegistry.getPresence(gid)?.[platform];
+      if (!presenceRules?.liveRoleIds?.length) continue;
+      
+      // Skip if no whitelist roles are set (safety check - should be validated elsewhere)
+      if (!presenceRules.whitelistRoleIds?.length) continue;
       
       for (const [userId, member] of guild.members.cache) {
-        if (!member.presence?.activities) continue;
+        if (!member.presence?.activities || member.user.bot) continue;
         
-        const ytActivity = member.presence.activities.find(a => 
-          a.name === 'YouTube' || a.url?.includes('youtube.com')
-        );
+        const activity = this.findPlatformActivity(member.presence.activities, platform);
+        const hasWhitelistRole = presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
+        const isStreaming = activity && (platform === 'discord' ? member.voice?.channel : activity.type === 1) && hasWhitelistRole;
         
-        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
-        
-        if (ytActivity && ytActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
-          // Assign live roles
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && !member.roles.cache.has(rid)) {
-                await member.roles.add(rid).catch(() => {});
-              }
+        // Process each role
+        for (const roleId of presenceRules.liveRoleIds) {
+          if (!roleId) continue;
+          const hasRole = member.roles.cache.has(roleId);
+          
+          try {
+            if (isStreaming && !hasRole) {
+              await member.roles.add(roleId);
+            } else if (!isStreaming && hasRole) {
+              await member.roles.remove(roleId);
             }
-          }
-          // Extract channel info from activity and check with API
-          const channelMatch = ytActivity.url?.match(/youtube\.com\/(?:channel\/|@|c\/)([^/?]+)/);
-          if (channelMatch) {
-            const channelIdentifier = channelMatch[1];
-            await this.checkYouTubePresence(client, gid, channelIdentifier, presenceRules);
-          }
-          break;
-        } else {
-          // Remove live roles if not streaming
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && member.roles.cache.has(rid)) {
-                await member.roles.remove(rid).catch(() => {});
-              }
-            }
+          } catch (error) {
+            console.error(`Error managing role ${roleId} for user ${member.id} in guild ${guild.id}:`, error.message);
           }
         }
       }
     }
+  }
+
+  async postPresenceNotifications(client, platform) {
+    for (const [gid, guild] of client.guilds.cache) {
+      const presenceRules = streamRegistry.getPresence(gid)?.[platform];
+      
+      // Skip if no channel or whitelist roles are set
+      if (!presenceRules?.channelId || !presenceRules.whitelistRoleIds?.length) continue;
+      
+      for (const [userId, member] of guild.members.cache) {
+        if (!member.presence?.activities || member.user.bot) continue;
+        
+        const activity = this.findPlatformActivity(member.presence.activities, platform);
+        const hasWhitelistRole = presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
+        const isStreaming = activity && (platform === 'discord' ? member.voice?.channel : activity.type === 1) && hasWhitelistRole;
+        
+        if (isStreaming) {
+          try {
+            await this.handlePresenceNotification(client, gid, member, activity, platform, presenceRules);
+          } catch (error) {
+            console.error(`Error sending notification for user ${member.id} in guild ${guild.id}:`, error.message);
+          }
+          break; // Only notify once per member
+        }
+      }
+    }
+  }
+
+  findPlatformActivity(activities, platform) {
+    const platformMap = {
+      youtube: a => a.name === 'YouTube' || a.url?.includes('youtube.com'),
+      twitch: a => a.name === 'Twitch' && a.url?.includes('twitch.tv'),
+      kick: a => a.name === 'Kick' || a.url?.includes('kick.com'),
+      rumble: a => a.name === 'Rumble' || a.url?.includes('rumble.com'),
+      tiktok: a => a.name === 'TikTok' || a.url?.includes('tiktok.com'),
+      instagram: a => a.name === 'Instagram' || a.url?.includes('instagram.com'),
+      facebook: a => a.name === 'Facebook' || a.url?.includes('facebook.com'),
+      x: a => a.name === 'X' || a.name === 'Twitter' || a.url?.includes('x.com') || a.url?.includes('twitter.com'),
+      discord: () => true
+    };
+    return activities.find(platformMap[platform] || (() => false));
+  }
+
+  async handlePresenceNotification(client, gid, member, activity, platform, presenceRules) {
+    const keyId = `presence_${member.id}`;
+    const alreadyLive = this.state.get(this.key(gid, platform, keyId))?.status === 'live';
+    if (alreadyLive) return;
+
+    if (platform === 'youtube') {
+      const channelMatch = activity.url?.match(/youtube\.com\/(?:channel\/|@|c\/)([^/?]+)/);
+      if (channelMatch) {
+        await this.checkYouTubePresence(client, gid, channelMatch[1], presenceRules);
+      }
+    } else if (platform === 'twitch') {
+      const match = activity.url?.match(/twitch\.tv\/([^/?]+)/);
+      if (match) {
+        await this.checkTwitchPresence(client, gid, match[1].toLowerCase(), presenceRules, member);
+      }
+    } else {
+      await this.postGenericPresenceNotification(client, gid, member, activity, platform, presenceRules, keyId);
+    }
+  }
+
+  async postGenericPresenceNotification(client, gid, member, activity, platform, presenceRules, keyId) {
+    const platformData = {
+      kick: { baseUrl: 'https://kick.com/', favicon: 'https://kick.com/favicon.ico' },
+      rumble: { baseUrl: 'https://rumble.com/user/', favicon: 'https://rumble.com/favicon.ico' },
+      tiktok: { baseUrl: 'https://tiktok.com/@', favicon: 'https://sf16-website-login.neutral.ttwstatic.com/obj/tiktok_web_login_static/tiktok/webapp/main/webapp-desktop/8152caf0c8e8bc67ae0d.ico' },
+      instagram: { baseUrl: 'https://instagram.com/', favicon: 'https://www.instagram.com/static/images/ico/favicon-192.png/68d99ba29cc8.png' },
+      facebook: { baseUrl: 'https://facebook.com/', favicon: 'https://facebook.com/favicon.ico' },
+      x: { baseUrl: 'https://x.com/', favicon: 'https://abs.twimg.com/favicons/twitter.3.ico' },
+      discord: { baseUrl: 'https://discord.com/users/', favicon: 'https://discord.com/assets/847541504914fd33810e70a0ea73177e.ico' }
+    };
+
+    const data = platformData[platform];
+    if (!data) return;
+
+    const username = member.displayName || member.user.username;
+    const watch = activity?.url || `${data.baseUrl}${platform === 'discord' ? member.id : username}`;
+    const streamTitle = activity?.details || `Live on ${platform.charAt(0).toUpperCase() + platform.slice(1)}`;
+    const tpl = presenceRules.message || `{name} is live on ${platform.charAt(0).toUpperCase() + platform.slice(1)}: {title} {url}`;
+    const content = this.render(tpl, { name: username, title: streamTitle, url: watch });
+    const avatarUrl = member.user.displayAvatarURL() || data.favicon;
+    const embed = buildStreamEmbed({ platform, username, avatarUrl, url: watch, title: streamTitle });
+    
+    await this.post(client, presenceRules.channelId, content, [embed]);
+    this.recordState(gid, platform, keyId, 'live', true);
   }
 
   async checkPresenceBasedRumble(client) {
-    for (const [gid, guild] of client.guilds.cache) {
-      const presenceRules = streamRegistry.getPresence(gid)?.rumble;
-      if (!presenceRules) continue;
-      
-      for (const [userId, member] of guild.members.cache) {
-        if (!member.presence?.activities) continue;
-        
-        const rumbleActivity = member.presence.activities.find(a => 
-          a.name === 'Rumble' || a.url?.includes('rumble.com')
-        );
-        
-        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
-        
-        if (rumbleActivity && rumbleActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
-          // Assign live roles
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && !member.roles.cache.has(rid)) {
-                await member.roles.add(rid).catch(() => {});
-              }
-            }
-          }
-          await this.checkRumble(client);
-          break;
-        } else {
-          // Remove live roles if not streaming
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && member.roles.cache.has(rid)) {
-                await member.roles.remove(rid).catch(() => {});
-              }
-            }
-          }
-        }
-      }
-    }
+    await this.managePresenceRoles(client, 'rumble');
+    await this.postPresenceNotifications(client, 'rumble');
   }
 
   async checkPresenceBasedTikTok(client) {
-    for (const [gid, guild] of client.guilds.cache) {
-      const presenceRules = streamRegistry.getPresence(gid)?.tiktok;
-      if (!presenceRules) continue;
-      
-      for (const [userId, member] of guild.members.cache) {
-        if (!member.presence?.activities) continue;
-        
-        const tiktokActivity = member.presence.activities.find(a => 
-          a.name === 'TikTok' || a.url?.includes('tiktok.com')
-        );
-        
-        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
-        
-        if (tiktokActivity && tiktokActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
-          // Assign live roles
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && !member.roles.cache.has(rid)) {
-                await member.roles.add(rid).catch(() => {});
-              }
-            }
-          }
-          await this.checkTikTok(client);
-          break;
-        } else {
-          // Remove live roles if not streaming
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && member.roles.cache.has(rid)) {
-                await member.roles.remove(rid).catch(() => {});
-              }
-            }
-          }
-        }
-      }
-    }
+    await this.managePresenceRoles(client, 'tiktok');
+    await this.postPresenceNotifications(client, 'tiktok');
   }
 
   async checkPresenceBasedKick(client) {
-    for (const [gid, guild] of client.guilds.cache) {
-      const presenceRules = streamRegistry.getPresence(gid)?.kick;
-      if (!presenceRules) continue;
-      
-      for (const [userId, member] of guild.members.cache) {
-        if (!member.presence?.activities) continue;
-        
-        const kickActivity = member.presence.activities.find(a => 
-          a.name === 'Kick' || a.url?.includes('kick.com')
-        );
-        
-        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
-        
-        if (kickActivity && kickActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
-          // Assign live roles
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && !member.roles.cache.has(rid)) {
-                await member.roles.add(rid).catch(() => {});
-              }
-            }
-          }
-          // Extract Kick username from activity URL
-          const match = kickActivity.url?.match(/kick\.com\/([^/?]+)/);
-          if (match) {
-            const username = match[1];
-            await this.checkKickPresence(client, gid, username, presenceRules);
-          }
-          break;
-        } else {
-          // Remove live roles if not streaming
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && member.roles.cache.has(rid)) {
-                await member.roles.remove(rid).catch(() => {});
-              }
-            }
-          }
-        }
-      }
-    }
+    await this.managePresenceRoles(client, 'kick');
+    await this.postPresenceNotifications(client, 'kick');
   }
 
   async checkPresenceBasedInstagram(client) {
-    for (const [gid, guild] of client.guilds.cache) {
-      const presenceRules = streamRegistry.getPresence(gid)?.instagram;
-      if (!presenceRules) continue;
-      
-      for (const [userId, member] of guild.members.cache) {
-        if (!member.presence?.activities) continue;
-        
-        const instagramActivity = member.presence.activities.find(a => 
-          a.name === 'Instagram' || a.url?.includes('instagram.com')
-        );
-        
-        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
-        
-        if (instagramActivity && instagramActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
-          // Assign live roles
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && !member.roles.cache.has(rid)) {
-                await member.roles.add(rid).catch(() => {});
-              }
-            }
-          }
-          await this.checkInstagram(client);
-          break;
-        } else {
-          // Remove live roles if not streaming
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && member.roles.cache.has(rid)) {
-                await member.roles.remove(rid).catch(() => {});
-              }
-            }
-          }
-        }
-      }
-    }
+    await this.managePresenceRoles(client, 'instagram');
+    await this.postPresenceNotifications(client, 'instagram');
   }
 
   async checkPresenceBasedDiscord(client) {
-    for (const [gid, guild] of client.guilds.cache) {
-      const presenceRules = streamRegistry.getPresence(gid)?.discord;
-      if (!presenceRules) continue;
-      
-      for (const [userId, member] of guild.members.cache) {
-        const isInVoice = member.voice?.channel;
-        const hasWhitelistRole = presenceRules.whitelistRoleIds?.length ? presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r)) : true;
-        
-        if (isInVoice && hasWhitelistRole && !member.user.bot) {
-          // Assign live roles
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && !member.roles.cache.has(rid)) {
-                await member.roles.add(rid).catch(() => {});
-              }
-            }
-          }
-          await this.checkDiscord(client);
-          break;
-        } else {
-          // Remove live roles if not in voice
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && member.roles.cache.has(rid)) {
-                await member.roles.remove(rid).catch(() => {});
-              }
-            }
-          }
-        }
-      }
-    }
+    await this.managePresenceRoles(client, 'discord');
+    await this.postPresenceNotifications(client, 'discord');
   }
 
   async checkRumble(client) {
@@ -1138,128 +1068,21 @@ class StreamNotifier {
   }
 
   async checkPresenceBasedFacebook(client) {
-    for (const [gid, guild] of client.guilds.cache) {
-      const presenceRules = streamRegistry.getPresence(gid)?.facebook;
-      if (!presenceRules) continue;
-      
-      for (const [userId, member] of guild.members.cache) {
-        if (!member.presence?.activities) continue;
-        
-        const facebookActivity = member.presence?.activities?.find(a => 
-          a.name === 'Facebook' || a.url?.includes('facebook.com')
-        );
-        
-        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
-        
-        if (facebookActivity && facebookActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
-          // Assign live roles
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && !member.roles.cache.has(rid)) {
-                await member.roles.add(rid).catch(() => {});
-              }
-            }
-          }
-          await this.checkFacebook(client);
-          break;
-        } else {
-          // Remove live roles if not streaming
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && member.roles.cache.has(rid)) {
-                await member.roles.remove(rid).catch(() => {});
-              }
-            }
-          }
-        }
-      }
-    }
+    await this.managePresenceRoles(client, 'facebook');
+    await this.postPresenceNotifications(client, 'facebook');
   }
 
   async checkPresenceBasedX(client) {
-    for (const [gid, guild] of client.guilds.cache) {
-      const presenceRules = streamRegistry.getPresence(gid)?.x;
-      if (!presenceRules) continue;
-      
-      for (const [userId, member] of guild.members.cache) {
-        if (!member.presence?.activities) continue;
-        
-        const xActivity = member.presence?.activities?.find(a => 
-          a.name === 'X' || a.name === 'Twitter' || a.url?.includes('x.com') || a.url?.includes('twitter.com')
-        );
-        
-        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
-        
-        if (xActivity && xActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
-          // Assign live roles
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && !member.roles.cache.has(rid)) {
-                await member.roles.add(rid).catch(() => {});
-              }
-            }
-          }
-          await this.checkX(client);
-          break;
-        } else {
-          // Remove live roles if not streaming
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && member.roles.cache.has(rid)) {
-                await member.roles.remove(rid).catch(() => {});
-              }
-            }
-          }
-        }
-      }
-    }
+    await this.managePresenceRoles(client, 'x');
+    await this.postPresenceNotifications(client, 'x');
   }
 
   async checkPresenceBasedTwitch(client) {
-    for (const [gid, guild] of client.guilds.cache) {
-      const presenceRules = streamRegistry.getPresence(gid)?.twitch;
-      if (!presenceRules) continue;
-      
-      for (const [userId, member] of guild.members.cache) {
-        if (!member.presence?.activities) continue;
-        
-        const twitchActivity = member.presence?.activities?.find(a => 
-          a.name === 'Twitch' && a.url?.includes('twitch.tv')
-        );
-        
-        const hasWhitelistRole = !presenceRules.whitelistRoleIds?.length || presenceRules.whitelistRoleIds.some(r => member.roles.cache.has(r));
-        
-        if (twitchActivity && twitchActivity.type === 1 && hasWhitelistRole && !member.user.bot) {
-          // Assign live roles
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && !member.roles.cache.has(rid)) {
-                await member.roles.add(rid).catch(() => {});
-              }
-            }
-          }
-          // Extract Twitch username from activity URL
-          const match = twitchActivity.url?.match(/twitch\.tv\/([^/?]+)/);
-          if (match) {
-            const login = match[1].toLowerCase();
-            await this.checkTwitchPresence(client, gid, login, presenceRules);
-          }
-          break;
-        } else {
-          // Remove live roles if not streaming
-          if (presenceRules.liveRoleIds?.length) {
-            for (const rid of presenceRules.liveRoleIds) {
-              if (rid && member.roles.cache.has(rid)) {
-                await member.roles.remove(rid).catch(() => {});
-              }
-            }
-          }
-        }
-      }
-    }
+    await this.managePresenceRoles(client, 'twitch');
+    await this.postPresenceNotifications(client, 'twitch');
   }
 
-  async checkTwitchPresence(client, guildId, login, presenceRules) {
+  async checkTwitchPresence(client, guildId, login, presenceRules, member = null) {
     const token = await this.ensureTwitchAppToken();
     const clientId = twitchConfig?.twitch_client_id;
     if (!token || !clientId) return;
@@ -1320,6 +1143,11 @@ class StreamNotifier {
           
           await this.post(client, presenceRules.channelId, content, [embed]);
           this.recordState(guildId, 'twitch', keyId, 'live', true);
+          // Start timers only for your channel
+          const myChannel = twitchConfig?.twitch_username || twitchConfig?.username;
+          if (myChannel && login.toLowerCase() === myChannel.toLowerCase()) {
+            twitchTimers.onStreamStart();
+          }
         }
       }
     } catch (error) {

@@ -1,12 +1,15 @@
 {
+  "991544116099956766:twitch:zombiepandemic": {
+    "status": "offline",
+    "lastPostAt": 0
+  },
   "1078005146698657802:twitch:thegoldengooes": {
     "status": "offline",
     "lastPostAt": 0
   },
   "1078005146698657802:twitch:reallyjaydea": {
     "status": "offline",
-    "lastPostAt": 1762563220445,
-    "messageId": "1436519013604659260"
+    "lastPostAt": 0
   },
   "1078005146698657802:twitch:mrmase370": {
     "status": "offline",
@@ -22,12 +25,11 @@
   },
   "1078005146698657802:twitch:diavolical": {
     "status": "offline",
-    "lastPostAt": 1762574860792
+    "lastPostAt": 0
   },
   "1078005146698657802:twitch:deyphid": {
     "status": "offline",
-    "lastPostAt": 1762487701968,
-    "messageId": "1436202267089830019"
+    "lastPostAt": 0
   },
   "1078005146698657802:twitch:alienfurs": {
     "status": "offline",
@@ -35,36 +37,6 @@
   },
   "1323558044990181387:twitch:shadav": {
     "status": "offline",
-    "lastPostAt": 1762626040437,
-    "messageId": "1436782495629574225"
-  },
-  "991544116099956766:twitch:zombiepandemic": {
-    "status": "live",
-    "lastPostAt": 1762632732799,
-    "messageId": "1436810566302826547"
-  },
-  "991544116099956766:facebook:shadav": {
-    "status": "offline",
     "lastPostAt": 0
-  },
-  "991544116099956766:x:leashadav": {
-    "status": "offline",
-    "lastPostAt": 0
-  },
-  "1323558044990181387:facebook:shadav": {
-    "status": "offline",
-    "lastPostAt": 0
-  },
-  "1323558044990181387:x:leashadav": {
-    "status": "offline",
-    "lastPostAt": 0
-  },
-  "991544116099956766:twitch:treyiand": {
-    "status": "live",
-    "lastPostAt": 1762659289157
-  },
-  "1078005146698657802:twitch:treyiand": {
-    "status": "live",
-    "lastPostAt": 1762659289813
   }
 }

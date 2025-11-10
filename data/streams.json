@@ -1,4 +1,300 @@
 {
+  "_presence": {
+    "991544116099956766": {
+      "twitch": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "youtube": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "kick": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "rumble": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "tiktok": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "instagram": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "discord": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "facebook": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      },
+      "x": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1012537343816773662"
+        ],
+        "whitelistRoleIds": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ]
+      }
+    },
+    "1078005146698657802": {
+      "twitch": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1286702849312559175"
+        ],
+        "whitelistRoleIds": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ]
+      },
+      "youtube": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1286702849312559175"
+        ],
+        "whitelistRoleIds": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ]
+      },
+      "kick": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1286702849312559175"
+        ],
+        "whitelistRoleIds": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ]
+      },
+      "rumble": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1286702849312559175"
+        ],
+        "whitelistRoleIds": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ]
+      },
+      "tiktok": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1286702849312559175"
+        ],
+        "whitelistRoleIds": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ]
+      },
+      "instagram": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1286702849312559175"
+        ],
+        "whitelistRoleIds": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ]
+      },
+      "discord": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1286702849312559175"
+        ],
+        "whitelistRoleIds": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ]
+      },
+      "facebook": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1286702849312559175"
+        ],
+        "whitelistRoleIds": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ]
+      },
+      "x": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1286702849312559175"
+        ],
+        "whitelistRoleIds": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ]
+      }
+    },
+    "1323558044990181387": {
+      "twitch": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "youtube": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "kick": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "rumble": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "tiktok": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "instagram": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "discord": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "facebook": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      },
+      "x": {
+        "channelId": null,
+        "message": null,
+        "liveRoleIds": [
+          "1323713677815185419"
+        ],
+        "whitelistRoleIds": [
+          "1323729406371434598"
+        ]
+      }
+    }
+  },
   "991544116099956766": [
     {
       "platform": "youtube",
@@ -541,201 +837,5 @@
       ]
     }
   ],
-  "1208850182704336967": [],
-  "_presence": {
-    "1078005146698657802": {
-      "twitch": {
-        "channelId": "1078717370408898612",
-        "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
-        "liveRoleIds": [
-          "1286702849312559175"
-        ],
-        "whitelistRoleIds": [
-          "1286687267058089994",
-          "1078012186414288986"
-        ]
-      },
-      "youtube": {
-        "channelId": "1078717370408898612",
-        "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
-        "liveRoleIds": [
-          "1286702849312559175"
-        ],
-        "whitelistRoleIds": [
-          "1286687267058089994",
-          "1078012186414288986"
-        ]
-      }
-    },
-    "991544116099956766": {
-      "youtube": {
-        "channelId": "991630218399858738",
-        "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
-        "liveRoleIds": [
-          "1012537343816773662"
-        ],
-        "whitelistRoleIds": [
-          "1175251199193264158",
-          "1012452753978687528"
-        ]
-      },
-      "twitch": {
-        "channelId": "991630218399858738",
-        "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
-        "liveRoleIds": [
-          "1012537343816773662"
-        ],
-        "whitelistRoleIds": [
-          "1175251199193264158",
-          "1012452753978687528"
-        ]
-      },
-      "tiktok": {
-        "channelId": "991630218399858738",
-        "message": "**[{name}]({url}) is now broadcasting on TikTok!**",
-        "liveRoleIds": [
-          "1012537343816773662"
-        ],
-        "whitelistRoleIds": [
-          "1175251199193264158",
-          "1012452753978687528"
-        ]
-      },
-      "kick": {
-        "channelId": "991630218399858738",
-        "message": "**[{name}]({url}) is now broadcasting on Kick!**",
-        "liveRoleIds": [
-          "1012537343816773662"
-        ],
-        "whitelistRoleIds": [
-          "1175251199193264158",
-          "1012452753978687528"
-        ]
-      },
-      "rumble": {
-        "channelId": "991630218399858738",
-        "message": "**[{name}]({url}) is now broadcasting on Rumble!**",
-        "liveRoleIds": [
-          "1012537343816773662"
-        ],
-        "whitelistRoleIds": [
-          "1175251199193264158",
-          "1012452753978687528"
-        ]
-      },
-      "instagram": {
-        "channelId": "991630218399858738",
-        "message": "**[{name}]({url}) is now broadcasting on Instagram!**",
-        "liveRoleIds": [
-          "1012537343816773662"
-        ],
-        "whitelistRoleIds": [
-          "1175251199193264158",
-          "1012452753978687528"
-        ]
-      },
-      "facebook": {
-        "channelId": "991630218399858738",
-        "message": "**[{name}]({url}) is now broadcasting on Facebook!**",
-        "liveRoleIds": [
-          "1012537343816773662"
-        ],
-        "whitelistRoleIds": [
-          "1175251199193264158",
-          "1012452753978687528"
-        ]
-      },
-      "x": {
-        "channelId": "991630218399858738",
-        "message": "**[{name}]({url}) is now broadcasting on Twitter/X!**",
-        "liveRoleIds": [
-          "1012537343816773662"
-        ],
-        "whitelistRoleIds": [
-          "1175251199193264158",
-          "1012452753978687528"
-        ]
-      }
-    },
-    "1323558044990181387": {
-      "twitch": {
-        "channelId": "1323776161968558090",
-        "message": "**[{name}]({url}) is now broadcasting on Twitch!**",
-        "liveRoleIds": [
-          "1323713677815185419"
-        ],
-        "whitelistRoleIds": [
-          "1323729406371434598"
-        ]
-      },
-      "youtube": {
-        "channelId": "1323776161968558090",
-        "message": "**[{name}]({url}) is now broadcasting on YouTube!**",
-        "liveRoleIds": [
-          "1323713677815185419"
-        ],
-        "whitelistRoleIds": [
-          "1323729406371434598"
-        ]
-      },
-      "rumble": {
-        "channelId": "1323776161968558090",
-        "message": "**[{name}]({url}) is now broadcasting on Rumble!**",
-        "liveRoleIds": [],
-        "whitelistRoleIds": [
-          "1323729406371434598"
-        ]
-      },
-      "tiktok": {
-        "channelId": "1323776161968558090",
-        "message": "**[{name}]({url}) is now broadcasting on TikTok!**",
-        "liveRoleIds": [
-          "1323713677815185419"
-        ],
-        "whitelistRoleIds": [
-          "1323729406371434598"
-        ]
-      },
-      "instagram": {
-        "channelId": "1323776161968558090",
-        "message": "**[{name}]({url}) is now broadcasting on Instagram!**",
-        "liveRoleIds": [
-          "1323713677815185419"
-        ],
-        "whitelistRoleIds": [
-          "1323729406371434598"
-        ]
-      },
-      "discord": {
-        "channelId": "1323776161968558090",
-        "message": "**{name} is now broadcasting on Discord!** ({url}",
-        "liveRoleIds": [
-          "1323713677815185419"
-        ],
-        "whitelistRoleIds": [
-          "1323723861983887452"
-        ]
-      },
-      "facebook": {
-        "channelId": "1323776161968558090",
-        "message": "**[{name}]({url}) is now broadcasting on Facebook!**",
-        "liveRoleIds": [
-          "1323713677815185419"
-        ],
-        "whitelistRoleIds": [
-          "1323729406371434598"
-        ]
-      },
-      "x": {
-        "channelId": "1323776161968558090",
-        "message": "**[{name}]({url}) is now broadcasting on Twitter/X!**",
-        "liveRoleIds": [
-          "1323713677815185419"
-        ],
-        "whitelistRoleIds": [
-          "1323729406371434598"
-        ]
-      }
-    }
-  }
+  "1208850182704336967": []
 }
