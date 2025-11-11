@@ -19,13 +19,11 @@ const cleanIds = (ids) => uniq((Array.isArray(ids) ? ids : [ids]).filter(Boolean
 /**
  * @typedef {Object} StreamEntry
  * @property {string} platform - The platform (twitch, youtube, etc.)
- * @property {string} id - The streamer's ID on the platform
+ * @property {string} name - The streamer's name on the platform
  * @property {string|null} channelId - Discord channel ID for notifications
  * @property {string|null} message - Custom notification message
  * @property {string[]} liveRoleIds - Array of role IDs to assign when live
  * @property {string[]} whitelistRoleIds - Array of role IDs that can trigger notifications
- * @property {number} [cooldownMinutes=30] - Cooldown in minutes between notifications
- * @property {boolean} [cleanup=false] - Whether to delete previous notification when a new one is sent
  */
 
 /**
@@ -122,29 +120,26 @@ function add(guildId, entry) {
   const gid = toStr(guildId);
   const arr = ensureGuild(gid);
   const platform = toLower(entry.platform);
-  const id = toId(entry.id);
+  const name = toId(entry.name);
   
-  if (!platform || !id) return { ok: false, reason: 'missing platform or id' };
+  if (!platform || !name) return { ok: false, reason: 'missing platform or name' };
   if (!isPlatform(platform)) return { ok: false, reason: 'invalid platform' };
   
   // Check for duplicates
-  const key = (s) => `${s.platform}:${toLower(s.id)}`;
-  if (arr.some(e => key(e) === key({ platform, id }))) {
+  const key = (s) => `${s.platform}:${toLower(s.name)}`;
+  if (arr.some(e => key(e) === key({ platform, name }))) {
     return { ok: false, reason: 'duplicate' };
   }
   
   // Create new entry with only the fields we want to keep
   const newEntry = {
     platform,
-    id,
+    name,
     channelId: entry.channelId || null,
     message: entry.message || null,
     vodMessage: entry.vodMessage || null,
-    discordUser: entry.discordUser || null,
     liveRoleIds: cleanIds(entry.liveRoleIds || []),
-    whitelistRoleIds: cleanIds(entry.whitelistRoleIds || []),
-    cooldownMinutes: typeof entry.cooldownMinutes === 'number' ? Math.max(1, Math.min(1440, entry.cooldownMinutes)) : 30,
-    cleanup: Boolean(entry.cleanup)
+    whitelistRoleIds: cleanIds(entry.whitelistRoleIds || [])
   };
   
   arr.push(newEntry);
@@ -152,34 +147,45 @@ function add(guildId, entry) {
   return { ok: true, entry: newEntry };
 }
 
-function remove(guildId, platform, id) {
+function remove(guildId, platform, name) {
   const gid = toStr(guildId);
   const arr = ensureGuild(gid);
   const p = toLower(platform);
-  const i = toLower(id);
+  const n = toLower(name);
   const before = arr.length;
-  db[gid] = arr.filter(e => !(e.platform === p && toLower(e.id) === i));
+  db[gid] = arr.filter(e => !(e.platform === p && toLower(e.name) === n));
   save();
   return { removed: before - db[gid].length };
 }
 
-function update(guildId, platform, id, patch) {
+function update(guildId, platform, name, patch) {
   const gid = toStr(guildId);
   const arr = ensureGuild(gid);
-  const idx = arr.findIndex(e => toLower(e.platform) === toLower(platform) && toLower(e.id) === toLower(id));
+  
+  // Normalize platform and name to lowercase for comparison
+  const normalizedPlatform = toLower(platform);
+  const normalizedName = toLower(name);
+  
+  // Find the entry with case-insensitive comparison
+  const idx = arr.findIndex(e => 
+    toLower(e.platform) === normalizedPlatform && 
+    toLower(e.name) === normalizedName
+  );
   
   if (idx === -1) return { ok: false, reason: 'not found' };
   
   // Update the entry with the new values
   const entry = arr[idx];
+  
+  // Ensure platform is always stored in lowercase for consistency
+  entry.platform = normalizedPlatform;
+  
   if (patch.channelId !== undefined) entry.channelId = patch.channelId;
   if (patch.message !== undefined) entry.message = patch.message;
   if (patch.vodMessage !== undefined) entry.vodMessage = patch.vodMessage;
-  if (patch.discordUser !== undefined) entry.discordUser = patch.discordUser;
   if (patch.liveRoleIds) entry.liveRoleIds = cleanIds(patch.liveRoleIds);
   if (patch.whitelistRoleIds) entry.whitelistRoleIds = cleanIds(patch.whitelistRoleIds);
-  if (patch.cleanup !== undefined) entry.cleanup = Boolean(patch.cleanup);
-  if (patch.cooldownMinutes !== undefined) entry.cooldownMinutes = Math.max(1, Math.min(1440, Number(patch.cooldownMinutes) || 30));
+  if (patch.discordUser !== undefined) entry.discordUser = patch.discordUser;
   
   // Clean up any legacy fields
   if (Object.prototype.hasOwnProperty.call(entry, 'liveRoleId')) delete entry.liveRoleId;
@@ -193,7 +199,18 @@ function getPresence(guildId) {
   return presence[gid] || {};
 }
 
-function setPresence(guildId, platform, rule) {
+/**
+ * Set presence-based live role configuration
+ * @param {string} guildId - The Discord guild ID
+ * @param {string} platform - The platform (e.g., 'discord', 'youtube')
+ * @param {Object} rule - The rule configuration
+ * @param {string} [rule.channelId] - Channel ID for notifications
+ * @param {string} [rule.message] - Custom notification message
+ * @param {string[]} [rule.liveRoleIds] - Array of role IDs to assign when live
+ * @param {string[]} [rule.whitelistRoleIds] - Array of role IDs that can receive the live role
+ * @returns {{ok: boolean, rule: Object}} Result object
+ */
+function setPresenceLiveRoles(guildId, platform, rule) {
   const gid = toStr(guildId);
   if (!presence[gid]) presence[gid] = {};
   
@@ -211,6 +228,49 @@ function setPresence(guildId, platform, rule) {
   
   return { ok: true, rule: norm };
 }
+
+/**
+ * Set API-based live role configuration for a specific streamer
+ * @param {string} guildId - The Discord guild ID
+ * @param {string} platform - The platform (e.g., 'twitch', 'youtube')
+ * @param {string} streamerId - The streamer's ID on the platform
+ * @param {Object} config - The configuration object
+ * @param {string[]} [config.liveRoleIds] - Array of role IDs to assign when live
+ * @param {string[]} [config.whitelistRoleIds] - Array of role IDs that can receive the live role
+ * @returns {{ok: boolean, entry: Object}} Result object with updated entry
+ */
+function setApiLiveRoles(guildId, platform, streamerId, config) {
+  const gid = toStr(guildId);
+  const arr = ensureGuild(gid);
+  const normalizedPlatform = toLower(platform);
+  const normalizedId = toLower(streamerId);
+  
+  // Find the entry with case-insensitive comparison
+  const idx = arr.findIndex(e => 
+    toLower(e.platform) === normalizedPlatform && 
+    toLower(e.id) === normalizedId
+  );
+  
+  if (idx === -1) return { ok: false, reason: 'not found' };
+  
+  // Update the entry with the new values
+  const entry = arr[idx];
+  
+  // Update live role configuration
+  if (config.liveRoleIds) {
+    entry.liveRoleIds = cleanIds(config.liveRoleIds);
+  }
+  
+  if (config.whitelistRoleIds) {
+    entry.whitelistRoleIds = cleanIds(config.whitelistRoleIds);
+  }
+  
+  save();
+  return { ok: true, entry };
+}
+
+// For backward compatibility
+const setPresence = setPresenceLiveRoles;
 
 function clearPresence(guildId, platform) {
   const gid = toStr(guildId);

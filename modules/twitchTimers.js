@@ -1,9 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 const configLoader = require('./configLoader');
-const config = configLoader.config;
 const tmi = require('tmi.js');
-const twitchConfig = configLoader.twitch;
+
+// Get configs
+const { twitch: twitchConfig = {} } = configLoader;
 
 class TwitchTimers {
   constructor() {

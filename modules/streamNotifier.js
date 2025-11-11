@@ -1,15 +1,12 @@
 const streamRegistry = require('./streamRegistry');
 const { buildStreamEmbed } = require('./streamEmbeds');
 const configLoader = require('./configLoader');
-const config = configLoader.config;
-const twitchConfig = configLoader.twitch;
-const youtubeConfig = configLoader.youtube;
 const twitchTimers = require('./twitchTimers');
 
 class StreamNotifier {
   constructor() {
     this.interval = null;
-    // state: key -> { status: 'live'|'offline', lastPostAt: ms, messageId: string, channelId: string }
+    // state: key -> { status: 'live'|'offline', lastPostAt: ms }
     this.state = new Map();
     this.twitchToken = null;
     this.twitchTokenExpiry = 0;
@@ -20,16 +17,14 @@ class StreamNotifier {
     this.youtubeChannelCache = new Map(); // channelId -> { avatar, title, exp }
     this.youtubeLiveCache = new Map(); // channelId -> { isLive, data, exp }
     this.youtubeVodCache = new Map(); // channelId -> { latestVideo, exp }
-    this.defaultCooldownMinutes = 30;
+    this.defaultCooldownMinutes = configLoader.config.defaultCooldownMinutes || 30;
     this.lastVodByGuildChannel = new Map(); // key: `${gid}:${channelId}` -> lastVideoId posted
     this.quotaExceededUntil = 0; // timestamp when quota exceeded, pause until this time
     this.stateFile = require('path').join(__dirname, '..', 'data', 'stream-state.json');
-    this.client = null; // Will be set when start() is called
     this.loadState();
   }
 
-  async start(client, periodMs = 180000) { // 3 minutes
-    this.client = client; // Store client reference for cleanup
+  async start(client, periodMs = configLoader.config.periodMs || 180000) { // Increased from 90s to 3 minutes
     if (this.interval) clearInterval(this.interval);
     const tick = async () => {
       try {
@@ -65,111 +60,24 @@ class StreamNotifier {
   }
 
   loadState() {
-    const fs = require('fs');
-    const path = require('path');
-    
     try {
-      // Ensure directory exists
-      const dir = path.dirname(this.stateFile);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-        return; // No state file to load if directory didn't exist
-      }
-      
+      const fs = require('fs');
       if (fs.existsSync(this.stateFile)) {
-        const fileContent = fs.readFileSync(this.stateFile, 'utf8').trim();
-        if (fileContent) {  // Only parse if file is not empty
-          const data = JSON.parse(fileContent);
-          if (data && typeof data === 'object') {
-            // Clean up old entries during load
-            const now = Date.now();
-            const maxAge = 7 * 24 * 60 * 60 * 1000; // 7 days
-            
-            const validEntries = Object.entries(data).filter(([_, entry]) => {
-              return !entry.lastUpdated || (now - new Date(entry.lastUpdated).getTime()) < maxAge;
-            });
-            
-            this.state = new Map(validEntries);
-            console.log(`[State] Loaded ${validEntries.length} valid state entries`);
-            
-            // If we filtered out entries, save the cleaned state
-            if (validEntries.length < Object.keys(data).length) {
-              console.log(`[State] Removed ${Object.keys(data).length - validEntries.length} stale entries`);
-              this.saveState();
-            }
-          }
-        }
+        const data = JSON.parse(fs.readFileSync(this.stateFile, 'utf8'));
+        this.state = new Map(Object.entries(data));
       }
     } catch (error) {
-      console.error('[State] Error loading state:', error);
-      // Create a backup of the corrupted state file
-      if (fs.existsSync(this.stateFile)) {
-        try {
-          const backupFile = `${this.stateFile}.${Date.now()}.bak`;
-          fs.copyFileSync(this.stateFile, backupFile);
-          console.error(`[State] Created backup of corrupted state at: ${backupFile}`);
-        } catch (backupError) {
-          console.error('[State] Failed to create backup of corrupted state:', backupError);
-        }
-      }
-      // Reset to empty state on error
-      this.state = new Map();
+      // Ignore load errors
     }
   }
 
   saveState() {
     try {
       const fs = require('fs');
-      const path = require('path');
-      
-      // Ensure the directory exists
-      const dir = path.dirname(this.stateFile);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
-      
-      // Convert Map to plain object, handling potential circular references
-      const data = {};
-      const now = Date.now();
-      const maxAge = 7 * 24 * 60 * 60 * 1000; // 7 days
-      
-      for (const [key, value] of this.state) {
-        try {
-          // Only include entries that have been updated recently
-          if (value.lastUpdated && (now - new Date(value.lastUpdated).getTime()) < maxAge) {
-            data[key] = value;
-          }
-        } catch (error) {
-          console.error(`[State] Error serializing state for key ${key}:`, error);
-        }
-      }
-      
-      // Write to a temporary file first, then rename (atomic write)
-      const tempFile = `${this.stateFile}.${Date.now()}.tmp`;
-      
-      try {
-        // Write to temp file
-        fs.writeFileSync(tempFile, JSON.stringify(data, null, 2), 'utf8');
-        
-        // On Windows, we need to remove the destination file first if it exists
-        if (fs.existsSync(this.stateFile)) {
-          fs.unlinkSync(this.stateFile);
-        }
-        
-        // Rename temp file to actual file
-        fs.renameSync(tempFile, this.stateFile);
-        
-      } catch (error) {
-        // Clean up temp file if it exists
-        if (fs.existsSync(tempFile)) {
-          try { fs.unlinkSync(tempFile); } catch (e) {}
-        }
-        throw error; // Re-throw to be caught by the outer try-catch
-      }
-      
+      const data = Object.fromEntries(this.state);
+      fs.writeFileSync(this.stateFile, JSON.stringify(data, null, 2));
     } catch (error) {
-      console.error('[State] Failed to save state:', error);
-      // Consider implementing retry logic here if needed
+      // Ignore save errors
     }
   }
 
@@ -190,93 +98,23 @@ class StreamNotifier {
     return `${gid}:${platform}:${id}`;
   }
 
-  withinCooldown(gid, platform, id, entry) {
+  withinCooldown(gid, platform, id, minutes) {
     const k = this.key(gid, platform, id);
-    const state = this.state.get(k);
-    if (!state || !state.lastPostAt) return false;
-    
-    // Use entry's cooldown if available, otherwise fallback to default (30 minutes)
-    const cooldownMs = (entry?.cooldownMinutes || this.defaultCooldownMinutes) * 60_000;
-    return Date.now() - state.lastPostAt < cooldownMs;
+    const entry = this.state.get(k);
+    if (!entry || !entry.lastPostAt) return false;
+    const ms = (minutes || 0) * 60_000;
+    return Date.now() - entry.lastPostAt < ms;
   }
 
-  async recordState(gid, platform, id, status, posted = false, messageId = null) {
-    try {
-      // Validate input parameters
-      if (!gid || !platform || id === undefined || id === null) {
-        console.error('[State] Invalid arguments to recordState:', { gid, platform, id });
-        return null;
-      }
-      
-      // Ensure status is valid
-      if (!['live', 'offline'].includes(status)) {
-        console.error('[State] Invalid status in recordState:', status);
-        return null;
-      }
-      
-      const k = this.key(gid, platform, id);
-      const prev = this.state.get(k) || {};
-      const now = Date.now();
-      const client = this.client; // Store client reference for cleanup
-      
-      // Handle stream going offline - clean up notification if needed
-      if (status === 'offline' && prev.status === 'live' && prev.messageId) {
-        try {
-          const channel = client.channels.cache.get(prev.channelId);
-          if (channel) {
-            const message = await channel.messages.fetch(prev.messageId).catch(() => null);
-            if (message && message.deletable) {
-              await message.delete().catch(error => {
-                console.error(`[Cleanup] Failed to delete message ${prev.messageId} for ${platform}:${id}:`, error);
-              });
-            }
-          }
-        } catch (error) {
-          console.error(`[Cleanup] Error cleaning up message for ${platform}:${id}:`, error);
-        }
-      }
-      
-      // Create new state with cleaned and validated values
-      const newState = { 
-        ...prev, // Preserve all existing state
-        status: String(status),
-        lastUpdated: now,
-        lastLiveCheck: now,
-        // Only update messageId if a new one is provided
-        messageId: messageId !== null && messageId !== undefined ? String(messageId) : prev.messageId,
-        // Only update lastPostAt if posted is true
-        lastPostAt: posted ? now : (prev.lastPostAt || 0),
-        // Store channelId for cleanup when stream ends
-        ...(posted && { channelId: this.getChannelIdForPlatform(gid, platform, id) })
-      };
-      
-      // Clean up any undefined or null values
-      Object.keys(newState).forEach(key => {
-        if (newState[key] === undefined || newState[key] === null) {
-          delete newState[key];
-        }
-      });
-      
-      // If going live, reset offline tracking
-      if (status === 'live') {
-        newState.offlineSince = null;
-        newState.lastRoleAssignment = now;
-      } else if (status === 'offline') {
-        // If going offline for the first time, set offline timestamp
-        if (!prev.offlineSince) {
-          newState.offlineSince = now;
-        }
-        // Clear messageId when stream ends to prevent cleanup attempts on next state change
-        newState.messageId = null;
-      }
-      
-      this.state.set(k, newState);
-      this.saveState();
-      return newState;
-    } catch (error) {
-      console.error(`[State] Error in recordState for ${id}:`, error);
-      return null;
-    }
+  recordState(gid, platform, id, status, posted, messageId = null) {
+    const k = this.key(gid, platform, id);
+    const prev = this.state.get(k) || {};
+    this.state.set(k, { 
+      status, 
+      lastPostAt: posted ? Date.now() : (prev.lastPostAt || 0),
+      messageId: messageId || prev.messageId
+    });
+    this.saveState();
   }
 
   render(template, vars) {
@@ -288,24 +126,21 @@ class StreamNotifier {
   }
 
   async ensureTwitchAppToken() {
+    const now = Date.now();
+    if (this.twitchToken && now < this.twitchTokenExpiry - 60_000) return this.twitchToken;
+    const twitchConfig = configLoader.twitch || {};
+    const clientId = twitchConfig.twitch_client_id || process.env.TWITCH_CLIENT_ID;
+    const clientSecret = twitchConfig.twitch_client_secret || process.env.TWITCH_CLIENT_SECRET;
+    if (!clientId || !clientSecret) {
+      console.error('Missing Twitch API credentials. Please check your config for client_id and client_secret.');
+      return null;
+    }
     try {
-      const now = Date.now();
-      if (this.twitchToken && now < this.twitchTokenExpiry - 60_000) return this.twitchToken;
-      
-      const clientId = twitchConfig?.twitch_client_id;
-      const clientSecret = twitchConfig?.twitch_client_secret;
-      
-      if (!clientId || !clientSecret) {
-        console.error('[Twitch] Missing client ID or secret in config');
-        return null;
-      }
-      
       const params = new URLSearchParams({
         client_id: clientId,
         client_secret: clientSecret,
         grant_type: 'client_credentials'
       });
-      
       const res = await fetch('https://id.twitch.tv/oauth2/token', { 
         method: 'POST', 
         body: params,
@@ -313,36 +148,26 @@ class StreamNotifier {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       });
-      
       if (!res.ok) {
-        console.error(`[Twitch] Failed to get app token: ${res.status} ${res.statusText}`);
+        const errorText = await res.text();
+        console.error('Failed to get Twitch token:', res.status, errorText);
         return null;
       }
-      
       const data = await res.json();
-      if (!data.access_token) {
-        console.error('[Twitch] No access token in response:', data);
-        return null;
-      }
-      
       this.twitchToken = data.access_token;
-      this.twitchTokenExpiry = now + (data.expires_in || 3600) * 1000;
-      // Token refresh successful, no need to log
+      this.twitchTokenExpiry = now + (data.expires_in || 0) * 1000;
       return this.twitchToken;
-      
     } catch (error) {
-      console.error('[Twitch] Error in ensureTwitchAppToken:', error);
+      console.error('Error getting Twitch token:', error);
       return null;
     }
   }
 
   async checkTwitch(client) {
     const token = await this.ensureTwitchAppToken();
-    const clientId = twitchConfig?.twitch_client_id;
-    if (!token || !clientId) {
-      console.log('[Twitch] Missing token or client ID, skipping check');
-      return;
-    }
+    const twitchConfig = configLoader.twitch || {};
+    const clientId = twitchConfig.twitch_client_id;
+    if (!token || !clientId) return;
 
     for (const [gid, guild] of client.guilds.cache) {
       const entries = streamRegistry.list(gid).filter(e => e.platform === 'twitch');
@@ -373,54 +198,20 @@ class StreamNotifier {
         } else {
           const url = `https://api.twitch.tv/helix/streams?user_login=${encodeURIComponent(login)}`;
           try {
-            const res = await fetch(url, { 
-              headers: { 
-                'Client-Id': clientId, 
-                'Authorization': `Bearer ${token}`,
-                'Accept': 'application/vnd.twitchtv.v5+json'
-              },
-              timeout: 10000 // 10 second timeout
-            });
-            
-            if (!res.ok) {
-              console.error(`[Twitch API Error] Status: ${res.status} ${res.statusText} for ${login}`);
-              continue; // Skip this check if API call fails
-            }
+            const res = await fetch(url, { headers: { 'Client-Id': clientId, 'Authorization': `Bearer ${token}` } });
+            if (!res.ok) continue;
             const data = await res.json();
-            const wasLive = streamCached?.isLive || false;
-            const isLive = Array.isArray(data?.data) && data.data.length > 0;
-            
-            // Stream status check completed
-            
-            // Only update cache if we got valid data
-            if (data && typeof data === 'object') {
-              streamData = {
-                isLive,
-                data: isLive ? data.data[0] : null,
-                exp: now + (3 * 60 * 1000) // 3 minutes cache
-              };
-              this.twitchStreamCache.set(login, streamData);
-              
-              // Cache updated
-            } else {
-              console.error(`[Twitch API] Invalid data format for ${login}:`, data);
-              // Keep using cached data if available
-              if (streamCached) {
-                // Using cached data due to invalid response
-                streamData = streamCached;
-              } else {
-                continue;
-              }
-            }
+            const streamInfo = Array.isArray(data?.data) && data.data.length > 0 ? data.data[0] : null;
+            // Check if stream is actually live (type should be 'live')
+            const isLive = streamInfo?.type === 'live';
+            streamData = {
+              isLive: isLive,
+              data: isLive ? streamInfo : null,
+              exp: now + (3 * 60 * 1000) // 3 minutes cache
+            };
+            this.twitchStreamCache.set(login, streamData);
           } catch (error) {
-            console.error(`[Twitch API] Error checking ${login}:`, error.message);
-            // Use cached data if available
-            if (streamCached) {
-              // Using cached data due to API error
-              streamData = streamCached;
-            } else {
-              continue;
-            }
+            continue;
           }
         }
         
@@ -464,219 +255,129 @@ class StreamNotifier {
             const content = this.render(tpl, { name: username, title: streamTitle, url: watch });
             const embed = buildStreamEmbed({ platform: 'twitch', username, avatarUrl: avatar, url: watch, title: streamTitle, game: gameTitle, imageUrl });
             const keyId = login;
-            const stateKey = this.key(gid, 'twitch', keyId);
-            const currentState = this.state.get(stateKey) || {};
-            const alreadyLive = currentState.status === 'live';
-            const messageCooldown = 6 * 60 * 60 * 1000; // 6 hours cooldown between messages
-            const shouldPostMessage = !alreadyLive || 
-                                   !currentState.lastPostAt || 
-                                   (now - currentState.lastPostAt > messageCooldown);
-            
-            // Only post a new message if not already live or if cooldown has passed
-            let message = null;
-            if (shouldPostMessage) {
-                message = await this.post(client, entry.channelId, content, [embed]);
-            } else {
-                // Use the existing message ID if we're not posting a new one
-                message = currentState.messageId ? { id: currentState.messageId } : null;
-            }
-            
-            // Initialize the new state object with default values
-            const newState = {
-                status: 'live',
-                lastPostAt: shouldPostMessage ? now : (currentState.lastPostAt || now),
-                messageId: message?.id || currentState.messageId,
-                lastLiveCheck: now,
-                offlineSince: null,
-                // Preserve existing lastRoleAssignment if it exists and is recent (within 10 minutes)
-                lastRoleAssignment: (currentState.lastRoleAssignment && 
-                                  (now - currentState.lastRoleAssignment < 10 * 60 * 1000)) 
-                                ? currentState.lastRoleAssignment 
-                                : now
-            };
-            
+            const alreadyLive = this.state.get(this.key(gid, 'twitch', keyId))?.status === 'live';
+            if (alreadyLive) continue;
+            const message = await this.post(client, entry.channelId, content, [embed]);
             // Assign live roles if configured
             try {
               const guild = client.guilds.cache.get(gid);
               if (guild && entry.liveRoleIds?.length) {
                 let member = null;
-                let memberFound = false;
                 
                 // Use discordUser field if available
                 if (entry.discordUser) {
-                  // Fetching member with ID
-                  try {
-                    member = await guild.members.fetch(entry.discordUser);
-                    memberFound = true;
-                    // Member found
-                  } catch (error) {
-                    console.error(`[Role Assignment] Error fetching member ${entry.discordUser}:`, error.message);
-                    // Continue to try presence-based lookup as fallback
-                  }
-                }
-                
-                // Fall back to finding member by Twitch activity in presence if not found by ID
-                if (!memberFound) {
-                  // Attempting presence-based lookup
+                  member = await guild.members.fetch(entry.discordUser).catch(() => null);
+                } else {
+                  // Fall back to finding member by Twitch activity in presence
                   for (const [userId, m] of guild.members.cache) {
                     const twitchActivity = m.presence?.activities?.find(a => 
                       a.name === 'Twitch' && a.url?.includes(login)
                     );
                     if (twitchActivity) {
                       member = m;
-                      memberFound = true;
-                      // Member found via presence
                       break;
                     }
                   }
                 }
                 
                 if (member) {
-                  // Assigning roles to member
-                  
-                  // Add all roles in parallel for better performance
-                  const rolePromises = entry.liveRoleIds
-                    .filter(rid => rid) // Filter out any null/undefined role IDs
-                    .map(async (rid) => {
-                      try {
-                        // Adding role to member
-                        await member.roles.add(rid);
-                        // Role added successfully
-                        return { success: true, roleId: rid };
-                      } catch (error) {
-                        const errorMsg = `[Role Assignment] Failed to add role ${rid} to ${member.user.tag}: ${error.message}`;
-                        if (error.code === 50013) {
-                          console.error(`${errorMsg} - Missing permissions`);
-                        } else {
-                          console.error(errorMsg);
-                        }
-                        return { success: false, roleId: rid, error };
+                  const hasWhitelist = !entry.whitelistRoleIds?.length || entry.whitelistRoleIds.some(r => member.roles.cache.has(r));
+                  if (hasWhitelist) {
+                    for (const rid of entry.liveRoleIds) {
+                      if (rid && !member.roles.cache.has(rid)) {
+                        await member.roles.add(rid).catch(() => {});
                       }
-                    });
-                    
-                  // Wait for all role assignments to complete
-                  const results = await Promise.all(rolePromises);
-                  const successfulAssignments = results.filter(r => r.success).length;
-                  
-                  if (successfulAssignments > 0) {
-                    // Update lastRoleAssignment if any role was successfully assigned
-                    newState.lastRoleAssignment = now;
-                    console.log(`[Role Assignment] Successfully assigned ${successfulAssignments}/${results.length} roles to ${member.user.tag}`);
-                    
-                    // Immediately update the state with the new role assignment time
-                    this.state.set(stateKey, { ...newState, lastRoleAssignment: now });
-                    this.saveState();
-                  } else if (results.length > 0) {
-                    console.error(`[Role Assignment] Failed to assign any roles to ${member.user.tag}`);
+                    }
                   }
-                } else {
-                  console.error(`[Role Assignment] Could not find member for ${login} in guild ${guild.id}`);
                 }
               }
             } catch (error) {
-              console.error(`[Role Assignment] Unexpected error during role assignment for ${login}:`, error);
-              // Continue with state update even if role assignment fails
+              // Ignore role assignment errors
             }
-            
-            // Update the state with the final values
-            // State update logging removed to reduce console noise
-            this.state.set(stateKey, newState);
-            this.saveState();
+            this.recordState(gid, 'twitch', keyId, 'live', true, message?.id);
             // Start timers only for your channel
-            const myChannel = twitchConfig?.twitch_username || twitchConfig?.username;
+            const twitchConfig = configLoader.twitch || {};
+            const myChannel = twitchConfig.twitch_username || twitchConfig.username;
             if (myChannel && login.toLowerCase() === myChannel.toLowerCase()) {
               twitchTimers.onStreamStart();
             }
           } else {
-            // Only remove roles if stream was previously live and has been offline for at least 2 checks (to prevent race conditions)
-            const stateKey = this.key(gid, 'twitch', login);
-            const currentState = this.state.get(stateKey) || {};
-            const wasLive = currentState?.status === 'live';
-            const lastLiveCheck = currentState?.lastLiveCheck || 0;
-            const now = Date.now();
-            
-            // Stream is offline, state updated
+            // Only remove roles if stream was previously live
+            const wasLive = this.state.get(this.key(gid, 'twitch', login))?.status === 'live';
+            const lastLiveCheck = this.state.get(this.key(gid, 'twitch', login))?.lastPostAt || 0;
+            const timeSinceLastLive = Date.now() - lastLiveCheck;
+            const offlineCooldown = 5 * 60 * 1000; // 5 minutes cooldown before removing role
             
             if (wasLive) {
-              // If we just detected the stream going offline, update the last check time but don't remove roles yet
-              if (!currentState.offlineSince) {
-                const newState = {
-                  ...currentState,
-                  offlineSince: now,
-                  lastLiveCheck: now
-                };
-                // First offline detection, updating state
-                this.state.set(stateKey, newState);
-                this.saveState();
-                continue;
-              }
-              
-              // Only remove roles if the stream has been offline for at least 5 minutes
-              // AND the last role assignment was more than 10 minutes ago
-              const timeSinceOffline = now - currentState.offlineSince;
-              const timeSinceLastRoleAssignment = now - (currentState.lastRoleAssignment || 0);
-              const minOfflineTime = 5 * 60 * 1000; // 5 minutes
-              const minRoleAssignmentTime = 10 * 60 * 1000; // 10 minutes
-              
-              // Stream offline, checking grace period
-              
-              // Don't remove roles if they were assigned recently (even if stream is offline)
-              if (timeSinceOffline < minOfflineTime || timeSinceLastRoleAssignment < minRoleAssignmentTime) {
-                // Stream in grace period, not removing roles
-                continue;
-              }
-              
-              // Removing roles for offline stream
-              try {
-                const guild = client.guilds.cache.get(gid);
-                if (guild && entry.liveRoleIds?.length) {
-                  let member = null;
+              if (timeSinceLastLive > offlineCooldown) {
+                // Double check the stream status before removing the role
+                try {
+                  const doubleCheckUrl = `https://api.twitch.tv/helix/streams?user_login=${encodeURIComponent(login)}`;
                   
-                  // Use discordUser field if available
-                  if (entry.discordUser) {
-                    member = await guild.members.fetch(entry.discordUser).catch(() => null);
-                    if (member) {
-                      for (const rid of entry.liveRoleIds) {
-                        if (rid && member.roles.cache.has(rid)) {
-                          await member.roles.remove(rid).catch(() => {});
-                        }
-                      }
-                    }
-                  } else {
-                    // Fall back to finding member by Twitch activity and remove role only if they're not streaming
-                    for (const [userId, m] of guild.members.cache) {
-                      const twitchActivity = m.presence?.activities?.find(a => 
-                        a.name === 'Twitch' && a.url?.includes(login)
-                      );
-                      if (!twitchActivity) {
-                        for (const rid of entry.liveRoleIds) {
-                          if (rid && m.roles.cache.has(rid)) {
-                            await m.roles.remove(rid).catch(() => {});
+                  const doubleCheckRes = await fetch(doubleCheckUrl, { 
+                    headers: { 
+                      'Client-Id': clientId, 
+                      'Authorization': `Bearer ${token}` 
+                    } 
+                  });
+                  
+                  if (doubleCheckRes.ok) {
+                    const doubleCheckData = await doubleCheckRes.json();
+                    const streamStillLive = Array.isArray(doubleCheckData?.data) && 
+                                         doubleCheckData.data.length > 0 && 
+                                         doubleCheckData.data[0]?.type === 'live';
+                    
+                    if (!streamStillLive) {
+                      console.log(`[Twitch] Stream ${login} confirmed offline, removing role after cooldown`);
+                      const guild = client.guilds.cache.get(gid);
+                      if (guild && entry.liveRoleIds?.length) {
+                        // Use discordUser field if available
+                        if (entry.discordUser) {
+                          const member = await guild.members.fetch(entry.discordUser).catch(() => null);
+                          if (member) {
+                            console.log(`[Twitch] Removing live role from ${member.user.tag} (${login})`);
+                            for (const rid of entry.liveRoleIds) {
+                              if (rid && member.roles.cache.has(rid)) {
+                                await member.roles.remove(rid).catch(error => {
+                                  console.error(`[Twitch] Failed to remove role ${rid} from ${member.user.tag}:`, error.message);
+                                });
+                              }
+                            }
                           }
                         }
                       }
+                      this.recordState(gid, 'twitch', login, 'offline', false);
+                      
+                      // Cleanup: delete previous stream notification if configured
+                      const prevState = this.state.get(this.key(gid, 'twitch', login));
+                      if (prevState?.messageId && entry.cleanup) {
+                        try {
+                          const channel = client.channels.cache.get(entry.channelId);
+                          if (channel) {
+                            await channel.messages.delete(prevState.messageId).catch(() => {});
+                          }
+                        } catch (error) {
+                          console.error(`[Twitch] Failed to delete notification message:`, error);
+                        }
+                      }
+                      
+                      // Stop timers only for your channel
+                      if (myChannel && login.toLowerCase() === myChannel.toLowerCase()) {
+                        twitchTimers.onStreamEnd();
+                      }
+                    } else {
+                      console.log(`[Twitch] Stream ${login} is still live, not removing role`);
+                      this.recordState(gid, 'twitch', login, 'live', true);
                     }
                   }
+                } catch (error) {
+                  console.error(`[Twitch] Error during double check for ${login}:`, error);
+                  // If we can't verify, don't remove the role
+                  this.recordState(gid, 'twitch', login, 'live', true);
                 }
-              } catch (error) {
-                // Ignore role assignment errors
+              } else {
+                console.log(`[Twitch] Stream ${login} appears offline but still in cooldown (${Math.ceil((offlineCooldown - timeSinceLastLive) / 1000)}s remaining)`);
               }
-              // Cleanup: delete previous stream notification if configured
-              const prevState = this.state.get(this.key(gid, 'twitch', login));
-              if (prevState?.messageId && entry.cleanup) {
-                try {
-                  const channel = client.channels.cache.get(entry.channelId);
-                  if (channel) {
-                    await channel.messages.delete(prevState.messageId).catch(() => {});
-                  }
-                } catch (error) {}
-              }
-            }
-            this.recordState(gid, 'twitch', login, 'offline', false);
-            // Stop timers only for your channel
-            const myChannel = twitchConfig?.twitch_username || twitchConfig?.username;
-            if (myChannel && login.toLowerCase() === myChannel.toLowerCase()) {
-              twitchTimers.onStreamEnd();
             }
           }
         } catch (error) {
@@ -1561,26 +1262,16 @@ class StreamNotifier {
     }
   }
 
-  async post(client, channelId, content, embeds, cleanupMessageId = null) {
+  async post(client, channelId, content, embeds) {
     try {
-      const channel = client.channels.cache.get(channelId);
-      if (!channel) return null;
-      
-      // Clean up previous message if cleanup is enabled and message ID is provided
-      if (cleanupMessageId) {
-        try {
-          const message = await channel.messages.fetch(cleanupMessageId).catch(() => null);
-          if (message) await message.delete().catch(() => {});
-        } catch (error) {
-          console.error('Error cleaning up previous message:', error);
-        }
+      const ch = client.channels.cache.get(channelId) || await client.channels.fetch(channelId);
+      if (ch?.send) {
+        return await ch.send({ content, embeds });
       }
-      
-      return await channel.send({ content, embeds });
     } catch (error) {
-      console.error('Error sending message:', error);
-      return null;
+      // Ignore post errors
     }
+    return null;
   }
 }
 

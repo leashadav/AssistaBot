@@ -1,14 +1,16 @@
 const TwitchBot = require('./modules/twitchBot');
-const config = require('./config/twitch.json');
+const configLoader = require('./modules/configLoader');
+const twitchConfig = configLoader.twitch || {};
 
 // Create and start the Twitch bot
 async function main() {
-    if (!config || (!config.username && !config.twitch_username) || (!config.oauth && !config.twitch_oauth)) {
+    if ((!twitchConfig.username && !twitchConfig.twitch_username) || 
+        (!twitchConfig.oauth && !twitchConfig.twitch_oauth)) {
         console.error('Missing Twitch configuration (username/oauth). Check config/twitch.json.');
         process.exit(1);
     }
 
-    const bot = new TwitchBot(config);
+    const bot = new TwitchBot(twitchConfig);
 
     async function shutdown(signal) {
         try {
