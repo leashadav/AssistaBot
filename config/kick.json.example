@@ -1,7 +1,6 @@
 {
-  "kick": {
-    "client_id": "YOUR_CLIENT_ID",
-    "client_secret": "YOUR_CLIENT_SECRET",
-    "webhook_secret": "YOUR_WEBHOOK_SECRET"
-  }
+"kick_client_token": "YOUR_CLIENT_TOKEN",
+"kick_client_id": "YOUR_CLIENT_ID",
+"kick_client_secret": "YOUR_CLIENT_SECRET",
+"kick_webhook_secret": "YOUR_WEBHOOK_SECRET"
 }
