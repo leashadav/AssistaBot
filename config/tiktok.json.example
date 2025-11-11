@@ -1,0 +1,22 @@
+{
+  "api": {
+    "tiktok_baseUrl": "https://www.tiktok.com",
+    "tiktok_apiUrl": "https://api.tiktok.com",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+  },
+  
+  "authentication": {
+    "tiktok_sessionid": "YOUR_TIKTOK_SESSION_ID",
+    "tiktok_msToken": "YOUR_MS_TOKEN",
+    "tiktok_ttWid": "YOUR_TT_WID",
+    "tiktok_bdTicketGuardClientData": "YOUR_BD_TICKET_GUARD_DATA",
+    "tiktok_sessionFile": "./cookies/tiktok-session.json"
+  },
+  
+  "account": {
+    "tiktok_username": "YOUR_TIKTOK_USERNAME",
+    "tiktok_userId": "YOUR_TIKTOK_USER_ID"
+  },
+  
+  "debug": false
+}
