@@ -1,0 +1,27 @@
+{
+  "fb_app_id": "",
+  "fb_app_secret": "",
+  "fb_client_token": "",
+  "fb_app_version": "v24.0",
+  "fb_page_id": "your_page_id",
+  "fb_page_access_token": "your_page_access_token",
+  "oauth": {
+    "redirect_uri": "https://your-domain.com/auth/facebook/callback",
+    "scope": [
+      "public_profile",
+      "pages_show_list",
+      "pages_read_engagement",
+      "pages_manage_posts"
+    ]
+  },
+  "webhook": {
+    "verify_token": "your_webhook_verify_token",
+    "path": "/webhook/facebook",
+    "fields": [
+      "feed",
+      "messages"
+    ]
+  },
+
+  "debug": false
+}
