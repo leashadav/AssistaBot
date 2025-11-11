@@ -17,60 +17,6 @@
     "aliases": [],
     "allowedRoles": []
   },
-  "bagel": {
-    "response": "{user} throws {urlfetchpick:text:https://pastebin.com/raw/0Xn1cXuU} bagel at {touser:everyone}",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761708563696,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "bageltoppings": {
-    "response": "{user} gives {urlfetchpick:text:https://pastebin.com/raw/0Xn1cXuU} bagel topped with {urlfetchpick:text:https://pastebin.com/raw/3Cx6T2LF} to {touser:everyone}",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761708563696,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "belt": {
-    "response": "Lithia Vey made the belt that I am wearing as a joke to the no hips showing rule It comes in silver and gold, I edited it for my avatar, it is free so go grab you one and maybe toss them $1 as a thank you https://ko-fi.com/s/b133a747b6",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "brain": {
-    "response": "{touser}'s brain is {eval:Math.floor((Math.random() * 100))}% working.",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "breakfast": {
-    "response": "{user} gives {urlfetchpick:text:https://pastebin.com/raw/ibXrsHmf} with a side of {urlfetchpick:text:https://pastebin.com/raw/gHEvc3mE} and {urlfetchpick:text:https://pastebin.com/raw/sk7Y8Ue1} to {touser:everyone}",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "cappuccino": {
-    "response": "{user} gives {touser:everyone} a cup of cappuccino!",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": ["cappachino"],
-    "allowedRoles": []
-  },
   "coffee": {
     "response": "{user} gives {touser:everyone} a cup of coffee!",
     "creatorId": "SYSTEM",
@@ -89,15 +35,6 @@
     "aliases": [],
     "allowedRoles": []
   },
-  "collabing": {
-    "response": "Todays collab we currently have playing:,& - please check them out & give them a follow :) thank you. Not playing but also in voice:",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
   "cuddle": {
     "response": "{user} is cuddling with {touser:everyone}!",
     "creatorId": "SYSTEM",
@@ -107,87 +44,6 @@
     "aliases": ["cuddles","cuddling"],
     "allowedRoles": []
   },
-  "dadjoke": {
-    "response": "{urlfetchpick:text:https://pastebin.com/raw/w5uRGs7Z}",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "deity": {
-    "response": "All hail {touser}, the deity of {urlfetchpick:text:https://gist.githubusercontent.com/leashadav/8e9291dfd972ecdedbc076c3e2c52660/raw/bf9afca5c318f2e20e75f98d0681b2a20dd16d36/gistfile1.txt}",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "dice": {
-    "response": "🎲 {user} just rolled a {rand:1-(query)} on a (query) sided die!",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "dinner": {
-    "response": "{user} gives {urlfetchpick:text:https://pastebin.com/raw/gTefbE5H} with a side of {urlfetchpick:text:https://pastebin.com/raw/gHEvc3mE} and {urlfetchpick:text:https://pastebin.com/raw/sk7Y8Ue1} to {touser:everyone}",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "discord": {
-    "response": "Come Join the Collabing Community. Streamers helping streamers connect with their audiences and play some games together. Or for those that may not know how to or want to run their own discord : Helping Others Is Our Goal, What's Yours? https://discord.gg/HuxQJPudp8",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "donate": {
-    "response": "If you'd like to help me out, any little bit is greatly appreciated. https://paypal.me/TheShadavNetwork THANK YOU! I will never forget what you have done.",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "drink": {
-    "response": "{user} gives {urlfetchpick:text:https://pastebin.com/raw/sk7Y8Ue1} to {touser:everyone}!",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": ["drinks"],
-    "allowedRoles": []
-  },
-  "facebook": {
-    "response": "You might find me here: https://facebook.com/ShadavInTheBox",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "ff": {
-    "response": "{user} yells food fight and throws {urlfetchpick:text:https://pastebin.com/raw/gHEvc3mE} at {touser:everyone}",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761882233285,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": ["foodfight"],
-    "allowedRoles": []
-  },
   "followage": {
     "response": "{urlfetch:text:https://commands.garretcharp.com/twitch/followage/{channel}/{touser}?format=ymd&ping=false}",
     "creatorId": "SYSTEM",
@@ -195,15 +51,6 @@
     "cooldown": 5,
     "requiredPermission": null,
     "aliases": [],
-    "allowedRoles": []
-  },
-  "gift": {
-    "response": "If you'd like to send me a gift, I'd be greatly appreciative. https://throne.com/shadav | https://amazon.com/hz/wishlist/ls/UC20USQ3YKK8 | https://walmart.com/lists/shared/WL/a4fcf0c1-5678-46ad-9ac3-bb1d05a4c54f | https://store.steampowered.com/wishlist/id/shadav | 3918 Clark Ave #23192, San Antonio, TX 78223",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761882233285,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": ["wishlist"],
     "allowedRoles": []
   },
   "headpat": {
@@ -233,24 +80,6 @@
     "aliases": ["hugs", "hugged"],
     "allowedRoles": []
   },
-  "kofi": {
-    "response": "Sharing content that I've created or edited over the years for various things: https://ko-fi.com/shadav",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761882233285,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "lunch": {
-    "response": "{user} gives {urlfetchpick:text:https://pastebin.com/raw/PSxc1yva} with a side of {urlfetchpick:text:https://pastebin.com/raw/gHEvc3mE} and {urlfetchpick:text:https://pastebin.com/raw/sk7Y8Ue1} to {touser:everyone}",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
   "lurk": {
     "response": "{user} is now lurking, be on the lookout for them in dark corners!",
     "creatorId": "SYSTEM",
@@ -258,69 +87,6 @@
     "cooldown": 5,
     "requiredPermission": null,
     "aliases": ["lurking","lurks"],
-    "allowedRoles": []
-  },
-  "mood": {
-    "response": "{touser} is {eval:Math.floor((Math.random() * 100))}% {urlfetchpick:text:https://pastebin.com/raw/gkxuuGdt}",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "patreon": {
-    "response": "My Sims 4 Custom Creations: https://patreon.com/shadav",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "paypal": {
-    "response": "If you'd like to donate to help pay my bills, I greatly appreciate it https://www.paypal.com/donate/?hosted_button_id=K3NKZCP75BZ7C",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "pizza": {
-    "response": "{user} gives a pizza topped with {urlfetchpick:text:https://pastebin.com/raw/3Cx6T2LF} and {urlfetchpick:text:https://pastebin.com/raw/3Cx6T2LF} to {touser:everyone}",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "pobox": {
-    "response": "If for some strange reason you would like to send Shadav or Deyphid something, 3918 Clark Ave #23192, San Antonio, TX 78223",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": ["address"],
-    "allowedRoles": []
-  },
-  "raiders": {
-    "response": "Hello raiders, If you would be so kind please either double click my profile picture so twitch actually counts you as a viewer or click on this link: https://twitch.tv/shadav thank you kindly...",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "rate": {
-    "response": "{user} rates {touser} a {eval:Math.floor((Math.random() * 10))}/10",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": ["rates"],
     "allowedRoles": []
   },
   "roll": {
@@ -350,24 +116,6 @@
     "aliases": ["shoutout"],
     "allowedRoles": []
   },
-  "socials": {
-    "response": "You might find me here: https://x.com/leashadav\nSometimes I'm here: https://facebook.com/ShadavInTheBox\nA few people found me here: https://bsky.app/profile/shadav.bsky.social\nYou can maybe find me here: https://www.threads.com/@ishadav\nYou can almost always find me in the Collabing Community: https://discord.gg/HuxQJPudp8",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761674263601,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "sponsor": {
-    "response": "Thank you to the developer Endflame & the promoter Future Friends Games for gifting the game https://store.steampowered.com/app/2948560/Instants/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #Instants, #Endflame, #FutureFriendsGames & #PressEngine",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761882233285,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
   "subs": {
     "response": "{channel} has {subcount} subscribers. Thank you so much to those who sub and gift subs, it means a lot to me.",
     "creatorId": "SYSTEM",
@@ -386,44 +134,8 @@
     "aliases": [],
     "allowedRoles": []
   },
-  "throne": {
-    "response": "If you'd like to send me a gift, I'd be greatly appreciative. https://throne.com/shadav",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "tinkerspy": {
-    "response": "Please go check out tinkerspy on deviant art: https://deviantart.com/thumperdooes",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "twitter": {
-    "response": "You might find me here, maybe: https://x.com/leashadav",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": ["x"],
-    "allowedRoles": []
-  },
   "uptime": {
     "response": "Stream has been live for {uptime}",
-    "creatorId": "SYSTEM",
-    "createdAt": 1761630254747,
-    "cooldown": 5,
-    "requiredPermission": null,
-    "aliases": [],
-    "allowedRoles": []
-  },
-  "youtube": {
-    "response": "Older random videos: https://youtube.com/@leashadav",
     "creatorId": "SYSTEM",
     "createdAt": 1761630254747,
     "cooldown": 5,
