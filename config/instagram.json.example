@@ -1,0 +1,22 @@
+{
+  "api": {
+    "instagram_baseUrl": "https://graph.instagram.com",
+    "instagram_version": "v18.0",
+    "instagram_accessToken": "YOUR_INSTAGRAM_ACCESS_TOKEN",
+    "instagram_appId": "YOUR_APP_ID",
+    "instagram_appSecret": "YOUR_APP_SECRET",
+    "instagram_redirectUri": "https://your-domain.com/auth/instagram/callback"
+  },
+  
+  "account": {
+    "instagram_username": "YOUR_INSTAGRAM_USERNAME",
+    "instagram_userId": "YOUR_INSTAGRAM_USER_ID"
+  },
+  
+  "scopes": [
+    "user_profile",
+    "user_media"
+  ],
+  
+  "debug": false
+}
