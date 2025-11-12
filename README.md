@@ -26,3 +26,4 @@ now to just keep playiung with it
 - purge command
 - improve the ticket module
 - asked ai to sum up the bot functions and permissions lol: [Info](https://github.com/leashadav/AssistaBot/blob/main/info.md)
+- nuked my streaming module and made a new one, well two, one for api streaming and one for discord presence streaming. still need to work on things
