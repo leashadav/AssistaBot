@@ -27,7 +27,7 @@ async function main() {
     try {
         await bot.start();
     } catch (err) {
-        console.error('Failed to start bot:', err);
+        console.error('Failed to start Twitch bot');
         try { await bot.stop(); } catch (_) {}
         process.exit(1);
     }

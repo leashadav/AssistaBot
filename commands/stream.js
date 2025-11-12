@@ -260,105 +260,259 @@ async function getYouTubeChannelTitle(channelId, apiKey) {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('stream')
-    .setDMPermission(false)
-    .setDescription('Manage stream registry and presence-based live notifications')
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setDescription('Manage stream notifications and live roles')
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName('test_notification')
+        .setDescription('Test notification for a specific user')
+        .addUserOption(option =>
+          option.setName('user')
+            .setDescription('User to test notification for')
+            .setRequired(true)
+        )
+        .addStringOption(option =>
+          option.setName('platform')
+            .setDescription('Platform to test (or ALL for all platforms)')
+            .setRequired(true)
+            .addChoices(
+              { name: 'ALL Platforms', value: 'all' },
+              { name: 'Twitch', value: 'twitch' },
+              { name: 'YouTube', value: 'youtube' },
+              { name: 'Kick', value: 'kick' },
+              { name: 'Rumble', value: 'rumble' },
+              { name: 'TikTok', value: 'tiktok' },
+              { name: 'Facebook', value: 'facebook' },
+              { name: 'X (Twitter)', value: 'x' },
+              { name: 'Instagram', value: 'instagram' },
+              { name: 'Discord', value: 'discord' }
+            )
+        )
+    )
     .addSubcommand(subcommand =>
       subcommand
         .setName('add')
-        .setDescription('Add a streamer entry to this server registry')
-        .addStringOption(o => o.setName('platform').setDescription('twitch, youtube, kick, rumble, tiktok, instagram, discord, facebook, or x').setRequired(true).addChoices({ name: 'twitch', value: 'twitch' }, { name: 'youtube', value: 'youtube' }, { name: 'kick', value: 'kick' }, { name: 'rumble', value: 'rumble' }, { name: 'tiktok', value: 'tiktok' }, { name: 'instagram', value: 'instagram' }, { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' }))
-        .addStringOption(o => o.setName('name').setDescription('Streamer username').setRequired(true))
-        .addChannelOption(o => o.setName('channel').setDescription('Channel to post notifications').setRequired(true))
-        .addUserOption(o => o.setName('discord_user').setDescription('Discord user to give live role to (optional)'))
-        .addStringOption(o => o.setName('live_roles').setDescription('Comma-separated role mentions/IDs to assign while live (or mention a single role)'))
-        .addStringOption(o => o.setName('whitelist_roles').setDescription('Comma-separated role mentions/IDs required to trigger notifications'))
-        .addStringOption(o => o.setName('message').setDescription('Custom live message: {name} {title} {url}'))
-        .addStringOption(o => o.setName('vod_message').setDescription('Custom VOD message: {name} {title} {url} (YouTube only)')))
+        .setDescription('Add a new streamer')
+        .addStringOption(option =>
+          option.setName('platform')
+            .setDescription('Streaming Platform(s)')
+            .setRequired(true)
+            .addChoices(
+              { name: 'ALL Platforms', value: 'all' },
+              { name: 'Twitch', value: 'twitch' },
+              { name: 'YouTube', value: 'youtube' },
+              { name: 'Kick', value: 'kick' },
+              { name: 'Rumble', value: 'rumble' },
+              { name: 'TikTok', value: 'tiktok' },
+              { name: 'Facebook', value: 'facebook' },
+              { name: 'X (Twitter)', value: 'x' },
+              { name: 'Instagram', value: 'instagram' },
+              { name: 'Discord', value: 'discord' }
+            )
+        )
+        .addStringOption(option =>
+          option.setName('name')
+            .setDescription('Streamer\'s username on the platform')
+            .setRequired(true)
+        )
+        .addChannelOption(option =>
+          option.setName('channel')
+            .setDescription('Channel to post notifications in')
+            .setRequired(true)
+        )
+        .addUserOption(option =>
+          option.setName('discord_user')
+            .setDescription('Discord user to give live role(s) to')
+            .setRequired(false)
+        )
+        .addStringOption(option =>
+          option.setName('live_roles')
+            .setDescription('Role(s) to assign when live (comma-separated for multiple)')
+            .setRequired(false)
+        )
+        .addStringOption(option =>
+          option.setName('whitelist_roles')
+            .setDescription('Role(s) that can receive notifications (comma-separated for multiple)')
+            .setRequired(false)
+        )
+        .addStringOption(option =>
+          option.setName('message')
+            .setDescription('Custom live notification message (supports {name}, {title}, {url}, {platform})')
+            .setRequired(false)
+        )
+        .addStringOption(option =>
+          option.setName('vod_message')
+            .setDescription('Custom VOD notification message (supports {name}, {title}, {url}, {platform})')
+            .setRequired(false)
+        )
+    )
     .addSubcommand(subcommand =>
       subcommand
         .setName('remove')
         .setDescription('Remove a streamer entry from this server registry')
-        .addStringOption(o => o.setName('platform').setDescription('twitch, youtube, kick, rumble, tiktok, instagram, discord, facebook, or x').setRequired(true).addChoices({ name: 'twitch', value: 'twitch' }, { name: 'youtube', value: 'youtube' }, { name: 'kick', value: 'kick' }, { name: 'rumble', value: 'rumble' }, { name: 'tiktok', value: 'tiktok' }, { name: 'instagram', value: 'instagram' }, { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' }))
-        .addStringOption(o => o.setName('name').setDescription('Streamer username').setRequired(true).setAutocomplete(true)))
+        .addStringOption(option => option.setName('platform')
+          .setDescription('Platform of the stream to remove')
+          .setRequired(true)
+          .addChoices(
+            { name: 'ALL Platforms', value: 'all' },
+            { name: 'Twitch', value: 'twitch' },
+            { name: 'YouTube', value: 'youtube' },
+            { name: 'Kick', value: 'kick' },
+            { name: 'Rumble', value: 'rumble' },
+            { name: 'TikTok', value: 'tiktok' },
+            { name: 'Facebook', value: 'facebook' },
+            { name: 'X (Twitter)', value: 'x' },
+            { name: 'Instagram', value: 'instagram' },
+            { name: 'Discord', value: 'discord' }
+          ))
+        .addStringOption(option => option.setName('name')
+        .setDescription('Streamer username')
+        .setRequired(true)
+        .setAutocomplete(true)))
     .addSubcommand(subcommand =>
       subcommand
         .setName('edit')
-        .setDescription('Edit a streamer entry for this server registry')
-        .addStringOption(o => o.setName('platform').setDescription('twitch, youtube, kick, rumble, tiktok, instagram, discord, facebook, or x').setRequired(true).addChoices({ name: 'twitch', value: 'twitch' }, { name: 'youtube', value: 'youtube' }, { name: 'kick', value: 'kick' }, { name: 'rumble', value: 'rumble' }, { name: 'tiktok', value: 'tiktok' }, { name: 'instagram', value: 'instagram' }, { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' }))
-        .addStringOption(o => o.setName('name').setDescription('Existing Streamer username').setRequired(true).setAutocomplete(true))
-        .addChannelOption(o => o.setName('channel').setDescription('New channel for notifications'))
-        .addUserOption(o => o.setName('discord_user').setDescription('Discord user to give live role to'))
-        .addRoleOption(o => o.setName('live_role').setDescription('Role to assign while live'))
-        .addStringOption(o => o.setName('live_roles').setDescription('Comma-separated role mentions/IDs to assign while live'))
-        .addStringOption(o => o.setName('whitelist_roles').setDescription('Comma-separated role mentions/IDs required to trigger notifications'))
-        .addStringOption(o => o.setName('message').setDescription('New live message: {name} {title} {url}'))
-        .addStringOption(o => o.setName('vod_message').setDescription('New VOD message (YouTube): {name} {title} {url}')))
+        .setDescription('Edit an existing streamer')
+        .addStringOption(option => option.setName('platform')
+          .setDescription('Streaming Platform')
+          .setRequired(true)
+          .addChoices(
+            { name: 'ALL Platforms', value: 'all' },
+            { name: 'Twitch', value: 'twitch' },
+            { name: 'YouTube', value: 'youtube' },
+            { name: 'Kick', value: 'kick' },
+            { name: 'Rumble', value: 'rumble' },
+            { name: 'TikTok', value: 'tiktok' },
+            { name: 'Facebook', value: 'facebook' },
+            { name: 'X (Twitter)', value: 'x' },
+            { name: 'Instagram', value: 'instagram' },
+            { name: 'Discord', value: 'discord' }
+          ))
+        .addStringOption(option => option.setName('name')
+          .setDescription('Existing streamer username')
+          .setRequired(true)
+          .setAutocomplete(true))
+        .addChannelOption(option => option.setName('channel')
+          .setDescription('Channel to post notifications in')
+          .setRequired(false))
+        .addUserOption(option => option.setName('discord_user')
+          .setDescription('Discord user to give live role(s) to')
+          .setRequired(false))
+        .addStringOption(option => option.setName('live_roles')
+          .setDescription('Role(s) to assign when live (comma-separated for multiple)')
+          .setRequired(false))
+        .addStringOption(option => option.setName('whitelist_roles')
+          .setDescription('Role(s) that can receive notifications (comma-separated for multiple)')
+          .setRequired(false))
+        .addStringOption(option => option.setName('message')
+          .setDescription('Custom live notification message (supports {name}, {title}, {url}, {platform})')
+          .setRequired(false))
+        .addStringOption(option => option.setName('vod_message')
+          .setDescription('Custom VOD notification message (supports {name}, {title}, {url}, {platform})')
+          .setRequired(false)))
     .addSubcommand(subcommand =>
       subcommand
         .setName('edit_all')
-        .setDescription('Bulk edit all entries for a platform in this server')
-        .addStringOption(o => o.setName('platform').setDescription('twitch, youtube, kick, rumble, tiktok, instagram, discord, facebook, or x').setRequired(true).addChoices({ name: 'twitch', value: 'twitch' }, { name: 'youtube', value: 'youtube' }, { name: 'kick', value: 'kick' }, { name: 'rumble', value: 'rumble' }, { name: 'tiktok', value: 'tiktok' }, { name: 'instagram', value: 'instagram' }, { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' }))
-        .addChannelOption(o => o.setName('channel').setDescription('New channel for notifications'))
-        .addUserOption(o => o.setName('discord_user').setDescription('Discord user to give live role to'))
-        .addRoleOption(o => o.setName('live_role').setDescription('Role to assign while live'))
-        .addStringOption(o => o.setName('live_roles').setDescription('Comma-separated role mentions/IDs to assign while live'))
-        .addStringOption(o => o.setName('whitelist_roles').setDescription('Comma-separated role mentions/IDs required to trigger notifications'))
-        .addStringOption(o => o.setName('message').setDescription('New live message: {name} {title} {url}'))
-        .addStringOption(o => o.setName('vod_message').setDescription('New VOD message (YouTube): {name} {title} {url}')))
+        .setDescription('Bulk edit all streamers for a platform')
+        .addStringOption(option => option.setName('platform')
+          .setDescription('Streaming Platform')
+          .setRequired(true)
+          .addChoices(
+            { name: 'ALL Platforms', value: 'all' },
+            { name: 'Twitch', value: 'twitch' },
+            { name: 'YouTube', value: 'youtube' },
+            { name: 'Kick', value: 'kick' },
+            { name: 'Rumble', value: 'rumble' },
+            { name: 'TikTok', value: 'tiktok' },
+            { name: 'Facebook', value: 'facebook' },
+            { name: 'X (Twitter)', value: 'x' },
+            { name: 'Instagram', value: 'instagram' },
+            { name: 'Discord', value: 'discord' }
+          ))
+        .addChannelOption(option => option.setName('channel')
+          .setDescription('Channel to post notifications in')
+          .setRequired(false))
+        .addUserOption(option => option.setName('discord_user')
+          .setDescription('Discord user to give live role(s) to')
+          .setRequired(false))
+        .addStringOption(option => option.setName('live_roles')
+          .setDescription('Role(s) to assign when live (comma-separated for multiple)')
+          .setRequired(false))
+        .addStringOption(option => option.setName('whitelist_roles')
+          .setDescription('Role(s) that can receive notifications (comma-separated for multiple)')
+          .setRequired(false))
+        .addStringOption(option => option.setName('message')
+          .setDescription('Custom live notification message (supports {name}, {title}, {url}, {platform})')
+          .setRequired(false))
+        .addStringOption(option => option.setName('vod_message')
+          .setDescription('Custom VOD notification message (supports {name}, {title}, {url}, {platform})')
+          .setRequired(false)))
     .addSubcommand(subcommand =>
       subcommand
         .setName('list')
-        .setDescription('List streamer entries for this server')
-        .addStringOption(o => o.setName('platform').setDescription('Filter by platform').addChoices({ name: 'twitch', value: 'twitch' }, { name: 'youtube', value: 'youtube' }, { name: 'kick', value: 'kick' }, { name: 'rumble', value: 'rumble' }, { name: 'tiktok', value: 'tiktok' }, { name: 'instagram', value: 'instagram' }, { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' })))
-    // Live Roles Commands
+        .setDescription('List all tracked streamers')
+        .addStringOption(option => option.setName('platform')
+          .setDescription('Filter by platform')
+          .setRequired(false)
+          .addChoices(
+            { name: 'ALL Platforms', value: 'all' },
+            { name: 'Twitch', value: 'twitch' },
+            { name: 'YouTube', value: 'youtube' },
+            { name: 'Kick', value: 'kick' },
+            { name: 'Rumble', value: 'rumble' },
+            { name: 'TikTok', value: 'tiktok' },
+            { name: 'Facebook', value: 'facebook' },
+            { name: 'X (Twitter)', value: 'x' },
+            { name: 'Instagram', value: 'instagram' },
+            { name: 'Discord', value: 'discord' }
+          )))
     .addSubcommand(subcommand =>
       subcommand
         .setName('live_roles_set')
         .setDescription('Configure automatic role assignments for streamers')
-        .addStringOption(o => 
-          o.setName('platform')
+        .addStringOption(option => 
+          option.setName('platform')
            .setDescription('Platform to configure (or ALL for all platforms)')
            .setRequired(true)
            .addChoices(
-             { name: 'All Platforms', value: 'all' },
+             { name: 'ALL Platforms', value: 'all' },
              { name: 'Twitch', value: 'twitch' },
              { name: 'YouTube', value: 'youtube' },
              { name: 'Kick', value: 'kick' },
              { name: 'Rumble', value: 'rumble' },
              { name: 'TikTok', value: 'tiktok' },
-             { name: 'Instagram', value: 'instagram' },
-             { name: 'Discord', value: 'discord' },
              { name: 'Facebook', value: 'facebook' },
-             { name: 'X (Twitter)', value: 'x' }
+             { name: 'X (Twitter)', value: 'x' },
+             { name: 'Instagram', value: 'instagram' },
+             { name: 'Discord', value: 'discord' }
            ))
-        .addStringOption(o => 
-          o.setName('whitelist_roles')
+        .addStringOption(option => 
+          option.setName('whitelist_roles')
            .setDescription('Comma-separated role mentions/IDs that can receive the live role')
            .setRequired(true))
-        .addStringOption(o => 
-          o.setName('live_roles')
+        .addStringOption(option => 
+          option.setName('live_roles')
            .setDescription('Comma-separated role mentions/IDs to assign when streaming')
            .setRequired(true)))
     .addSubcommand(subcommand =>
       subcommand
         .setName('live_roles_clear')
         .setDescription('Remove automatic role assignments for a platform')
-        .addStringOption(o => 
-          o.setName('platform')
+        .addStringOption(option => 
+          option.setName('platform')
            .setDescription('Platform to clear (or ALL for all platforms)')
            .setRequired(false)
            .addChoices(
-             { name: 'All Platforms', value: 'all' },
+             { name: 'ALL Platforms', value: 'all' },
              { name: 'Twitch', value: 'twitch' },
              { name: 'YouTube', value: 'youtube' },
              { name: 'Kick', value: 'kick' },
              { name: 'Rumble', value: 'rumble' },
              { name: 'TikTok', value: 'tiktok' },
-             { name: 'Instagram', value: 'instagram' },
-             { name: 'Discord', value: 'discord' },
              { name: 'Facebook', value: 'facebook' },
-             { name: 'X (Twitter)', value: 'x' }
+             { name: 'X (Twitter)', value: 'x' },
+             { name: 'Instagram', value: 'instagram' },
+             { name: 'Discord', value: 'discord' }
            )))
     
     // Stream Notifications Commands
@@ -366,108 +520,176 @@ module.exports = {
       subcommand
         .setName('notifications_set')
         .setDescription('Configure stream notifications')
-        .addStringOption(o => 
-          o.setName('platform')
+        .addStringOption(option => 
+          option.setName('platform')
            .setDescription('Platform to configure')
            .setRequired(true)
            .addChoices(
+             { name: 'ALL Platforms', value: 'all' },
              { name: 'Twitch', value: 'twitch' },
              { name: 'YouTube', value: 'youtube' },
              { name: 'Kick', value: 'kick' },
              { name: 'Rumble', value: 'rumble' },
              { name: 'TikTok', value: 'tiktok' },
-             { name: 'Instagram', value: 'instagram' },
-             { name: 'Discord', value: 'discord' },
              { name: 'Facebook', value: 'facebook' },
-             { name: 'X (Twitter)', value: 'x' }
+             { name: 'X (Twitter)', value: 'x' },
+             { name: 'Instagram', value: 'instagram' },
+             { name: 'Discord', value: 'discord' }
            ))
-        .addChannelOption(o => 
-          o.setName('channel')
+        .addChannelOption(option => 
+          option.setName('channel')
            .setDescription('Channel to post notifications')
            .setRequired(true))
-        .addStringOption(o => 
-          o.setName('whitelist_roles')
+        .addStringOption(option => 
+          option.setName('whitelist_roles')
            .setDescription('Comma-separated role mentions/IDs that can trigger notifications')
            .setRequired(true))
-        .addStringOption(o => 
-          o.setName('message')
+        .addStringOption(option => 
+          option.setName('message')
            .setDescription('Custom notification message (use {name} for username, {title} for stream title)')
            .setRequired(false)))
     .addSubcommand(subcommand =>
       subcommand
         .setName('notifications_clear')
         .setDescription('Remove stream notifications for a platform')
-        .addStringOption(o => 
-          o.setName('platform')
+        .addStringOption(option => 
+          option.setName('platform')
            .setDescription('Platform to clear (leave empty for all platforms)')
            .setRequired(false)
            .addChoices(
+             { name: 'ALL Platforms', value: 'all' },
              { name: 'Twitch', value: 'twitch' },
              { name: 'YouTube', value: 'youtube' },
              { name: 'Kick', value: 'kick' },
              { name: 'Rumble', value: 'rumble' },
              { name: 'TikTok', value: 'tiktok' },
-             { name: 'Instagram', value: 'instagram' },
-             { name: 'Discord', value: 'discord' },
              { name: 'Facebook', value: 'facebook' },
-             { name: 'X (Twitter)', value: 'x' }
+             { name: 'X (Twitter)', value: 'x' },
+             { name: 'Instagram', value: 'instagram' },
+             { name: 'Discord', value: 'discord' }
            )))
     .addSubcommand(subcommand =>
       subcommand
         .setName('test')
         .setDescription('Send test stream notifications for configured entries (Admin only)')
-        .addStringOption(o => o
+        .addStringOption(option => option
           .setName('platform')
           .setDescription('Filter to a single platform')
           .addChoices(
-            { name: 'all', value: 'all' },
-            { name: 'twitch', value: 'twitch' },
-            { name: 'youtube', value: 'youtube' },
-            { name: 'kick', value: 'kick' },
-            { name: 'rumble', value: 'rumble' },
-            { name: 'tiktok', value: 'tiktok' },
-            { name: 'instagram', value: 'instagram' },
-            { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' }
+            { name: 'ALL Platforms', value: 'all' },
+            { name: 'Twitch', value: 'twitch' },
+            { name: 'YouTube', value: 'youtube' },
+            { name: 'Kick', value: 'kick' },
+            { name: 'Rumble', value: 'rumble' },
+            { name: 'TikTok', value: 'tiktok' },
+            { name: 'Facebook', value: 'facebook' },
+            { name: 'X (Twitter)', value: 'x' },
+            { name: 'Instagram', value: 'instagram' },
+            { name: 'Discord', value: 'discord' }
           )))
     .addSubcommand(subcommand =>
       subcommand
         .setName('check_live_roles')
         .setDescription('Manually check and assign live roles to users currently streaming')
-        .addStringOption(o => o.setName('platform').setDescription('Check specific platform or all').addChoices({ name: 'all', value: 'all' }, { name: 'twitch', value: 'twitch' }, { name: 'youtube', value: 'youtube' }, { name: 'kick', value: 'kick' }, { name: 'rumble', value: 'rumble' }, { name: 'tiktok', value: 'tiktok' }, { name: 'instagram', value: 'instagram' }, { name: 'discord', value: 'discord' }, { name: 'facebook', value: 'facebook' }, { name: 'x', value: 'x' }))),
+        .addStringOption(option => option.setName('platform')
+        .setDescription('Check specific platform or all')
+        .addChoices(
+            { name: 'ALL Platforms', value: 'all' },
+            { name: 'Twitch', value: 'twitch' },
+            { name: 'YouTube', value: 'youtube' },
+            { name: 'Kick', value: 'kick' },
+            { name: 'Rumble', value: 'rumble' },
+            { name: 'TikTok', value: 'tiktok' },
+            { name: 'Facebook', value: 'facebook' },
+            { name: 'X (Twitter)', value: 'x' },
+            { name: 'Instagram', value: 'instagram' },
+            { name: 'Discord', value: 'discord' }
+          ))),
 
   /**
    * Execute the stream command
    * @param {import('discord.js').CommandInteraction} interaction - The interaction object
    */
   async execute(interaction) {
-    try {
-      if (!interaction.inGuild()) {
-        return interaction.reply({ 
-          content: '❌ This command can only be used in a server.',
-          flags: 64 // EPHEMERAL
-        });
-      }
+    // Track interaction state
+    const interactionState = {
+      isHandled: false,
+      isDeferred: false,
+      isReplied: false
+    };
 
-      // Defer the reply to give us more time to process
-      await interaction.deferReply({ flags: 64 }); // EPHEMERAL
+    // Helper function to safely defer the reply
+    const safeDefer = async () => {
+      if (interactionState.isDeferred || interactionState.isReplied) return true;
+      try {
+        await interaction.deferReply({ flags: 64 /* EPHEMERAL */ });
+        interactionState.isDeferred = true;
+        return true;
+      } catch (error) {
+        console.error('Failed to defer reply:', error);
+        return false;
+      }
+    };
+
+    // Helper function to safely send responses
+    const safeReply = async (content, options = {}) => {
+      if (interactionState.isHandled) return null;
+      interactionState.isHandled = true;
+
+      try {
+        if (interactionState.isReplied) {
+          return interaction.followUp({ 
+            content, 
+            ...options, 
+            flags: 64 /* EPHEMERAL */
+          });
+        } else if (interactionState.isDeferred) {
+          return interaction.editReply({ content, ...options });
+        } else {
+          const response = await interaction.reply({ 
+            content, 
+            ...options, 
+            flags: 64 /* EPHEMERAL */,
+            fetchReply: true
+          });
+          interactionState.isReplied = true;
+          return response;
+        }
+      } catch (error) {
+        console.error('Failed to send response:', error);
+        return null;
+      }
+    };
+
+    try {
+      // Defer the reply first thing
+      await safeDefer();
+      
+      if (!interaction.inGuild()) {
+        return await safeReply('❌ This command can only be used in a server.');
+      }
       
       const sub = interaction.options.getSubcommand();
       const registry = require('../modules/streamRegistry');
 
     if (sub === 'add') {
       try {
-        const platform = interaction.options.getString('platform', true);
-        const name = interaction.options.getString('name', true);
-        const channel = interaction.options.getChannel('channel', true);
+        const platform = interaction.options.getString('platform');
+        const name = interaction.options.getString('name');
+        const channel = interaction.options.getChannel('channel');
         const message = interaction.options.getString('message');
         const vodMessage = interaction.options.getString('vod_message');
         const discordUser = interaction.options.getUser('discord_user');
         const liveRolesStr = interaction.options.getString('live_roles');
         const whitelistRolesStr = interaction.options.getString('whitelist_roles');
         
-        // Validate input
-        if (!name || !channel) {
-          return interaction.editReply('❌ Missing required fields: name and channel are required');
+        // Validate required inputs
+        if (!platform || !name || !channel) {
+          const missing = [];
+          if (!platform) missing.push('platform');
+          if (!name) missing.push('name');
+          if (!channel) missing.push('channel');
+          return interaction.editReply(`❌ Missing required fields: ${missing.join(', ')}`);
         }
         
         const liveRoleIds = parseIds(liveRolesStr);
@@ -476,7 +698,7 @@ module.exports = {
         
         const res = registry.add(interaction.guild.id, { 
           platform, 
-          id: name, 
+          name: name, 
           channelId: channel.id, 
           message, 
           vodMessage, 
@@ -514,7 +736,7 @@ module.exports = {
           return interaction.editReply(`❌ No ${platform} entries are currently configured.`);
         }
         
-        const names = list.map(e => `• ${e.id}`).join('\n');
+        const names = list.map(e => `• ${e.name}`).join('\n');
         return interaction.editReply({
           content: `❌ No matching entry found. Current ${platform} streamers:\n${names}`,
           flags: 64 // EPHEMERAL
@@ -533,12 +755,11 @@ module.exports = {
       const message = interaction.options.getString('message');
       const vodMessage = interaction.options.getString('vod_message');
       const discordUser = interaction.options.getUser('discord_user');
-      const liveRole = interaction.options.getRole('live_role');
       const liveRolesStr = interaction.options.getString('live_roles');
       const whitelistRolesStr = interaction.options.getString('whitelist_roles');
       const parseIds = (str) => (str || '').split(',').map(s => s.trim()).filter(Boolean).map(s => s.replace(/[^0-9]/g, '')).filter(Boolean);
       if (!channel && (message === null || message === undefined) && (vodMessage === null || vodMessage === undefined) && !discordUser && !liveRolesStr && !whitelistRolesStr) {
-        return await interaction.editReply({ content: 'Provide at least one field to update: channel, message, vod_message, discord_user, live_role, live_roles, or whitelist_roles.' });
+        return await interaction.editReply({ content: 'Provide at least one field to update: channel, message, vod_message, discord_user, live_roles, or whitelist_roles.' });
       }
       const registry = require('../modules/streamRegistry');
       const patch = {};
@@ -546,8 +767,12 @@ module.exports = {
       if (message !== null && message !== undefined) patch.message = message;
       if (vodMessage !== null && vodMessage !== undefined) patch.vodMessage = vodMessage;
       if (discordUser) patch.discordUser = discordUser.id;
-      if (liveRole) patch.liveRoleId = liveRole.id; // normalized to array in registry.update
-      if (liveRolesStr) patch.liveRoleIds = parseIds(liveRolesStr);
+      
+      // Handle live_roles option
+      if (liveRolesStr) {
+        patch.liveRoleIds = [...new Set(parseIds(liveRolesStr))]; // Remove duplicates
+      }
+      
       if (whitelistRolesStr) patch.whitelistRoleIds = parseIds(whitelistRolesStr);
       const res = registry.update(interaction.guild.id, platform, name, patch);
       if (!res.ok) {
@@ -562,9 +787,13 @@ module.exports = {
       if (message) updates.push(`live message: ${message}`);
       if (vodMessage) updates.push(`VOD message: ${vodMessage}`);
       if (discordUser) updates.push(`user: ${discordUser}`);
-      if (liveRole) updates.push(`live role: ${liveRole}`);
-      if (liveRolesStr) updates.push(`live roles: ${liveRolesStr}`);
-      if (whitelistRolesStr) updates.push(`whitelist roles: ${whitelistRolesStr}`);
+      if (liveRolesStr) {
+        const roleIds = patch.liveRoleIds || [];
+        updates.push(`live roles: ${roleIds.map(id => `<@&${id}>`).join(', ') || 'None'}`);
+      }
+      if (whitelistRolesStr) {
+        updates.push(`whitelist roles: ${patch.whitelistRoleIds?.map(id => `<@&${id}>`).join(', ') || 'None'}`);
+      }
       
       return interaction.editReply({ 
         content: `✅ Updated ${platform}:${name}${updates.length ? '\n' + updates.join('\n') : ''}`,
@@ -574,29 +803,77 @@ module.exports = {
 
     if (sub === 'list') {
       const registry = require('../modules/streamRegistry');
-      const filterPlatform = interaction.options.getString('platform');
-      let list = registry.list(interaction.guild.id);
+      let filterPlatform = interaction.options.getString('platform');
+      const list = registry.list(interaction.guild.id);
       
-      if (filterPlatform) {
-        list = list.filter(e => e.platform === filterPlatform);
-      }
-      
-      if (!list.length) {
-        const msg = filterPlatform ? `No ${filterPlatform} entries found.` : 'No streamer entries set for this server.';
-        return await interaction.editReply(msg);
+      if (!list || !list.length) {
+        return await interaction.editReply('No streamer entries set for this server.');
       }
 
-      const groups = {
-        twitch: list.filter(e => e.platform === 'twitch'),
-        youtube: list.filter(e => e.platform === 'youtube'),
-        kick: list.filter(e => e.platform === 'kick'),
-        rumble: list.filter(e => e.platform === 'rumble'),
-        tiktok: list.filter(e => e.platform === 'tiktok'),
-        instagram: list.filter(e => e.platform === 'instagram'),
-        discord: list.filter(e => e.platform === 'discord'),
-        facebook: list.filter(e => e.platform === 'facebook'),
-        x: list.filter(e => e.platform === 'x')
-      };
+      // If a specific platform is filtered
+      if (filterPlatform) {
+        // Handle case-insensitive platform matching
+        const platformMap = {
+          'all': 'all',
+          'twitch': 'twitch',
+          'youtube': 'youtube',
+          'kick': 'kick',
+          'rumble': 'rumble',
+          'tiktok': 'tiktok',
+          'facebook': 'facebook',
+          'x': 'x',
+          'twitter': 'x', // Alias for X
+          'instagram': 'instagram',
+          'discord': 'discord'
+        };
+        
+        // Normalize the platform name
+        const normalizedPlatform = platformMap[filterPlatform.toLowerCase()];
+        
+        if (normalizedPlatform === 'all') {
+          // Show all platforms (same as no filter)
+          filterPlatform = null;
+        } else if (normalizedPlatform) {
+          // Filter by the normalized platform name
+          const platformList = list.filter(e => e.platform.toLowerCase() === normalizedPlatform);
+          if (!platformList.length) {
+            return await interaction.editReply(`No ${normalizedPlatform} entries found.`);
+          }
+          
+          const formattedList = platformList.map(entry => {
+            const details = [];
+            if (entry.channelId) details.push(`<#${entry.channelId}>`);
+            if (entry.message) details.push(`"${entry.message}"`);
+            if (entry.liveRoleIds?.length) details.push(`Live Roles: ${entry.liveRoleIds.map(id => `<@&${id}>`).join(', ')}`);
+            return `• **${entry.name}**${details.length ? ` (${details.join(' | ')})` : ''}`;
+          }).join('\n');
+          
+          return await interaction.editReply(`**${normalizedPlatform.toUpperCase()} Streamers:**\n${formattedList}`);
+        } else {
+          // If platform not found in map, try a case-insensitive search
+          const platformList = list.filter(e => e.platform.toLowerCase() === filterPlatform.toLowerCase());
+          if (platformList.length) {
+            const formattedList = platformList.map(entry => {
+              const details = [];
+              if (entry.channelId) details.push(`<#${entry.channelId}>`);
+              if (entry.message) details.push(`"${entry.message}"`);
+              if (entry.liveRoleIds?.length) details.push(`Live Roles: ${entry.liveRoleIds.map(id => `<@&${id}>`).join(', ')}`);
+              return `• **${entry.name}**${details.length ? ` (${details.join(' | ')})` : ''}`;
+            }).join('\n');
+            
+            return await interaction.editReply(`**${platformList[0].platform.toUpperCase()} Streamers:**\n${formattedList}`);
+          }
+          
+          return await interaction.editReply(`No matching platform found. Available platforms: ${Object.values(platformMap).filter(p => p !== 'all' && p !== 'twitter').join(', ')}`);
+        }
+      }
+      
+      // Group by platform
+      const platformGroups = list.reduce((acc, entry) => {
+        if (!acc[entry.platform]) acc[entry.platform] = [];
+        acc[entry.platform].push(entry);
+        return acc;
+      }, {});
 
       const platformEmojis = {
         twitch: '🟣',
@@ -604,22 +881,35 @@ module.exports = {
         kick: '🟢',
         rumble: '🟢',
         tiktok: '🔴',
-        instagram: '🟣',
-        discord: '🔵',
         facebook: '🔵',
-        x: '⚫'
+        x: '⚫',
+        instagram: '🟣',
+        discord: '🔵'
       };
 
-      let output = '';
-      for (const platform of ['twitch', 'youtube', 'kick', 'rumble', 'tiktok', 'instagram', 'discord', 'facebook', 'x']) {
-        const entries = groups[platform];
+      let output = [];
+      
+      // Sort platforms alphabetically
+      const sortedPlatforms = Object.keys(platformGroups).sort((a, b) => a.localeCompare(b));
+      
+      for (const platform of sortedPlatforms) {
+        const entries = platformGroups[platform];
         if (!entries || !entries.length) continue;
-        const emoji = platformEmojis[platform] || '📺';
-        const usernames = entries.map(e => e.id).join(', ');
-        output += `${emoji} **${platform.toUpperCase()}**: ${usernames}\n`;
+        
+        const emoji = platformEmojis[platform.toLowerCase()] || '📺';
+        const usernames = entries.map(e => e.name).filter(Boolean).join(', ');
+        if (!usernames) continue;
+        
+        output.push(`${emoji} **${platform.toUpperCase()}**: ${usernames}`);
       }
 
-      return await interaction.editReply(output || 'No entries found.');
+      if (!output.length) {
+        return await interaction.editReply('No streamer entries found.');
+      }
+      
+      // Add header and format the output
+      const finalOutput = ['**📺 Streamer List**', ...output].join('\n');
+      return await interaction.editReply(finalOutput);
     }
 
     if (sub === 'edit_all') {
@@ -628,33 +918,55 @@ module.exports = {
       const message = interaction.options.getString('message');
       const vodMessage = interaction.options.getString('vod_message');
       const discordUser = interaction.options.getUser('discord_user');
-      const liveRole = interaction.options.getRole('live_role');
       const liveRolesStr = interaction.options.getString('live_roles');
       const whitelistRolesStr = interaction.options.getString('whitelist_roles');
       const parseIds = (str) => (str || '').split(',').map(s => s.trim()).filter(Boolean).map(s => s.replace(/[^0-9]/g, '')).filter(Boolean);
 
       if (!channel && (message === null || message === undefined) && (vodMessage === null || vodMessage === undefined) && !discordUser && !liveRolesStr && !whitelistRolesStr) {
-        return await interaction.editReply({ content: 'Provide at least one field to update: channel, message, vod_message, discord_user, live_role, live_roles, or whitelist_roles.' });
+        return await interaction.editReply({ content: 'Provide at least one field to update: channel, message, vod_message, discord_user, live_roles, or whitelist_roles.' });
       }
 
       const registry = require('../modules/streamRegistry');
-      const list = registry.list(interaction.guild.id).filter(e => e.platform === platform);
-      if (!list.length) return await interaction.editReply({ content: `No ${platform} entries found.` });
+      let list = registry.list(interaction.guild.id);
+      
+      // If platform is not 'all', filter the list by the specified platform
+      if (platform !== 'all') {
+        list = list.filter(e => e.platform === platform);
+        if (!list.length) return await interaction.editReply({ content: `No ${platform} entries found.` });
+      } else if (!list.length) {
+        return await interaction.editReply({ content: 'No streamer entries found in this server.' });
+      }
 
       let updated = 0;
-      for (const e of list) {
+      for (const entry of list) {
         const patch = {};
         if (channel) patch.channelId = channel.id;
         if (message !== null && message !== undefined) patch.message = message;
         if (vodMessage !== null && vodMessage !== undefined) patch.vodMessage = vodMessage;
         if (discordUser) patch.discordUser = discordUser.id;
-        if (liveRolesStr) patch.liveRoleIds = parseIds(liveRolesStr);
+        
+        // Handle live_roles option
+        if (liveRolesStr) {
+          patch.liveRoleIds = parseIds(liveRolesStr);
+        }
+        
         if (whitelistRolesStr) patch.whitelistRoleIds = parseIds(whitelistRolesStr);
-        const res = registry.update(interaction.guild.id, platform, e.id, patch);
-        if (res.ok) updated++;
+        
+        try {
+          // Use the entry's id for the update
+          const res = registry.update(interaction.guild.id, entry.platform, entry.name, patch);
+          if (res && res.ok) {
+            updated++;
+          } else {
+            console.warn(`Failed to update ${entry.platform}:${entry.name}`, res?.reason || 'Unknown error');
+          }
+        } catch (error) {
+          console.error(`Error updating ${entry.platform}:${entry.name}:`, error);
+        }
       }
 
-      return await interaction.editReply({ content: `Updated ${updated} ${platform} entr${updated === 1 ? 'y' : 'ies'}.` });
+      const platformText = platform === 'all' ? '' : `${platform} `;
+      return await interaction.editReply({ content: `Updated ${updated} ${platformText}entr${updated === 1 ? 'y' : 'ies'}.` });
     }
 
     if (sub === 'test') {
@@ -672,7 +984,12 @@ module.exports = {
       for (const e of entries) {
         try {
           const ch = interaction.client.channels.cache.get(e.channelId) || await interaction.client.channels.fetch(e.channelId);
-          let baseName = e.platform === 'twitch' ? parseTwitchLoginFromInput(e.id) : (e.id.startsWith('@') ? e.id.slice(1) : e.id);
+          let baseName = '';
+          if (e.platform === 'twitch') {
+            baseName = parseTwitchLoginFromInput(e.name || '');
+          } else {
+            baseName = (e.name && typeof e.name === 'string') ? (e.name.startsWith('@') ? e.name.slice(1) : e.name) : '';
+          }
           let watchUrl;
           if (e.platform === 'twitch') {
             watchUrl = `https://twitch.tv/${baseName}`;
@@ -684,14 +1001,14 @@ module.exports = {
             watchUrl = `https://tiktok.com/@${baseName}`;
           } else if (e.platform === 'kick') {
             watchUrl = `https://kick.com/${baseName}`;
-          } else if (e.platform === 'instagram') {
-            watchUrl = `https://instagram.com/${baseName}`;
-          } else if (e.platform === 'discord') {
-            watchUrl = `https://discord.com/users/${baseName}`;
           } else if (e.platform === 'facebook') {
             watchUrl = `https://facebook.com/${baseName}`;
           } else if (e.platform === 'x') {
             watchUrl = `https://x.com/${baseName}`;
+          } else if (e.platform === 'instagram') {
+            watchUrl = `https://instagram.com/${baseName}`;
+          } else if (e.platform === 'discord') {
+            watchUrl = `https://discord.com/users/${baseName}`;
           }
 
           let titleText = 'Test Stream Title';
@@ -720,8 +1037,8 @@ module.exports = {
               }
             }
           } else if (e.platform === 'youtube') {
-            if (/^https?:\/\//i.test(e.id)) {
-              const parts = parseYouTubeUrlToParts(e.id);
+            if (/^https?:\/\//i.test(e.name)) {
+              const parts = parseYouTubeUrlToParts(e.name);
               if (parts?.type === 'handle' && parts.handle) {
                 displayName = parts.handle.replace(/^@/, '');
               }
@@ -732,7 +1049,7 @@ module.exports = {
               notes.push('missing YouTube API key');
             } else {
               try {
-                const channelId = await resolveYouTubeChannelId(e.id, apiKey);
+                const channelId = await resolveYouTubeChannelId(e.name, apiKey);
                 if (!channelId) {
                   notes.push('YouTube channel not found');
                 } else {
@@ -751,7 +1068,7 @@ module.exports = {
                     imageUrl = live?.snippet?.thumbnails?.high?.url || live?.snippet?.thumbnails?.medium?.url || avatarUrl;
                     if (live?.snippet?.channelTitle) displayName = live.snippet.channelTitle;
                   } else {
-                    watchUrl = `https://www.youtube.com/@${e.id.replace('@', '')}`;
+                    watchUrl = `https://www.youtube.com/@${e.name.replace('@', '')}`;
                   }
                 }
               } catch (error) {
@@ -790,7 +1107,7 @@ module.exports = {
 
           const me = interaction.guild?.members?.me;
           if (!ch || !ch.send) {
-            (resultsBy[e.platform] || resultsBy.youtube).push(`${e.platform}:${e.id} failed: channel not found or cannot send`);
+            (resultsBy[e.platform] || resultsBy.youtube).push(`${e.platform}:${e.name} failed: channel not found or cannot send`);
             continue;
           }
           if (me) {
@@ -800,7 +1117,7 @@ module.exports = {
             if (!perms || !perms.has(PermissionFlagsBits.SendMessages)) missing.push('SendMessages');
             if (!perms || !perms.has(PermissionFlagsBits.EmbedLinks)) missing.push('EmbedLinks');
             if (missing.length) {
-              (resultsBy[e.platform] || resultsBy.youtube).push(`${e.platform}:${e.id} failed: missing permissions [${missing.join(', ')}] in #${ch.name || ch.id}`);
+              (resultsBy[e.platform] || resultsBy.youtube).push(`${e.platform}:${e.name} failed: missing permissions [${missing.join(', ')}] in #${ch.name || ch.id}`);
               continue;
             }
           }
@@ -815,24 +1132,24 @@ module.exports = {
             imageUrl
           });
 
-          const tpl = e.message || (e.platform === 'twitch' ? '{name} is live on Twitch: {title} {url}' : 
-            e.platform === 'youtube' ? '{name} is live on YouTube: {title} {url}' : 
-            e.platform === 'rumble' ? '{name} is live on Rumble: {title} {url}' :
-            e.platform === 'tiktok' ? '{name} is live on TikTok: {title} {url}' :
-            e.platform === 'kick' ? '{name} is live on Kick: {title} {url}' :
-            e.platform === 'discord' ? '{name} is live on Discord: {title} {url}' :
-            e.platform === 'facebook' ? '{name} is live on Facebook: {title} {url}' :
-            e.platform === 'x' ? '{name} is live on X: {title} {url}' :
-            '{name} is live on Instagram: {title} {url}');
+          const tpl = e.message || (e.platform === 'twitch' ? '{name} is live on Twitch {title} {url}' : 
+            e.platform === 'youtube' ? '{name} is live on YouTube {title} {url}' : 
+            e.platform === 'rumble' ? '{name} is live on Rumble {title} {url}' :
+            e.platform === 'tiktok' ? '{name} is live on TikTok {title} {url}' :
+            e.platform === 'kick' ? '{name} is live on Kick {title} {url}' :
+            e.platform === 'discord' ? '{name} is live on Discord {title} {url}' :
+            e.platform === 'facebook' ? '{name} is live on Facebook {title} {url}' :
+            e.platform === 'x' ? '{name} is live on X (Twitter) {title} {url}' :
+            e.platform === 'instagram' ? '{name} is live on Instagram {title} {url}' : '');
           const content = tpl.replaceAll('{name}', displayName).replaceAll('{title}', titleText).replaceAll('{url}', watchUrl);
 
           await ch.send({ content, embeds: [embed] });
-          (resultsBy[e.platform] || resultsBy.youtube).push(`${e.platform}:${e.id} sent${notes.length ? ' (notes: ' + notes.join('; ') + ')' : ''}`);
+          (resultsBy[e.platform] || resultsBy.youtube).push(`${e.platform}:${e.name} sent${notes.length ? ' (notes: ' + notes.join('; ') + ')' : ''}`);
         } catch (err) {
-          try { logger.error(`stream test failed for ${e.platform}:${e.id}`, err); } catch {}
+          try { logger.error(`stream test failed for ${e.platform}:${e.name}`, err); } catch {}
           console.log('Full error object:', err);
           const errorMsg = err?.response?.data || err?.message || err?.toString() || 'unknown error';
-          (resultsBy[e.platform] || resultsBy.youtube).push(`${e.platform}:${e.id} failed: ${JSON.stringify(errorMsg)}`);
+          (resultsBy[e.platform] || resultsBy.youtube).push(`${e.platform}:${e.name} failed: ${JSON.stringify(errorMsg)}`);
         }
       }
 
@@ -917,7 +1234,7 @@ module.exports = {
         const platforms = [];
         if (!platform || platform.toLowerCase() === 'all') {
           // Clear all platforms
-          platforms.push(...['twitch', 'youtube', 'kick', 'rumble', 'tiktok', 'instagram', 'discord', 'facebook', 'x']);
+          platforms.push(...['twitch', 'youtube', 'kick', 'rumble', 'tiktok', 'facebook', 'x', 'instagram', 'discord']);
         } else {
           // Clear specific platform
           platforms.push(platform);
@@ -1071,6 +1388,134 @@ module.exports = {
       }
     }
 
+    if (sub === 'test_notification') {
+      try {
+        const user = interaction.options.getUser('user', true);
+        const platform = interaction.options.getString('platform', true);
+        const member = interaction.guild.members.cache.get(user.id);
+        
+        if (!member) {
+          return interaction.editReply('❌ User not found in this server.');
+        }
+
+        const allPlatforms = ['twitch', 'youtube', 'kick', 'rumble', 'tiktok', 'instagram', 'discord', 'facebook', 'x'];
+        const platforms = platform === 'all' ? allPlatforms : [platform];
+        
+        let successCount = 0;
+        const failedPlatforms = [];
+        const results = [];
+
+        for (const p of platforms) {
+          // Simulate a streaming activity with proper format for the notification handler
+          const activity = {
+            name: p === 'twitch' ? 'Twitch' : p.charAt(0).toUpperCase() + p.slice(1),
+            type: 1, // STREAMING
+            url: p === 'twitch' 
+              ? `https://twitch.tv/${user.username}` 
+              : `https://${p}.com/${user.username}`,
+            details: `Test stream on ${p}`,
+            state: `Testing ${p} notification`,
+            application_id: null,
+            assets: {
+              large_image: null,
+              large_text: null,
+              small_image: null,
+              small_text: null
+            },
+            timestamps: {
+              start: Date.now()
+            }
+          };
+
+          // Get presence rules for this platform
+          const presenceRules = registry.getPresence(interaction.guild.id)?.[p];
+          if (!presenceRules || !presenceRules.channelId) {
+            failedPlatforms.push(`${p} (no rules)`);
+            continue;
+          }
+
+          // Call the appropriate notifier based on platform
+          if (!['twitch', 'youtube', 'kick', 'rumble', 'tiktok', 'facebook', 'x', 'instagram', 'discord'].includes(p)) {
+            failedPlatforms.push(`${p} (unsupported platform)`);
+            continue;
+          }
+          
+          try {
+            // Import notifiers with error handling
+            let apiNotifier, presenceNotifier;
+            try {
+              apiNotifier = require('../modules/apiStreamNotifier');
+              presenceNotifier = require('../modules/presenceStreamNotifier');
+            } catch (error) {
+              console.error(`Failed to load notifier modules:`, error);
+              failedPlatforms.push(`${p} (internal error)`);
+              continue;
+            }
+            
+            // For API-based platforms, use the API notifier
+            if (['twitch', 'youtube', 'kick', 'rumble', 'tiktok'].includes(p)) {
+              try {
+                await apiNotifier.checkPlatforms(interaction.client);
+                successCount++;
+                results.push(`✅ ${p}`);
+              } catch (error) {
+                console.error(`API notifier error for ${p}:`, error);
+                failedPlatforms.push(`${p} (API error: ${error.message})`);
+              }
+            } 
+            // For presence-based platforms, use the presence notifier
+            else {
+              try {
+                const activityData = {
+                  type: 'STREAMING',
+                  url: activity.url || `https://${p}.com/${member.user.username}`,
+                  name: activity.name || 'Streaming',
+                  details: activity.details || 'Streaming',
+                  state: activity.state || 'Live',
+                  createdTimestamp: Date.now(),
+                  platform: p
+                };
+
+                await presenceNotifier.checkActivity(
+                  interaction.client,
+                  interaction.guild,
+                  member,
+                  activityData,
+                  { [p]: presenceRules }
+                );
+                
+                successCount++;
+                results.push(`✅ ${p}`);
+              } catch (error) {
+                console.error(`Error handling ${p} notification:`, error);
+                failedPlatforms.push(`${p} (${error.message})`);
+              }
+            }
+          } catch (error) {
+            console.error(`Error sending test notification for ${p}:`, error);
+            failedPlatforms.push(p);
+          }
+          }
+
+        let reply = '';
+        if (successCount > 0) {
+          reply = `✅ Sent ${successCount} test notification${successCount > 1 ? 's' : ''} for ${user.tag}:\n${results.join('\n')}`;
+        } else {
+          reply = '❌ Failed to send any test notifications.';
+        }
+        
+        if (failedPlatforms.length > 0) {
+          reply += `\n\n❌ Failed for: ${failedPlatforms.join(', ')}`;
+        }
+
+        return interaction.editReply(reply);
+
+      } catch (error) {
+        console.error('Error in test_notification:', error);
+        return interaction.editReply('❌ An error occurred while sending the test notification.');
+      }
+    }
+
     if (sub === 'check_live_roles') {
       const filterPlatform = interaction.options.getString('platform') || 'all';
       const registry = require('../modules/streamRegistry');
@@ -1220,68 +1665,86 @@ module.exports = {
       const summary = `Checked ${checked} streaming users, assigned ${assigned} roles.`;
       const details = results.length > 0 ? '\n\n' + results.join('\n') : '';
       
-      return await interaction.editReply({ content: summary + details });
+      return await safeReply(summary + details);
     }
-    } catch (error) {
-      console.error('Error in stream command:', error);
-      if (interaction.deferred || interaction.replied) {
-        await interaction.editReply({
-          content: '❌ An error occurred while processing this command.',
-          flags: 64
-        });
-      } else {
-        await interaction.reply({
-          content: '❌ An error occurred while processing this command.',
-          flags: 64 // EPHEMERAL
-        });
-      }
+
+    // If we get here, the subcommand wasn't recognized
+    return await safeReply('❌ Unknown subcommand.');
+    
+  } catch (error) {
+    console.error('Error in stream command:', error);
+    try {
+      await safeReply('❌ An error occurred while processing this command.');
+    } catch (err) {
+      console.error('Failed to send error response:', err);
     }
+  }
   },
 
   async autocomplete(interaction) {
     try {
+      if (!interaction.guildId) {
+        return interaction.respond([]);
+      }
+
       const focusedOption = interaction.options.getFocused(true);
       const subcommand = interaction.options.getSubcommand();
       
       // Handle name autocomplete for relevant subcommands
       if (['edit', 'remove'].includes(subcommand) && focusedOption.name === 'name') {
-        const platform = interaction.options.getString('platform');
-        if (platform) {
-          const entries = registry.list(interaction.guild.id)
-            .filter(e => e.platform === platform)
+        try {
+          const platform = interaction.options.getString('platform');
+          if (!platform) {
+            return interaction.respond([{ name: '⚠️ Select a platform first', value: 'select_platform' }]);
+          }
+          
+          const entries = registry.list(interaction.guildId)
+            .filter(e => e.platform && e.platform.toLowerCase() === platform.toLowerCase())
             .map(e => ({
               name: `${e.name} (${e.platform})`,
               value: e.name
             }))
             .slice(0, 25);
           
+          if (entries.length === 0) {
+            return interaction.respond([{ name: `No streamers found for ${platform}`, value: 'no_streamers' }]);
+          }
+          
           return interaction.respond(entries);
+        } catch (error) {
+          console.error('Error in name autocomplete:', error);
+          return interaction.respond([{ name: '❌ Error loading streamers', value: 'error' }]);
         }
       }
       
-      // Handle platform autocomplete if needed
+      // Handle platform autocomplete
       if (focusedOption.name === 'platform') {
-        const platforms = [
-          { name: 'Twitch', value: 'twitch' },
-          { name: 'YouTube', value: 'youtube' },
-          { name: 'Kick', value: 'kick' },
-          { name: 'Rumble', value: 'rumble' },
-          { name: 'TikTok', value: 'tiktok' },
-          { name: 'Instagram', value: 'instagram' },
-          { name: 'Discord', value: 'discord' },
-          { name: 'Facebook', value: 'facebook' },
-          { name: 'X (Twitter)', value: 'x' }
-        ];
-        
-        const search = focusedOption.value.toLowerCase();
-        const filtered = search 
-          ? platforms.filter(p => 
-              p.name.toLowerCase().includes(search) || 
-              p.value.includes(search)
-            )
-          : platforms;
+        try {
+          const platforms = [
+            { name: 'Twitch', value: 'twitch' },
+            { name: 'YouTube', value: 'youtube' },
+            { name: 'Kick', value: 'kick' },
+            { name: 'Rumble', value: 'rumble' },
+            { name: 'TikTok', value: 'tiktok' },
+            { name: 'Instagram', value: 'instagram' },
+            { name: 'Discord', value: 'discord' },
+            { name: 'Facebook', value: 'facebook' },
+            { name: 'X (Twitter)', value: 'x' }
+          ];
           
-        return interaction.respond(filtered.slice(0, 25));
+          const search = focusedOption.value.toLowerCase();
+          const filtered = search 
+            ? platforms.filter(p => 
+                p.name.toLowerCase().includes(search) || 
+                p.value.includes(search)
+              )
+            : platforms;
+            
+          return interaction.respond(filtered.slice(0, 25));
+        } catch (error) {
+          console.error('Error in platform autocomplete:', error);
+          return interaction.respond([{ name: '❌ Error loading platforms', value: 'error' }]);
+        }
       }
       
       // Default empty response if no matches
@@ -1289,7 +1752,7 @@ module.exports = {
       
     } catch (error) {
       console.error('Error in autocomplete:', error);
-      return interaction.respond([]);
+      return interaction.respond([{ name: '❌ An error occurred', value: 'error' }]);
     }
   },
 };

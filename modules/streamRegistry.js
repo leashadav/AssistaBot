@@ -48,39 +48,52 @@ function ensureFiles() {
 function load() {
   ensureFiles();
   try {
-    // Load existing data if file exists
+    // Initialize with empty data
+    db = {};
+    presence = {};
+    
+    // Only try to load if file exists
     if (fs.existsSync(DATA_PATH)) {
-      const data = JSON.parse(fs.readFileSync(DATA_PATH, 'utf8'));
-      
-      // Migrate old format if needed
-      if (data._presence) {
-        presence = data._presence;
-        delete data._presence;
-      } else {
+      try {
+        const rawData = fs.readFileSync(DATA_PATH, 'utf8');
+        if (rawData && rawData.trim()) {
+          const data = JSON.parse(rawData);
+          
+          // Handle presence data
+          if (data._presence) {
+            presence = data._presence;
+            delete data._presence;
+          }
+          
+          // Handle guild data
+          for (const [guildId, guildData] of Object.entries(data)) {
+            if (Array.isArray(guildData)) {
+              // Already in array format
+              db[guildId] = guildData;
+            } else if (guildData && typeof guildData === 'object') {
+              // Convert old object format to array
+              db[guildId] = Object.values(guildData);
+            } else {
+              // Invalid format, initialize as empty array
+              db[guildId] = [];
+            }
+          }
+        }
+      } catch (parseError) {
+        console.error('Error parsing streams.json:', parseError);
+        // If there's an error parsing, initialize with empty data
+        db = {};
         presence = {};
       }
-      
-      // Set db to the remaining data (which should be guild-specific)
-      db = data;
-    } else {
-      // Initialize with empty data if file doesn't exist
-      db = {};
-      presence = {};
-      fs.writeFileSync(DATA_PATH, JSON.stringify({ _presence: {} }, null, 2), 'utf8');
     }
     
-    // Ensure all guilds have arrays in db
-    for (const guildId in db) {
-      if (Array.isArray(db[guildId])) continue;
-      if (typeof db[guildId] === 'object' && db[guildId] !== null) {
-        // Convert old format to array
-        const entries = Object.values(db[guildId]);
-        db[guildId] = entries;
-      } else {
-        // If it's not in the expected format, initialize as empty array
-        db[guildId] = [];
-      }
+    // Ensure presence is always an object
+    if (!presence || typeof presence !== 'object') {
+      presence = {};
     }
+    
+    // Save the cleaned up data
+    save();
   } catch (error) {
     console.error('streamRegistry load error:', error?.message || 'Unknown error');
     db = {};
@@ -90,19 +103,39 @@ function load() {
 
 function save() {
   try {
+    ensureFiles();
+    
     // Create a clean copy of the data to save
-    const toWrite = { _presence: presence };
+    const toWrite = { _presence: presence || {} };
     
     // Only include valid guild data
     for (const guildId in db) {
-      if (Array.isArray(db[guildId])) {
-        toWrite[guildId] = db[guildId];
+      if (db.hasOwnProperty(guildId) && Array.isArray(db[guildId])) {
+        // Filter out any invalid entries
+        toWrite[guildId] = db[guildId].filter(entry => 
+          entry && 
+          typeof entry === 'object' && 
+          entry.platform && 
+          entry.name
+        );
       }
     }
     
-    fs.writeFileSync(DATA_PATH, JSON.stringify(toWrite, null, 2), 'utf8');
+    // Write to a temporary file first, then rename to prevent corruption
+    const tempPath = DATA_PATH + '.tmp';
+    fs.writeFileSync(tempPath, JSON.stringify(toWrite, null, 2), 'utf8');
+    
+    // On Windows, we need to remove the destination file first if it exists
+    if (process.platform === 'win32' && fs.existsSync(DATA_PATH)) {
+      fs.unlinkSync(DATA_PATH);
+    }
+    
+    // Rename the temp file to the actual file
+    fs.renameSync(tempPath, DATA_PATH);
   } catch (error) {
     console.error('streamRegistry save error:', error?.message || 'Unknown error');
+    // Try to ensure we don't leave a corrupted file
+    try { if (fs.existsSync(tempPath)) fs.unlinkSync(tempPath); } catch (e) {}
   }
 }
 

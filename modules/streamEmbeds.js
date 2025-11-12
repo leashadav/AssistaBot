@@ -13,7 +13,7 @@ const platformMeta = {
   x: { color: 0x000000, name: 'X', icon: 'https://abs.twimg.com/favicons/twitter.3.ico' }
 };
 
-function buildStreamEmbed({ platform, username, avatarUrl, url, title, game, imageUrl }) {
+function buildStreamEmbed({ platform, username, avatarUrl, url, title, game, imageUrl, rule }) {
   const platformMetaForEmbed = platformMeta[platform] || { color: 0x2f3136, name: 'Stream', icon: null };
 
   const embed = new EmbedBuilder()
@@ -21,9 +21,9 @@ function buildStreamEmbed({ platform, username, avatarUrl, url, title, game, ima
     .setAuthor({ 
       name: `${username || 'Streamer'}`, 
       iconURL: avatarUrl || platformMetaForEmbed.icon, 
-      url 
+      url: url || (platform === 'discord' ? 'https://discord.com' : url) 
     })
-    .setTitle(title || 'Live now')
+    .setTitle(title || (platform === 'discord' ? `🎥 **${username || 'Streamer'} is now screen sharing!**` : 'Live now'))
     .setURL(url)
     .setDescription(game ? `Activity: ${game}` : null)
     .setImage(imageUrl || avatarUrl || platformMetaForEmbed.icon);

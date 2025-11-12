@@ -6,7 +6,7 @@ const DEBUG = /^(1|true)$/i.test(String(process.env.ASSISTABOT_DEBUG || ''));
 const { sendLog } = require('./modules/logger');
 
 if (!token) {
-  console.error('Missing Discord bot token in config (token).');
+  console.error('❌ Missing Discord bot token in config (token).');
   process.exit(1);
 }
 
@@ -44,7 +44,7 @@ try {
   const cmds = Array.from(client.commands.keys());
   console.info({ event: 'commands_loaded', count: client.commands.size, ...(DEBUG ? { commands: cmds } : {}) });
 } catch (e) {
-  console.error('Error loading commands:', e?.message || e);
+  console.error('❌ Error loading commands:', e?.message || e);
 }
 
 // Load events

@@ -48,7 +48,7 @@ class TwitchBot {
     }
 
     async onConnected() {
-        console.log('Connected to Twitch channels:', this.client.getChannels().join(', '));
+        // Connection status handled by start.js
     }
 
     // Main message handler
@@ -147,27 +147,23 @@ class TwitchBot {
     }
 
     // Event handlers for special triggers
-    async onSubscription(channel, username, method, message, userstate) {
-        // Add custom sub handling here
-        console.log(`${username} subscribed to ${channel}`);
+    async onSubscription() {
+        // Subscription handled silently
     }
 
-    async onSubGift(channel, username, streakMonths, recipient, methods, userstate) {
-        // Add custom sub gift handling here
-        console.log(`${username} gifted a sub to ${recipient} in ${channel}`);
+    async onSubGift() {
+        // Gift sub handled silently
     }
 
-    async onCheer(channel, userstate, message) {
-        // Add custom bits handling here
-        console.log(`${userstate.username} cheered ${userstate.bits} bits in ${channel}`);
+    async onCheer() {
+        // Cheer handled silently
     }
 
     async onRaid(channel, username, viewers, tags) {
-        console.log(`${username} raided ${channel} with ${viewers} viewers`);
         try {
             await this.client.say(channel, `Thank you @${username} for the raid! Please go check them out over at https://twitch.tv/${username} , the last activity they were doing was ${tags?.game || 'something awesome'} and if you would please toss them a follow, thank you!`);
         } catch (err) {
-            console.error('Error sending raid shoutout:', err);
+            console.error('AssistaBot: Error sending raid shoutout');
         }
     }
 
@@ -176,7 +172,7 @@ class TwitchBot {
         try {
             await this.client.say(channel, message);
         } catch (err) {
-            console.error('Error sending message:', err);
+            console.error('AssistaBot: Error sending message');
         }
     }
 
