@@ -9,8 +9,7 @@ then to figure out how to get it to work in twitch so i can yeet nightbot out of
 Please remember if you for some random reason decide to use this bot for yourself, I do not entirely know what I am doing, I know just enough to get myself in to trouble, I spent a lot of time looking up tutorials and examples and honestly a lot of help from ai. So things may or may not work, but so far everything seems to be working except for the timed messages in twitch chat.
 
 ### TO DO
-suprisingly I've gotten the bot to do everything that I wanted it to do so far
-now to just keep playiung with it
+- nuked my streaming module and made a new one, well two, one for api streaming and one for discord presence streaming. still need to work on things
 
 ### IMPROVE ON
 - birthday module
@@ -26,4 +25,3 @@ now to just keep playiung with it
 - purge command
 - improve the ticket module
 - asked ai to sum up the bot functions and permissions lol: [Info](https://github.com/leashadav/AssistaBot/blob/main/info.md)
-- nuked my streaming module and made a new one, well two, one for api streaming and one for discord presence streaming. still need to work on things
