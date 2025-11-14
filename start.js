@@ -78,7 +78,7 @@ startBot('index.js');  // Discord bot
 startBot('twitch.js'); // Twitch bot
 
 // Handle graceful shutdown
-async function shutdown() {
+async function shutdown(signal) {
     if (shuttingDown) return;
     shuttingDown = true;
 

@@ -44,9 +44,6 @@ function saveUserData(userId, data) {
   try {
     const str = JSON.stringify(data, null, 2);
     atomicWriteSync(userDataPath, str);
-    if (process.env.DEBUG === 'true') {
-      console.log(`Data saved for user ${userId}`);
-    }
   } catch (error) {
     console.error('database.saveUserData error:', error);
   }

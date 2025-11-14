@@ -2,9 +2,13 @@ const fs = require('fs');
 const path = require('path');
 const configLoader = require('./configLoader');
 const tmi = require('tmi.js');
+const axios = require('axios');
 
-// Get configs
-const { twitch: twitchConfig = {} } = configLoader;
+// Twitch API endpoint
+const TWITCH_API_URL = 'https://api.twitch.tv/helix/streams';
+
+// Get Twitch config
+const twitchConfig = configLoader.twitch || {};
 
 class TwitchTimers {
   constructor() {
@@ -115,7 +119,12 @@ class TwitchTimers {
     this.stopTimers(); // Clear existing timers
     
     const allTimers = this.timers.get('global') || {};
-    console.log(`Starting ${Object.keys(allTimers).length} timers`);
+    
+    // Initial stream status check
+    this.checkStreamStatus();
+    
+    // Check stream status every 2 minutes
+    this.streamCheckInterval = setInterval(() => this.checkStreamStatus(), 2 * 60 * 1000);
     
     for (const [name, timer] of Object.entries(allTimers)) {
       if (!timer.enabled) {
@@ -126,12 +135,18 @@ class TwitchTimers {
       console.log(`Scheduling timer ${name} - first in 1 minute, then every ${timer.interval} minutes`);
       
       // Schedule first timer 1 minute after stream start
-      const firstTimeout = setTimeout(() => {
-        this.executeTimer(name, timer);
+      const firstTimeout = setTimeout(async () => {
+        if (await this.isStreamLive()) {
+          await this.executeTimer(name, timer);
+        }
         
         // Then schedule recurring timer at the specified interval
-        const interval = setInterval(() => {
-          this.executeTimer(name, timer);
+        const interval = setInterval(async () => {
+          if (await this.isStreamLive()) {
+            await this.executeTimer(name, timer);
+          } else {
+            console.log(`Timer ${name} skipped - stream is not live`);
+          }
         }, timer.interval * 60 * 1000);
         
         this.activeTimers.set(name, interval);
@@ -140,6 +155,22 @@ class TwitchTimers {
       this.activeTimers.set(`${name}_first`, firstTimeout);
     }
   }
+  
+  async checkStreamStatus() {
+    const wasLive = this.isStreamLive;
+    const isNowLive = await this.isStreamLive();
+    
+    if (isNowLive && !wasLive) {
+      console.log('Stream went live, starting timers');
+      this.onStreamStart();
+    } else if (!isNowLive && wasLive) {
+      console.log('Stream went offline, stopping timers');
+      this.onStreamEnd();
+    }
+    
+    this.isStreamLive = isNowLive;
+    return isNowLive;
+  }
 
   stopTimers() {
     for (const [name, timer] of this.activeTimers) {
@@ -147,38 +178,96 @@ class TwitchTimers {
       clearInterval(timer);
     }
     this.activeTimers.clear();
+    
+    if (this.streamCheckInterval) {
+      clearInterval(this.streamCheckInterval);
+      this.streamCheckInterval = null;
+    }
+  }
+
+  async isStreamLive() {
+    const username = twitchConfig.username;
+    const clientId = twitchConfig.client_id;
+    const oauthToken = twitchConfig.oauth_token || twitchConfig.oauth;
+
+    if (!username) {
+      console.warn('No Twitch username configured for stream status check');
+      return false;
+    }
+
+    if (!clientId || !oauthToken) {
+      console.warn('Missing Twitch API credentials (client_id or oauth_token)');
+      return false;
+    }
+
+    try {
+      const response = await axios.get(`${TWITCH_API_URL}?user_login=${username}`, {
+        headers: {
+          'Client-ID': clientId,
+          'Authorization': `Bearer ${oauthToken}`
+        }
+      });
+
+      return response.data.data && response.data.length > 0;
+    } catch (error) {
+      console.error('Error checking stream status:', error.response?.data || error.message);
+      return false;
+    }
   }
 
   async executeTimer(name, timer) {
-    if (!this.isStreamLive) {
-      console.log(`Timer ${name} skipped - stream not live`);
-      return;
-    }
-    
-    console.log(`Executing timer ${name}: ${timer.message}`);
-    
-    if (this.twitchClient) {
-      try {
+    try {
+      // Check if stream is live before executing timer
+      const isLive = await this.isStreamLive();
+      if (!isLive) {
+        console.log(`Timer ${name} skipped - stream is not live`);
+        this.isStreamLive = false;
+        return;
+      }
+      
+      if (!this.isStreamLive) {
+        console.log('Stream is now live, starting timers');
+        this.isStreamLive = true;
+        this.streamStartTime = Date.now();
+      }
+      
+      console.log(`Executing timer ${name}: ${timer.message}`);
+      
+      if (this.twitchClient) {
         const channels = this.twitchClient.getChannels();
+        if (channels.length === 0) {
+          console.warn('No channels available to post timer message');
+          return;
+        }
+        
         console.log(`Posting to channels: ${channels.join(', ')}`);
         for (const channel of channels) {
-          await this.twitchClient.say(channel, timer.message);
+          try {
+            await this.twitchClient.say(channel, timer.message);
+            console.log(`Timer ${name} executed successfully in ${channel}`);
+          } catch (error) {
+            console.error(`Error posting to ${channel}:`, error.message);
+          }
         }
-      } catch (error) {
-        console.error(`Error executing timer ${name}:`, error);
+      } else {
+        console.error(`Timer ${name} failed - no Twitch client connected`);
       }
-    } else {
-      console.error(`Timer ${name} failed - no Twitch client connected`);
+    } catch (error) {
+      console.error(`Error in executeTimer for ${name}:`, error);
     }
   }
 
   initTwitchClient() {
-    if (!twitchConfig?.twitch_username && !twitchConfig?.username) {
+    const username = twitchConfig.username;
+    const oauthToken = twitchConfig.oauth_token || twitchConfig.oauth;
+    const channels = twitchConfig.channels || [];
+
+    if (!username) {
       console.warn('No Twitch username configured for timers');
       return;
     }
-    if (!twitchConfig?.twitch_oauth && !twitchConfig?.oauth) {
-      console.warn('No Twitch OAuth configured for timers');
+    if (!oauthToken) {
+      console.warn('No Twitch OAuth token configured for timers');
       return;
     }
 
@@ -187,10 +276,10 @@ class TwitchTimers {
       options: { debug: false },
       connection: { reconnect: true, secure: true },
       identity: {
-        username: twitchConfig.twitch_username || twitchConfig.username,
-        password: twitchConfig.twitch_oauth || twitchConfig.oauth
+        username: username,
+        password: `oauth:${oauthToken.replace(/^oauth:/, '')}`
       },
-      channels: twitchConfig.twitch_channel || twitchConfig.channels || [twitchConfig.twitch_username || twitchConfig.username]
+      channels: channels.length > 0 ? channels : [username]
     });
 
     this.twitchClient.on('connected', () => {

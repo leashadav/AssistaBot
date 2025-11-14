@@ -9,7 +9,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "start:discord": "node index.js",
+    "start:twitch": "node twitch.js",
+    "start:all": "node start.js",
+    "dev": "npm run start:all"
   },
   "repository": "https://github.com/leashadav/AssistaBot.git",
   "keywords": [
@@ -32,6 +36,7 @@
   "dependencies": {
     "@discordjs/builders": "^1.11.3",
     "@discordjs/rest": "^2.6.0",
+    "axios": "^1.13.2",
     "discord-api-types": "^0.38.22",
     "discord.js": "^14.22.1",
     "moment": "^2.30.1",

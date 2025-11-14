@@ -21,7 +21,8 @@ const client = new Client({
     GatewayIntentBits.GuildPresences,
     GatewayIntentBits.GuildModeration,
     GatewayIntentBits.GuildExpressions,
-    GatewayIntentBits.GuildIntegrations
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.GuildVoiceStates  // Add this line for voice state updates
   ],
   partials: [Partials.Message, Partials.Channel, Partials.Reaction, Partials.User],
 });
@@ -153,16 +154,8 @@ const shutdown = async (signal) => {
     const base = `<:wave:1410104552010678292> ${client.user} is going offline${signal ? ` (${signal})` : ''}`;
     const tasks = [];
     for (const [gid] of client.guilds.cache) {
-      // Try assistabotLogging; fallback to generalLog
-      tasks.push(
-        (async () => {
-          try {
-            await sendLog(client, gid, 'assistabotLogging', base);
-          } catch (error) {
-            try { await sendLog(client, gid, 'generalLog', base); } catch (error) {}
-          }
-        })()
-      );
+      // Log shutdown only to assistabotLogging
+      tasks.push(sendLog(client, gid, 'assistabotLogging', base));
     }
     await Promise.allSettled(tasks);
     await new Promise((r) => setTimeout(r, 1000));
