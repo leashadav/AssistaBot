@@ -9,7 +9,7 @@ then to figure out how to get it to work in twitch so i can yeet nightbot out of
 Please remember if you for some random reason decide to use this bot for yourself, I do not entirely know what I am doing, I know just enough to get myself in to trouble, I spent a lot of time looking up tutorials and examples and honestly a lot of help from ai. So things may or may not work, but so far everything seems to be working except for the timed messages in twitch chat.
 
 ### TO DO
-- nuked my streaming module and made a new one, well two, one for api streaming and one for discord presence streaming. still need to work on things
+- completely broke the streaming module, got discord to work but broke everything else...i'll work on rebuilding it later, nut now i know more how to intially set it up...1 presence streaming, 1 api stheaming, ` voicechannel status detection for discord streaming
 
 ### IMPROVE ON
 - birthday module
