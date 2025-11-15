@@ -3,6 +3,7 @@ const DEBUG = /^(1|true)$/i.test(String(process.env.ASSISTABOT_DEBUG || ''));
 module.exports = {
   name: 'interactionCreate',
   async execute(interaction, client) {
+    // Handle commands FIRST with priority to prevent timeout
     if (interaction.isCommand()) {
       const command = client.commands.get(interaction.commandName);
       if (!command) return;
@@ -34,7 +35,11 @@ module.exports = {
           // Swallow follow-up errors like Unknown interaction
         }
       }
-    } else if (interaction.isAutocomplete()) {
+      return; // Exit early after command handling
+    }
+    
+    // Handle other interactions after commands
+    if (interaction.isAutocomplete()) {
       const command = client.commands.get(interaction.commandName);
       if (command && command.autocomplete) {
         try {

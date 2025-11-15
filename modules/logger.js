@@ -90,17 +90,21 @@ async function logDelete(message, client) {
   // If the message is in a guild, try to fetch audit logs to determine who deleted it
   if (message.guild && message.guild.fetchAuditLogs) {
     try {
-      const fetchedLogs = await message.guild.fetchAuditLogs({ limit: 1, type: AuditLogEvent.MessageDelete });
-      const deletionLog = fetchedLogs.entries.first();
+      // Wait a short time for the audit log to be created
+      await new Promise(resolve => setTimeout(resolve, 500));
       
-      if (deletionLog && (Date.now() - deletionLog.createdTimestamp) < 3000) {
-        if (deletionLog.executor) {
-          deleterText = `${deletionLog.executor.tag} (${deletionLog.executor.id})`;
+      const fetchedLogs = await message.guild.fetchAuditLogs({ limit: 3, type: AuditLogEvent.MessageDelete });
+      
+      if (fetchedLogs && fetchedLogs.entries.size > 0) {
+        // Get the most recent entry (first one)
+        const deletionLog = fetchedLogs.entries.first();
+        if (deletionLog && deletionLog.executor && deletionLog.executor.id) {
+          deleterText = `${deletionLog.executor.username} (${deletionLog.executor.id})`;
         }
       }
     } catch (error) {
       // Couldn't fetch audit logs (missing permission or other error). We'll fall back to Unknown.
-      console.error('Logger: could not fetch audit logs to determine deleter:', error);
+      if (DEBUG) console.error('Logger: could not fetch audit logs to determine deleter:', error.message);
     }
   }
 

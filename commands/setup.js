@@ -90,7 +90,6 @@ module.exports = {
       if (subcommand === 'show') {
         const settings = guildSettings.getSettings(interaction.guild.id);
 
-        // Build the body without surrounding code fences so we can chunk safely
         const body = [
           'Log Channels:',
           Object.entries(settings.logChannels)
@@ -255,6 +254,7 @@ module.exports = {
           });
         }
       }
+
     } catch (error) {
       console.error('Error in setup command:', error);
       if (interaction.deferred || interaction.replied) {

@@ -20,7 +20,11 @@ const defaultSettings = {
   },
   birthdayInfo: {
     birthdayRole: null,
-    birthdayChannel: null
+    birthdayChannel: null,
+    // Template for birthday announcement. Placeholders:
+    //   ${ageText} - age with trailing space when available, otherwise empty
+    //   ${userId}  - user id (usually used inside a mention like <@${userId}>)
+    message: '<:happybirthday:1410064532398805152> Happy ${ageText}Birthday <@${userId}>!'
   },
   welcome: {
     enabled: false,

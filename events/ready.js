@@ -7,7 +7,7 @@ const { initInvites } = require('../modules/inviteTracker');
 const DEBUG = false;
 
 module.exports = {
-  name: 'ready',
+  name: 'clientReady',
   once: true,
   async execute(client) {
     // Set initial presence
