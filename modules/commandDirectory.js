@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+const { ApplicationCommandOptionType } = require('discord.js');
 const customCommands = require('./customCommands');
 const PUBLIC_COMMAND_DIRECTORY_URL = 'https://leashadav.github.io/AssistaBot/commands/';
 
@@ -63,13 +66,71 @@ function sortCommands(commands) {
   return commands.sort((left, right) => left.name.localeCompare(right.name, undefined, { sensitivity: 'base' }));
 }
 
+function formatSlashOptions(options) {
+  return options
+    .filter(option => option.type !== ApplicationCommandOptionType.Subcommand &&
+      option.type !== ApplicationCommandOptionType.SubcommandGroup)
+    .map(option => option.required ? `<${option.name}>` : `[${option.name}]`)
+    .join(' ');
+}
+
+function flattenSlashCommand(command) {
+  const entries = [];
+  const rootDescription = command.description || 'Discord application command.';
+
+  function visit(options, pathParts, description) {
+    const subcommands = options.filter(option =>
+      option.type === ApplicationCommandOptionType.Subcommand ||
+      option.type === ApplicationCommandOptionType.SubcommandGroup
+    );
+
+    if (subcommands.length) {
+      for (const subcommand of subcommands) {
+        visit(
+          subcommand.options || [],
+          [...pathParts, subcommand.name],
+          subcommand.description || description
+        );
+      }
+      return;
+    }
+
+    const nameParts = [command.name, ...pathParts];
+    const argumentsList = formatSlashOptions(options);
+    entries.push({
+      name: nameParts.join(' '),
+      usage: `/${nameParts.join(' ')}${argumentsList ? ` ${argumentsList}` : ''}`,
+      description
+    });
+  }
+
+  visit(command.options || [], [], rootDescription);
+  return entries;
+}
+
+function getDiscordSlashCommands() {
+  const commandsPath = path.join(__dirname, '..', 'commands');
+  const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+  return sortCommands(commandFiles.flatMap(file => {
+    const command = require(path.join(commandsPath, file));
+    if (!command || !command.data || typeof command.data.toJSON !== 'function') {
+      console.warn(`[Command directory] Skipping ${file}: missing serializable command data.`);
+      return [];
+    }
+
+    return flattenSlashCommand(command.data.toJSON());
+  }));
+}
+
 function createDirectory(twitch, discord) {
   const discordNames = new Set(discord.map(command => command.name));
 
   return {
     twitchOnly: sortCommands(twitch.filter(command => !discordNames.has(command.name))),
     discordOnly: sortCommands(discord.filter(command => !twitch.some(twitchCommand => twitchCommand.name === command.name))),
-    both: sortCommands(twitch.filter(command => discordNames.has(command.name)))
+    both: sortCommands(twitch.filter(command => discordNames.has(command.name))),
+    discordSlash: getDiscordSlashCommands()
   };
 }
 
