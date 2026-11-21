@@ -1,0 +1,5 @@
+{
+  "sandbox": false,
+  "channels": [],
+  "message": "Thank you {name} for the {amount} {currency} donation!"
+}

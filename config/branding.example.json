@@ -1,0 +1,15 @@
+{
+  "botName": "AssistaBot",
+  "botDescription": "A configurable Discord community bot.",
+  "creatorName": "",
+  "creatorId": "",
+  "supportServerUrl": "",
+  "infoFooterText": "",
+  "statusText": "",
+  "birthdayEmoji": "🎂",
+  "birthdayCommandEmoji": "🎂",
+  "shutdownEmoji": "👋",
+  "boosterImage": "",
+  "donationSound": "",
+  "boosterContinuedDefaultMessage": "Big thanks to {mention} for continuing to boost us—boost #{personalBoostCount}! We’re now at {boostCount} boosts and {tier}, helping the community grow!"
+}

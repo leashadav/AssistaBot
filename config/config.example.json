@@ -1,0 +1,13 @@
+{
+  "guildId": "",
+  "guildIds": [],
+  "ownerIDS": [],
+  "clientsettings": {
+    "nodes": [
+      {
+        "host": "localhost",
+        "port": "3306"
+      }
+    ]
+  }
+}

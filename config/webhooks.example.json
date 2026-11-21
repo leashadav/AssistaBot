@@ -1,0 +1,13 @@
+{
+  "port": 3000,
+  "path": "/webhooks",
+  "twitch": {
+    "enabled": false,
+    "callbackPath": "/twitch"
+  },
+  "youtube": {
+    "enabled": false,
+    "callbackPath": "/youtube"
+  },
+  "hostname": ""
+}

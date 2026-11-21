@@ -1,0 +1,22 @@
+{
+  "twitch_username": "",
+  "twitch_bot_id": "",
+  "isBotAccount": true,
+  "twitch_channel": [],
+  "autoResponse": {
+    "follow": "Thanks for the follow, {user}!",
+    "subscription": "Thanks for subscribing, {username}!",
+    "subgift": "Thanks {username} for gifting {countDescription}!",
+    "cheer": "Thanks {username} for the {bits} bits!",
+    "raid": "Thanks for the raid, {user}!"
+  },
+  "streamVoice": {
+    "enabled": false,
+    "model": "s2.1-pro",
+    "referenceId": "",
+    "volume": 30
+  },
+  "twitch_token_endpoint": "https://id.twitch.tv/oauth2/token",
+  "twitch_channel_id": "",
+  "twitch_eventsub_websocket_url": "wss://eventsub.wss.twitch.tv/ws"
+}
