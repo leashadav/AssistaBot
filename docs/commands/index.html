@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Available AssistaBot Twitch chat and Discord commands.">
+    <meta name="description" content="Available AssistaBot Twitch and Discord prefix commands.">
     <title>AssistaBot Commands</title>
     <link rel="stylesheet" href="commands.css">
     <script src="commands.js" defer></script>
@@ -13,7 +13,7 @@
         <header class="page-header">
             <p class="eyebrow">ASSISTABOT</p>
             <h1>Bot Commands</h1>
-            <p class="intro">Browse built-in commands for Twitch chat and Discord.</p>
+            <p class="intro">Browse built-in and global prefix commands available on Twitch and Discord.</p>
         </header>
 
         <p id="status" class="status" role="status">Loading commands…</p>
@@ -22,21 +22,17 @@
                 <h2 id="twitch-heading">Twitch only</h2>
                 <ul id="twitch-only-commands" class="command-list"></ul>
             </section>
-            <section class="command-section" aria-labelledby="discord-slash-heading">
-                <h2 id="discord-slash-heading">Discord slash commands</h2>
-                <ul id="discord-slash-commands" class="command-list"></ul>
-            </section>
             <section class="command-section" aria-labelledby="discord-heading">
                 <h2 id="discord-heading">Discord prefix commands</h2>
                 <ul id="discord-only-commands" class="command-list"></ul>
-                <p class="note">Custom commands can vary by server or channel and are not included here. In a Discord server, use <code>!commands</code> to see that server’s custom commands.</p>
+                <p class="note">Server-specific custom commands can vary. In a Discord server, use <code>!commands</code> to see that server’s custom commands.</p>
             </section>
             <section class="command-section" aria-labelledby="both-heading">
                 <h2 id="both-heading">Twitch &amp; Discord</h2>
                 <ul id="both-commands" class="command-list"></ul>
             </section>
         </div>
-        <footer>Built-in command descriptions are published from the current source.</footer>
+        <footer>Includes built-in and globally configured prefix commands.</footer>
     </main>
 </body>
 </html>

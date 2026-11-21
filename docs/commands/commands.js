@@ -39,7 +39,6 @@ async function loadCommandDirectory() {
         const directory = await response.json();
 
         renderCommands('twitch-only-commands', directory.twitchOnly);
-        renderCommands('discord-slash-commands', directory.discordSlash);
         renderCommands('discord-only-commands', directory.discordOnly);
         renderCommands('both-commands', directory.both);
         document.getElementById('command-lists').hidden = false;
