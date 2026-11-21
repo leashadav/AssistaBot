@@ -1,0 +1,126 @@
+{
+  "1323558044990181387": {
+    "streamers": [
+      {
+        "username": "shadav",
+        "channelId": "1567019109269643324",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "discordUsername": "shadav",
+        "liveRoles": [
+          "1323713677815185419"
+        ],
+        "cleanup": true,
+        "messageId": "1573375713099386972",
+        "_isLive": true
+      }
+    ]
+  },
+  "1078005146698657802": {
+    "streamers": [
+      {
+        "username": "alienfurs",
+        "channelId": "1081060389753729127",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "discordUsername": "pinatareaper",
+        "liveRoles": [
+          "1286702849312559175"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false
+      },
+      {
+        "username": "mrmase370",
+        "channelId": "1085076414556028948",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "discordUsername": "mrmase",
+        "liveRoles": [
+          "1286702849312559175"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false
+      },
+      {
+        "username": "djc_animation",
+        "channelId": "1092093217656295464",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "discordUsername": "djc_animation",
+        "liveRoles": [
+          "1286702849312559175"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false
+      },
+      {
+        "username": "deyphid",
+        "channelId": "1164674493969616917",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "discordUsername": "deyphid",
+        "liveRoles": [
+          "1286702849312559175"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false
+      },
+      {
+        "username": "reallyjaydea",
+        "channelId": "1174243856406024222",
+        "customMessage": "__**{title}**__ **{streamer}** *Mastering The Meta* __{game}__  I just went live on {platform}!!! Please come join and follow this gamer girl in the fun as I hang out with all of you, share tips, and master various games!   {url}!!!",
+        "discordUsername": "reallyjaydea",
+        "liveRoles": [
+          "1286702849312559175"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false
+      },
+      {
+        "username": "thegoldengooes",
+        "channelId": "1331471006312824882",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "discordUsername": "goldbirdgooes",
+        "liveRoles": [
+          "1286702849312559175"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false
+      },
+      {
+        "username": "shadav",
+        "channelId": "1104690802623529021",
+        "customMessage": "Welcome to My Stream Is A Dumpster Fire \n In this episode we attempted",
+        "discordUsername": "shadav",
+        "liveRoles": [
+          "1286702849312559175"
+        ],
+        "cleanup": false,
+        "cooldown": 14400,
+        "lastNotifiedAt": 0,
+        "messageId": null,
+        "_isLive": true
+      }
+    ]
+  },
+  "991544116099956766": {
+    "streamers": [
+      {
+        "username": "shadav",
+        "channelId": "1104677240349929574",
+        "customMessage": "Welcome to My Stream Is A Dumpster Fire \n In this episode we attempted",
+        "discordUsername": "shadav",
+        "liveRoles": [
+          "1012537343816773662"
+        ],
+        "cleanup": false,
+        "cooldown": 14400,
+        "lastNotifiedAt": 0,
+        "messageId": null,
+        "_isLive": true
+      }
+    ]
+  }
+}

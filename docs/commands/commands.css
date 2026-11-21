@@ -1,0 +1,134 @@
+:root {
+    color-scheme: dark;
+    font-family: Arial, sans-serif;
+    background: #100d18;
+    color: #f5f2fa;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at 50% 0, rgba(145, 70, 255, 0.2), transparent 55%),
+        #100d18;
+}
+
+.page {
+    width: min(920px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 56px 0 36px;
+}
+
+.page-header {
+    margin-bottom: 30px;
+}
+
+.eyebrow {
+    margin: 0 0 10px;
+    color: #c3a2ff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(2.2rem, 7vw, 3.5rem);
+}
+
+.intro {
+    color: #c8c1d2;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.command-lists {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+    gap: 20px;
+}
+
+.command-section {
+    padding: 22px;
+    border: 1px solid #342b45;
+    border-radius: 14px;
+    background: rgba(28, 23, 38, 0.92);
+}
+
+h2 {
+    margin: 0 0 16px;
+    color: #d7c3ff;
+}
+
+.command-list {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.command-item {
+    padding: 13px 14px;
+    border-radius: 9px;
+    background: #211b2c;
+}
+
+.command-name {
+    display: block;
+    margin-bottom: 5px;
+    color: #fff;
+    font-family: Consolas, monospace;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.command-description,
+.command-access,
+.note,
+footer,
+.status {
+    color: #c8c1d2;
+    line-height: 1.5;
+}
+
+.command-access {
+    display: block;
+    margin-top: 6px;
+    color: #d7c3ff;
+    font-size: 0.9rem;
+}
+
+.note {
+    margin: 18px 0 0;
+    font-size: 0.92rem;
+}
+
+code {
+    color: #e1ccff;
+    font-family: Consolas, monospace;
+}
+
+footer {
+    margin-top: 22px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.status[data-error="true"] {
+    color: #ffb7bd;
+}
+
+@media (max-width: 520px) {
+    .page {
+        padding-top: 36px;
+    }
+
+    .command-section {
+        padding: 17px;
+    }
+}

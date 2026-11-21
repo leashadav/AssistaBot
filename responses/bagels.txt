@@ -1,0 +1,22 @@
+an asiago;
+a blueberry;
+a cheddar;
+a chocolate chip;
+a cinnamon raisin;
+an everything;
+a french toast;
+a garlic;
+a gluten-free;
+a jalapeno cheddar;
+a mini;
+a multigrain;
+an onion;
+a plain;
+a poppy seed;
+a pumpernickel;
+a rainbow;
+a salt;
+a sesame;
+a sourdough;
+a sprouted;
+a whole wheat

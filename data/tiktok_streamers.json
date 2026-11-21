@@ -1,0 +1,274 @@
+{
+  "991544116099956766": {
+    "channels": [
+      {
+        "username": "lea_shadav",
+        "discordChannelId": "1104677240349929574",
+        "uploadChannelId": "1569128242437169203",
+        "customMessage": "Welcome to My Stream Is A Dumpster Fire \n In this episode we attempted",
+        "uploadMessage": "Welcome to My Stream Is A Dumpster Fire \n In this episode we attempted",
+        "discordUsername": "shadav",
+        "liveRoles": [
+          "1012537343816773662"
+        ],
+        "cleanup": false,
+        "messageId": null,
+        "_isLive": false,
+        "_videoId": null,
+        "_lastVideoId": null,
+        "_uploadNotifications": [],
+        "_lastVideoCount": 89
+      },
+      {
+        "username": "lampymothvartist",
+        "discordChannelId": "991630218399858738",
+        "uploadChannelId": "1569128242437169203",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "uploadMessage": "**{streamer} published a new video on [{platform}]({url})!**",
+        "discordUsername": "",
+        "liveRoles": [
+          "1012537343816773662"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false,
+        "_videoId": null,
+        "_lastVideoId": null,
+        "_uploadNotifications": [],
+        "_lastVideoCount": 123
+      },
+      {
+        "username": "xogradmaxwellvtuber",
+        "discordChannelId": "991630218399858738",
+        "uploadChannelId": "1569128242437169203",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "uploadMessage": "**{streamer} published a new video on [{platform}]({url})!**",
+        "discordUsername": "xograd",
+        "liveRoles": [
+          "1012537343816773662"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false,
+        "_videoId": null,
+        "_lastVideoId": null,
+        "_uploadNotifications": [],
+        "_lastVideoCount": 122
+      },
+      {
+        "username": "unoraptormon",
+        "discordChannelId": "991630218399858738",
+        "uploadChannelId": "1569128242437169203",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "uploadMessage": "**{streamer} published a new video on [{platform}]({url})!**",
+        "discordUsername": "unoraptormon",
+        "liveRoles": [
+          "1012537343816773662"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false,
+        "_videoId": null,
+        "_lastVideoId": null,
+        "_uploadNotifications": [],
+        "_lastVideoCount": 26
+      },
+      {
+        "username": "foamythesquirrelofficial",
+        "discordChannelId": "991630218399858738",
+        "uploadChannelId": "1569128242437169203",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "uploadMessage": "**{streamer} published a new video on [{platform}]({url})!**",
+        "discordUsername": "",
+        "liveRoles": [],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false,
+        "_videoId": null,
+        "_lastVideoId": null,
+        "_uploadNotifications": [],
+        "_lastVideoCount": 646
+      },
+      {
+        "username": "dawnoftimebc",
+        "discordChannelId": "991630218399858738",
+        "uploadChannelId": "1569128242437169203",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "uploadMessage": "**{streamer} published a new video on [{platform}]({url})!**",
+        "discordUsername": "dawnoftimebc",
+        "liveRoles": [
+          "1012537343816773662"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false,
+        "_videoId": null,
+        "_lastVideoId": null,
+        "_uploadNotifications": [
+          {
+            "channelId": "1569128242437169203",
+            "messageId": "1573081626546806815",
+            "deleteAt": 1795208686381
+          },
+          {
+            "channelId": "1569128242437169203",
+            "messageId": "1573398385506000969",
+            "deleteAt": 1795284207656
+          },
+          {
+            "channelId": "1569128242437169203",
+            "messageId": "1573405932237488199",
+            "deleteAt": 1795286006843
+          }
+        ],
+        "_lastVideoCount": 176
+      },
+      {
+        "username": "deyphid",
+        "discordChannelId": "991630218399858738",
+        "uploadChannelId": "1569128242437169203",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "uploadMessage": "**{streamer} published a new video on [{platform}]({url})!**",
+        "discordUsername": "deyphid",
+        "liveRoles": [
+          "1012537343816773662"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false,
+        "_videoId": null,
+        "_lastVideoId": null,
+        "_uploadNotifications": [],
+        "_lastVideoCount": 23
+      }
+    ]
+  },
+  "1078005146698657802": {
+    "channels": [
+      {
+        "username": "unoraptormon",
+        "discordChannelId": "1078717370408898612",
+        "uploadChannelId": "1569126545484943491",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "uploadMessage": "**{streamer} published a new video on [{platform}]({url})!**",
+        "discordUsername": "",
+        "liveRoles": [],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false,
+        "_videoId": null,
+        "_lastVideoId": null,
+        "_uploadNotifications": [],
+        "_lastVideoCount": 26
+      },
+      {
+        "username": "foamythesquirrelofficial",
+        "discordChannelId": "1078717370408898612",
+        "uploadChannelId": "1569126545484943491",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "uploadMessage": "**{streamer} published a new video on [{platform}]({url})!**",
+        "discordUsername": "",
+        "liveRoles": [],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false,
+        "_videoId": null,
+        "_lastVideoId": null,
+        "_uploadNotifications": [],
+        "_lastVideoCount": 646
+      },
+      {
+        "username": "dawnoftimebc",
+        "discordChannelId": "1078717370408898612",
+        "uploadChannelId": "1569126545484943491",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "uploadMessage": "**{streamer} published a new video on [{platform}]({url})!**",
+        "discordUsername": "dawnoftimebc",
+        "liveRoles": [
+          "1286702849312559175"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false,
+        "_videoId": null,
+        "_lastVideoId": null,
+        "_uploadNotifications": [
+          {
+            "channelId": "1569126545484943491",
+            "messageId": "1573081627855290459",
+            "deleteAt": 1795208686689
+          },
+          {
+            "channelId": "1569126545484943491",
+            "messageId": "1573398386944770229",
+            "deleteAt": 1795284207885
+          },
+          {
+            "channelId": "1569126545484943491",
+            "messageId": "1573405933600645291",
+            "deleteAt": 1795286007586
+          }
+        ],
+        "_lastVideoCount": 176
+      },
+      {
+        "username": "deyphid",
+        "discordChannelId": "1078717370408898612",
+        "uploadChannelId": "1569126545484943491",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "uploadMessage": "**{streamer} published a new video on [{platform}]({url})!**",
+        "discordUsername": "deyphid",
+        "liveRoles": [
+          "1286702849312559175"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false,
+        "_videoId": null,
+        "_lastVideoId": null,
+        "_uploadNotifications": [],
+        "_lastVideoCount": 23
+      },
+      {
+        "username": "lea_shadav",
+        "discordChannelId": "1104690802623529021",
+        "uploadChannelId": "1569126545484943491",
+        "customMessage": "Welcome to My Stream Is A Dumpster Fire \n In this episode we attempted",
+        "uploadMessage": "Welcome to My Stream Is A Dumpster Fire \n In this episode we attempted",
+        "discordUsername": "shadav",
+        "liveRoles": [
+          "1286702849312559175"
+        ],
+        "cleanup": false,
+        "messageId": null,
+        "_isLive": false,
+        "_videoId": null,
+        "_lastVideoId": null,
+        "_uploadNotifications": [],
+        "_lastVideoCount": 89
+      }
+    ]
+  },
+  "1323558044990181387": {
+    "channels": [
+      {
+        "username": "lea_shadav",
+        "discordChannelId": "1567025529222340658",
+        "uploadChannelId": "1567025529222340658",
+        "customMessage": "Welcome to My Stream Is A Dumpster Fire \\n In this episode we attempted",
+        "uploadMessage": "Welcome to My Stream Is A Dumpster Fire \\n In this episode we attempted",
+        "discordUsername": "shadav",
+        "liveRoles": [
+          "1323713677815185419"
+        ],
+        "cleanup": true,
+        "messageId": null,
+        "_isLive": false,
+        "_videoId": null,
+        "_lastVideoId": null,
+        "_uploadNotifications": [],
+        "_lastVideoCount": 89
+      }
+    ]
+  }
+}

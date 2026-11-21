@@ -1,0 +1,734 @@
+{
+  "global": {
+    "Throne-timed-notification": {
+      "message": "If you'd like to send me a gift, I'd be greatly appreciative. https://throne.com/shadav",
+      "interval": 90,
+      "enabled": false,
+      "gameFilter": null,
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "The Box Discord": {
+      "message": "You know you want in the box! Join in the chaos on discord: https://discord.gg/FUY4WAhQkW",
+      "interval": 90,
+      "enabled": false,
+      "gameFilter": null,
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Collabing Community Discord": {
+      "message": "Collabing Community. Helping Others Is Our Goal, What's Yours? : https://discord.gg/9WxCk6fyf5",
+      "interval": 90,
+      "enabled": true,
+      "gameFilter": null,
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Donate": {
+      "message": "Most of you know I’m disabled & lost everything I own last year. Deyphid took me in but I lost my benefits from moving states & he's now lost his job. We’re applying for aid & jobs, but fallen behind on bills. Donations will help cover overdue mortgage/utilities/overdrafts/late fees. Any support truly means the world to us. GoFundMe: https://gofund.me/530697e2f | PayPal: https://www.paypal.com/donate/?hosted_button_id=K3NKZCP75BZ7C | KoFi: https://ko-fi.com/shadav/goal?g=1",
+      "interval": 30,
+      "enabled": true,
+      "gameFilter": null,
+      "minViewers": 0,
+      "minLines": 2
+    },    
+    "Merch": {
+      "message": "✨NEW📢 I have Merch! https://shadz-shop.fourthwall.com/",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": null,
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Abra-cooking-dabra": {
+      "message": "Thank you Door 407 for gifting the game to play on stream https://store.steampowered.com/app/3021530/AbraCookingDabra/ via PressEngine https://pressengine.net/ | This stream brought to you by #abracookingdabra #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Abra-cooking-dabra"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "All Hail the Orb": {
+      "message": "Thank you @legingerdev & GrabTheGames for gifting the game https://store.steampowered.com/app/4262310/_All_Hail_the_Orb/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #allhailtheorb #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "All Hail the Orb"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Bigfoot Life": {
+      "message": "Thank you Planet 47 Games for gifting the game https://store.steampowered.com/app/3108130/Bigfoot_Life/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #bigfootlife #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Bigfoot Life"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Breaking Deck": {
+      "message": "Thank you Wayanjo for gifting the game https://store.steampowered.com/app/3677590/Breaking_Deck/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #breakingdeck #WayanjoStudio #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Breaking Deck"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Build a Bridge": {
+      "message": "Thank you Boombit for gifting the game https://store.steampowered.com/app/694110/Build_a_Bridge/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #Boombit #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Build a Bridge!"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Car Driving School Simulator": {
+      "message": "Thank you BoomBit for gifting the game https://store.steampowered.com/app/3563700/Car_Driving_School_Simulator/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #cardrivingschoolsimulator #boombitgames #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Car Driving School Simulator"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Clean Up Earth": {
+      "message": "Thank you Magic Pockets & XP FORWARD for gifting the game https://store.steampowered.com/app/3402720/Clean_Up_Earth/ to play on stream via PressEngine https://pressengine.net/ and KeyMailer https://www.keymailer.co | This stream brought to you by #cleanupearthgame #keymailer #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Clean Up Earth"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "CODEX MORTIS": {
+      "message": "Thank you GROLAF & CRUNCHFEST for gifting the game https://store.steampowered.com/app/4084120/CODEX_MORTIS/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #CODEXMORTIS #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "CODEX MORTIS"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Crewed": {
+      "message": "Thank you Limina Games for gifting the game https://store.steampowered.com/app/2662310/Crewed/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #crewed #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Crewed"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Dadum the Dice": {
+      "message": "Thank you Pablo Picazo for gifting the game https://store.steampowered.com/app/4148440/Dadum_The_Dice/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #DadumTheDicePlaytest #DadumTheDice #pablopicazodev #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Dadum the Dice"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Detective Sherlock: Shadow Stalker": {
+      "message": "Thank you Gamercury for gifting the game https://store.steampowered.com/app/3561740/Detective_Sherlock_Shadow_Stalker/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #DetectiveSherlock #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Detective Sherlock: Shadow Stalker"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Do You Even Forklift?": {
+      "message": "Thank you Garage 5, Kurki.games, & Take IT Studio! for gifting the game https://store.steampowered.com/app/2476650/Do_You_even_Forklift/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #doyouevenforkliftplaytest #doyouevenforklift #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Do You Even Forklift?"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Don't Go Live": {
+      "message": "Thank you Lake On Fire for gifting the game https://store.steampowered.com/app/4457590/Dont_Go_Live/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Don't Go Live"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "DreamWorld": {
+      "message": "Thank you DreamWorld Realities, Inc. for gifting me the game https://store.steampowered.com/app/3103280/DreamWorld_The_Infinite_Sandbox_MMO/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #dreamworldtheinfinitesandboxmmo #DreamWorldMMO #playdreamworld #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "DreamWorld"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Dressmaker": {
+      "message": "Thank you Cozy Lives, Free Lives, & Future Friends Games for gifting the game https://store.steampowered.com/app/4019220/Dressmaker/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Dressmaker"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Edgar Allan Poe's Interactive Horror: 1995 Edition": {
+      "message": "Thank you Inscape & GMedia for gifting the game https://store.steampowered.com/app/4289030/Edgar_Allan_Poes_Interactive_Horror_1995_Edition/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Edgar Allan Poe's Interactive Horror: 1995 Edition"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Effulgence RPG": {
+      "message": "Thank you Andrei Fomin for gifting the game https://store.steampowered.com/app/3302080/Effulgence_RPG/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #effulgencerpg #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Effulgence RPG"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Fantasy Network": {
+      "message": "Thank you Raven Travel Studios & IMGN.PRO for gifting the game https://store.steampowered.com/app/1492100/Fantasy_Network/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #fantasynetwork #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Fantasy Network"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Fatal Frontier 1869": {
+      "message": "Thank you Paydirt Games, Inc. for gifting the game https://www.fatalfrontier.com/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #fatalfrontier1869 #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Fatal Frontier 1869"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Financial Freedom": {
+      "message": "Thank you Noob for gifting the game https://store.steampowered.com/app/3142910/Financial_Freedom/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #financialfreedom #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Financial Freedom"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Fine Work: Act I": {
+      "message": "Thank you Tethys Games for gifting the game https://store.steampowered.com/app/2752240/Fine_Work_Act_I/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #finework #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Fine Work Act I"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Fireworks Mania": {
+      "message": "Thank you Laumania ApS for gifting me the game https://store.steampowered.com/app/1079260/Fireworks_Mania__An_Explosive_Simulator/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #fireworksmania #laumania #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Fireworks Mania"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Forks and Daggers": {
+      "message": "Thank you BrightVoid Interactive for gifting the game https://store.steampowered.com/app/3513030/Forks_and_Daggers/ to play on stream via KeyMailer https://www.keymailer.co and gifting me 3 extra codes to give to friends | This stream brought to you by #ForksandDaggersPlaytest #ForksandDaggers #brightvoidint #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Forks & Daggers"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Game Builder Tycoon": {
+      "message": "Thank you AM Playhouse & PlayWay S.A. for gifting the game https://store.steampowered.com/app/2756470/Game_Builder_Tycoon/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #gamebuildertycoon #AMPlayhouse #PlayWay #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Game Builder Tycoon"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Geo-Political Simulator 2026 Edition": {
+      "message": "Thank you Eversim for gifting the game https://store.steampowered.com/app/4021780/GeoPolitical_Simulator_2026_Edition/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #geopoliticalsimulator2026edition #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Geo-Political Simulator 2026 Edition"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Ghost Keeper": {
+      "message": "Thank you Quest Craft & Gaming Factory for gifting the game https://store.steampowered.com/app/2708880/Ghost_Keeper/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #GhostKeeper #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Ghost Keeper"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Gorilla Showdown": {
+      "message": "Thank you Sloth King for gifting the game and an extra game for @Deyphid https://store.steampowered.com/app/3217900/Gorilla_Showdown/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #GorillaShowdown #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Gorilla Showdown"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Heads Will Roll: Reforged": {
+      "message": "Thank you 1917 Studios & Valkyrie Initiative for gifting the game and DLCs https://store.steampowered.com/app/687800/Heads_Will_Roll_Reforged/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #headswillrollreforged #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Heads Will Roll: Reforged"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Helix: Descent N Ascent": {
+      "message": "Thank you Badass Mongoose for gifting the game https://store.steampowered.com/app/2736370/Helix_Descent_N_Ascent/ to play on stream via KeyMailer https://www.keymailer.co & PressEngine https://pressengine.net/ | This stream brought to you by #HelixDNA #keymailer #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Helix: Descent N Ascent"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Holonoptic": {
+      "message": "Thank you Glazial & Bonfire PR for gifting the game https://store.steampowered.com/app/4305470/Holonoptic/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #Holonoptic #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Holonoptic"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "House Builder": {
+      "message": "Thank you FreeMind S.A. & PlayWay S.A. for gifting the game & all of it's dlc to play on stream https://store.steampowered.com/app/1244630/House_Builder/ via KeyMailer https://www.keymailer.co | This stream brought to you by #house_builder #housebuilder #housebuilderatomic #housebuilder_medievaldlc #housebuildergarden #PlayWay #GamesFreemind #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "House Builder"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "HYPERWIRED": {
+      "message": "Thank you SIDRALGAMES & Selecta Play for gifting the game to play on stream https://store.steampowered.com/app/3234850/HYPERWIRED/ via KeyMailer https://www.keymailer.co | This stream brought to you by #hyperwired #SIDRALGAMES #SelectaPlay #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "HYPERWIRED"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "I Want to Play the Villain": {
+      "message": "Thank you Triomatica Games for gifting the game https://store.steampowered.com/app/4831430/I_Want_to_Play_the_Villain/ to play on stream via KeyMailer https://www.keymailer.co & PressEngine https://pressengine.net/ | This stream brought to you by #iwanttoplaythevillainplaytest #iwanttoplaythevillain #keymailer #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "I Want to Play the Villain"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Ignitement": {
+      "message": "Thank you Sørb & Starfall PR for gifting the game https://store.steampowered.com/app/3845350/Ignitement/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #ignitement #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Ignitement"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Innsmouth22": {
+      "message": "Thank you Raven Novels for gifting the game to play on stream https://store.steampowered.com/app/2456640/Innsmouth_22/ via KeyMailer https://www.keymailer.co | This stream brought to you by #innsmouth22 #RavenNovels #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Innsmouth 22"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Instants": {
+      "message": "Thank you Endflame & Future Friends Games for gifting the game https://store.steampowered.com/app/2948560/Instants/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #Instants #Endflame #FutureFriendsGames #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Instants"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "KARMA: The Dark World": {
+      "message": "Thank you Pollard Studio & Wired Productions for gifting the game to play on stream https://store.steampowered.com/app/1376200/KARMA_The_Dark_World/ via PressEngine https://pressengine.net/ | This stream brought to you by #KarmaDarkWorld #PollardStudio #WiredProductions #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "KARMA: The Dark World"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Kooo to Jump!": {
+      "message": "Thank you Tzavis Studio for gifting the game https://store.steampowered.com/app/4237400/KOOO_TO_JUMP/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #koootojumpplaytest #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Kooo to Jump!"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Lazy Train Game": {
+      "message": "Thank you Game Warden Games for gifting the game https://store.steampowered.com/app/3470220/Lazy_Train_Game/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #lazytraingameplaytest #lazytraingame #GameWardenGames #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Lazy Train Game"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Legends of the Round Table": {
+      "message": "Thank you Artifice Studio for gifting the game https://store.steampowered.com/app/2387040/Legends_of_the_Round_Table/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #LegendsoftheRoundTable #ArtificesStudio #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Legends of the Round Table"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Lost & Found: A This Bed We Made Story": {
+      "message": "Thank you Lowbirth Games for gifting the game https://store.steampowered.com/app/4333200/Lost__Found_A_This_Bed_We_Made_Story/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #thisbedwemade #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Lost & Found: A This Bed We Made Story"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Mannequin Mayhem: Physics Ragdoll Shooter": {
+      "message": "Thank you Geekon & Midnight Games for gifting the game https://store.steampowered.com/app/2757640/Mannequin_Mayhem__Physics_Ragdoll_Shooter/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Mannequin Mayhem: Physics Ragdoll Shooter"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Mini Pond Farm: Frogs & Lilypads": {
+      "message": "Thank you @MiniPondFarm for gifting the game Mini Pond Farm: Frogs & Lilypads https://store.steampowered.com/app/4190610/Mini_Pond_Farm_Frogs__Lilypads/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #minipondfarmfrogsandlilypadsplaytest #minipondfarmfrogsandlilypads #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Mini Pond Farm: Frogs & Lilypads"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Monster Crown: Sin Eater": {
+      "message": "Thank you Studio Aurum & @redartgamesofficial for gifting the game https://store.steampowered.com/app/3388410/Monster_Crown_Sin_Eater/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Monster Crown: Sin Eater"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "OMEA": {
+      "message": "Thank you AImmersive for gifting the game https://store.steampowered.com/app/4275550/OMEA/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #OMEA #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "OMEA"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "On-Together": {
+      "message": "Thank you GigaPuff & Future Friends Games for gifting the game https://store.steampowered.com/app/3707400/OnTogether_Virtual_CoWorking/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #ontogehter #FutureFriendsGames #GigaPuff #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "On-Together"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "One Hand Clapping": {
+      "message": "Thank you Bad Dream Games & HandyGames for gifting the game https://store.steampowered.com/app/893720/One_Hand_Clapping/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #OneHandClapping #BadDreamGames #HandyGames #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "One Hand Clapping"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Parking Tycoon 2: Business Simulator": {
+      "message": "Thank you Geekon & MIDNIGHT GAMES for gifting the game https://store.steampowered.com/app/3743410/Parking_Tycoon_2_Business_Simulator/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #ParkingTycoon2BusinessSimulator #ParkingTycoon2 #MidnightGames #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Parking Tycoon 2"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Pecking Order": {
+      "message": "Thank you Talent Digital for not only gifting the game https://store.steampowered.com/app/3530640/Pecking_Order/ to play on stream via KeyMailer https://www.keymailer.co but also paying for my time that is greatly appreciated | This stream brought to you by #peckingorderplayevent #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Pecking Order"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Petit Planet": {
+      "message": "Thank you Hoyoverse for gifting the game https://planet.hoyoverse.com/en-us/home to play on stream | This stream brought to you by #PetitPlanet #HoYoverse #PetitPlanetCreations",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Petit Planet"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Piano Trauma - Stress Deluxe": {
+      "message": "Thank you Meltersoft & Turtle Chain for gifting the game https://store.steampowered.com/app/4268060/Piano_Trauma__Stress_Deluxe/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #pianotraumastressdeluxe #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Piano Trauma: Stress Deluxe"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Pocket Spouse": {
+      "message": "Thank you Seth Fasnacht for gifting the game https://store.steampowered.com/app/3891580/Pocket_Spouse/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #pocketspouseplaytest #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Pocket Spouse"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Potion Tycoon": {
+      "message": "Thank you Snowhound Games & Daedalic Entertainment for gifting the game to play on stream https://store.steampowered.com/app/1485690/Potion_Tycoon/ via PressEngine https://pressengine.net/ This stream is brought to you by #SnowhoundGames #Daedalic #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Potion Tycoon"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Psyvariar 3": {
+      "message": "Thank you Red Art Games, Banana Bytes, Red Art Studios & SUCCESS Corp. for gifting the game https://store.steampowered.com/app/4019130/Psyvariar_3/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #Psyvariar3 #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Psyvariar 3"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Recycling Center Simulator": {
+      "message": "Thank you Balas Games & PlayWay S.A. for gifting the game https://store.steampowered.com/app/2928520/Recycling_Center_Simulator/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #recyclingcentersimulator #PlayWay #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Recycling Center Simulator"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Return to Dark Castle": {
+      "message": "Thank you Z Sculpt Entertainment & Ludit for gifting the game to play on stream via KeyMailer https://www.keymailer.co and for giving an affiliate link for the game https://game.page/returntodarkcastle/Lea%20Shadav| This stream brought to you by #returntodarkcastle #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Return to Dark Castle"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "SEMI": {
+      "message": "Thank you Two Horn Unicorn for gifting the game to play on stream https://store.steampowered.com/app/3957560/SEMI__Side_Effects_May_Include/ via PressEngine https://pressengine.net/ | This stream brought to you by #semigame #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "S.E.M.I.: Side Effects May Include..."
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Spinera": {
+      "message": "Thank you Arvis Games & Sparks Forge PR for gifting the game https://store.steampowered.com/app/3576520/Spinera/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #spinera #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Spinera"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Station Command": {
+      "message": "Thank you Respite Games & Starfall PR for gifting the game https://store.steampowered.com/app/3542330/Station_Command/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #StationCommand #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Station Command"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Tech Store Simulator": {
+      "message": "Thank you Astrasoft for gifting the game to play on stream https://store.steampowered.com/app/3076400/Tech_Store_Simulator/ via KeyMailer https://www.keymailer.co | This stream brought to you by #TechStoreSimulator #Astrasoft #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Tech Store Simulator"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "The House of Tesla: Definitive Edition": {
+      "message": "Thank you Blue Brain Games for not only gifting the original game but also now for the updated Definitive Edition https://store.steampowered.com/app/2738230/The_House_of_Tesla_Definitive_Edition/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #TheHouseOfTesla #BlueBrainGames #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "The House of Tesla: Definitive Edition"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "The Shore": {
+      "message": "Thank you Ares Dragonis & Dragonis Games for not only gifting me the game https://store.steampowered.com/app/1297300/The_Shore/ but also a 2nd code for me to give away via KeyMailer https://www.keymailer.co and PressEngine https://pressengine.net/ | This stream brought to you by #TheShoreGame #keymailer #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "The Shore"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "The Witch's Redemption": {
+      "message": "Thank you Geekon & Midnight Games for gifting the game https://store.steampowered.com/app/2845430/The_Witchs_Redemption/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "The Witch's Redemption"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Therapy Simulator": {
+      "message": "Thank you Jemboy for gifting the game https://store.steampowered.com/app/3400530/Therapy_Simulator/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #therapysimulator #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Therapy Simulator"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Urban Entrepreneur": {
+      "message": "Thank you ArchDawn for gifting the game to play on stream https://store.steampowered.com/app/2648080/Urban_Entrepreneur/ via keymailer https://www.keymailer.co  | This stream is brought to you by #UrbanEntrepreneur #ArchDawn #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Urban Entrepreneur"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Vampire Therapist": {
+      "message": "Thank you Little Bat Games & 1UP PR for gifting the game https://store.steampowered.com/app/2481020/Vampire_Therapist/ to play on stream via PressEngine https://pressengine.net/ | This stream brought to you by #VampireTherapist #LittleBatGames #1UPPR #PressEngine",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Vampire Therapist"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Villages": {
+      "message": "Thank you HailFallKompany for gifting the game to play on stream https://store.steampowered.com/app/749820/Villages/ via Woovit https://woovit.com/ | This stream brought to you by #Villages #HAILFALLKOMPANY #Woovit",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Villages"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Waterpark Simulator": {
+      "message": "Thank you CayPlay for gifting the game https://store.steampowered.com/app/3293260/Waterpark_Simulator/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #waterparksim #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Waterpark Simulator"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    },
+    "Zoo Life Simulator": {
+      "message": "Thank you Hiraru for gifting the game https://store.steampowered.com/app/3874220/Zoo_Life_Simulator/ to play on stream via KeyMailer https://www.keymailer.co | This stream brought to you by #zoolifesim #hiraru #keymailer",
+      "interval": 60,
+      "enabled": true,
+      "gameFilter": [
+        "Zoo Life Simulator"
+      ],
+      "minViewers": 0,
+      "minLines": 2
+    }
+  }
+}

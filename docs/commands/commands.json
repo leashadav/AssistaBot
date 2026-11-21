@@ -1,0 +1,77 @@
+{
+  "twitchOnly": [
+    {
+      "name": "ad",
+      "aliases": [
+        "ads"
+      ],
+      "description": "Start a Twitch ad break, when the channel is eligible."
+    },
+    {
+      "name": "pimpmeout",
+      "description": "Add yourself to the automatic shoutout list."
+    },
+    {
+      "name": "song",
+      "description": "Show the song currently playing on YouTube."
+    },
+    {
+      "name": "testvoice",
+      "description": "Test stream voice announcements while live (broadcaster only)."
+    }
+  ],
+  "discordOnly": [
+    {
+      "name": "addcom",
+      "aliases": [
+        "addcommand"
+      ],
+      "usage": "!addcom <name> <response>",
+      "description": "Add a server custom command (Manage Server required)."
+    },
+    {
+      "name": "cominfo",
+      "usage": "!cominfo <name>",
+      "description": "Show the response, cooldown, and access settings for a custom command."
+    },
+    {
+      "name": "coms",
+      "aliases": [
+        "commands"
+      ],
+      "description": "List built-in and custom prefix commands available in this server."
+    },
+    {
+      "name": "delcom",
+      "aliases": [
+        "delcommand",
+        "removecom"
+      ],
+      "usage": "!delcom <name>",
+      "description": "Remove a server custom command (Manage Server required)."
+    },
+    {
+      "name": "reloadcom",
+      "aliases": [
+        "reloadcoms"
+      ],
+      "description": "Reload custom and global commands (bot owner only)."
+    },
+    {
+      "name": "setcom",
+      "usage": "!setcom <name> <cooldown|perm|roles> <value>",
+      "description": "Change a custom command’s cooldown or access settings (Manage Server required)."
+    },
+    {
+      "name": "testfetch",
+      "usage": "!testfetch <url>",
+      "description": "Fetch and display a text preview from a URL (bot owner only)."
+    }
+  ],
+  "both": [
+    {
+      "name": "botcommands",
+      "description": "Get a link to the built-in bot command directory."
+    }
+  ]
+}

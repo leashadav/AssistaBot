@@ -1,0 +1,488 @@
+{
+  "8ball": {
+    "response": "🎱 {urlfetchpick:text:responses/8ball.txt}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["magicball","magic8ball","eightball"],
+    "allowedRoles": []
+  },
+  "advice": {
+    "response": "{urlfetchpick:text:responses/advice.txt}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761707867048,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "bagel": {
+    "response": "{user} throws {urlfetchpick:text:responses/bagels.txt} bagel at {touser:everyone}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761708563696,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "bageltoppings": {
+    "response": "{user} gives {urlfetchpick:text:responses/bagels.txt} bagel topped with {urlfetchpick:text:responses/toppings.txt} to {touser:everyone}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761708563696,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "beer": {
+    "response": "{user} buys {touser:everyone} a beer!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["beers"],
+    "allowedRoles": []
+  },
+  "belt": {
+    "response": "Lithia Vey made the belt that I am wearing as a joke to the no hips showing rule It comes in silver and gold, I edited it for my avatar, it is free so go grab you one and maybe toss them $1 as a thank you https://ko-fi.com/s/b133a747b6",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "brain": {
+    "response": "{touser}'s brain is {eval:Math.floor((Math.random() * 100))}% working.",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "breakfast": {
+    "response": "{user} gives {urlfetchpick:text:responses/breakfast.txt} with a side of {urlfetchpick:text:responses/sides.txt} and {urlfetchpick:text:responses/drinks.txt} to {touser:everyone}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "cappuccino": {
+    "response": "{user} gives {touser:everyone} a cup of cappuccino!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["cappachino"],
+    "allowedRoles": []
+  },
+  "coffee": {
+    "response": "{user} gives {touser:everyone} a cup of coffee!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "coinflip": {
+    "response": "🪙 {touser} flips a coin in the air and it lands on {eval:Math.random() < 0.5 ? 'Heads' : 'Tails'}!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "collab": {
+    "response": "Todays collab we have playing: Deyphid twitch.tv/deyphid & Yun twitch.tv/yun9564 - please check them out & give them a follow :) thank you.",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "cuddle": {
+    "response": "{user} is cuddling with {touser:everyone}!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["cuddles","cuddling"],
+    "allowedRoles": []
+  },
+  "dadjoke": {
+    "response": "{urlfetchpick:text:responses/dadjokes.txt}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "deity": {
+    "response": "All hail {touser}, the deity of {urlfetchpick:text:responses/deity.txt}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "dessert": {
+    "response": "{user} gives {urlfetchpick:text:responses/desserts.txt} and {urlfetchpick:text:responses/drinks.txt} to {touser:everyone}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["desserts"],
+    "allowedRoles": []
+  },
+  "deyphid": {
+    "response": "*-pts-* hey you, yeah you! You could be one of the first few folks to get your official Deyphid merch and bragging rights! Go snag you one today! https://deyphid-shop.fourthwall.com/collections/all",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "dice": {
+    "response": "🎲 {user} just rolled a {rand:1-(query)} on a (query) sided die!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["die"],
+    "allowedRoles": []
+  },
+  "dinner": {
+    "response": "{user} gives an appetizer of {urlfetchpick:text:responses/appetizers.txt} with a main dish of {urlfetchpick:text:responses/dinner.txt} with a side of {urlfetchpick:text:responses/sides.txt} and {urlfetchpick:text:responses/drinks.txt} to drink and for dessert {urlfetchpick:text:responses/desserts.txt} to {touser:everyone}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "discord": {
+    "response": "Come Join the Collabing Community. Streamers helping streamers connect with their audiences and play some games together. Or for those that may not know how to or want to run their own discord : Helping Others Is Our Goal, What's Yours? https://discord.gg/9WxCk6fyf5",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "donate": {
+    "response": "If you'd like to help me out, any little bit is greatly appreciated. https://paypal.me/TheShadavNetwork THANK YOU! I will never forget what you have done.",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["tip","tips","donation","donations"],
+    "allowedRoles": []
+  },
+  "drink": {
+    "response": "{user} gives {urlfetchpick:text:responses/drinks.txt} to {touser:everyone}!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["drinks","beverage","beverages"],
+    "allowedRoles": []
+  },
+  "facebook": {
+    "response": "You might find me here: https://facebook.com/ShadavInTheBox",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["fb"],
+    "allowedRoles": []
+  },
+  "ff": {
+    "response": "{user} yells food fight and throws {urlfetchpick:text:responses/sides.txt} at {touser:everyone}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761882233285,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["foodfight"],
+    "allowedRoles": []
+  },
+  "followage": {
+    "response": "{urlfetch:text:https://commands.garretcharp.com/twitch/followage/{channel}/{touser}?format=ymd&ping=false}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761882233285,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "gift": {
+    "response": "If you'd like to send me a gift, I'd be greatly appreciative. https://throne.com/shadav | https://www.amazon.com/hz/wishlist/ls/1ULILO322UOGY | https://walmart.com/lists/shared/WL/a4fcf0c1-5678-46ad-9ac3-bb1d05a4c54f | https://store.steampowered.com/wishlist/id/shadav | 3918 Clark Ave #23192, San Antonio, TX 78223",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761882233285,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["wishlist"],
+    "allowedRoles": []
+  },
+  "headpat": {
+    "response": "{user} gives {touser:everyone} a headpat!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761882233285,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["headpats"],
+    "allowedRoles": []
+  },
+  "hit": {
+    "response": "{user} just hit {touser:everyone} with a {urlfetchpick:text:https://twitch.center/customapi/quote?token=35b52140&no_id=1}!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761882233285,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["hits"],
+    "allowedRoles": []
+  },
+  "hug": {
+    "response": "{user} hugged {touser:everyone}!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761882233285,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["hugs", "hugged"],
+    "allowedRoles": []
+  },
+  "kofi": {
+    "response": "Sharing content that I've created or edited over the years for various things: https://ko-fi.com/shadav",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761882233285,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "lunch": {
+    "response": "{user} gives {urlfetchpick:text:responses/lunch.txt} with a side of {urlfetchpick:text:responses/sides.txt} and {urlfetchpick:text:responses/drinks.txt} to {touser:everyone}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "lurk": {
+    "response": "{user} is now lurking, be on the lookout for them in dark corners!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["lurking","lurks"],
+    "allowedRoles": []
+  },
+  "merch": {
+    "response": "✨NEW📢 I have Merch! https://shadz-shop.fourthwall.com/",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["shop","store","merchandise"],
+    "allowedRoles": []
+  },
+  "mood": {
+    "response": "{touser} is {eval:Math.floor((Math.random() * 100))}% {urlfetchpick:text:responses/moods.txt}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "patreon": {
+    "response": "My Sims 4 Custom Creations: https://patreon.com/shadav",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "paypal": {
+    "response": "If you'd like to donate to help pay my bills, I greatly appreciate it https://www.paypal.com/donate/?hosted_button_id=K3NKZCP75BZ7C",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "pizza": {
+    "response": "{user} gives a pizza topped with {urlfetchpick:text:responses/toppings.txt} and {urlfetchpick:text:responses/toppings.txt} to {touser:everyone}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "pobox": {
+    "response": "If for some strange reason you would like to send Shadav or Deyphid something, 3918 Clark Ave #23192, San Antonio, TX 78223",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["address","mail"],
+    "allowedRoles": []
+  },
+  "raiders": {
+    "response": "Hello raiders, If you would be so kind to at least say hi before you head on out I'd greatly appreciate it!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "rate": {
+    "response": "{user} rates {touser} a {eval:Math.floor((Math.random() * 10))}/10",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["rates","rating"],
+    "allowedRoles": []
+  },
+  "roll": {
+    "response": "🎲 {user} rolled a {eval:Math.floor((Math.random() * 6) + 1)}!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "shot": {
+    "response": "{user} buys {touser:everyone} a shot!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["shots"],
+    "allowedRoles": []
+  },
+   "snacks": {
+    "response": "{user} gives {urlfetchpick:text:responses/snacks.txt} with a side of {urlfetchpick:text:responses/sides.txt} and {urlfetchpick:text:responses/drinks.txt} to {touser:everyone}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["snack"],
+    "allowedRoles": []
+  },
+  "so": {
+    "response": "Please go check out {todisplayname} (@{touser}) over at https://twitch.tv/{touser}, the last activity they were doing was {game}. Please toss them a follow!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["shoutout"],
+    "allowedRoles": []
+  },
+  "socials": {
+    "response": "You might find me here: https://x.com/leashadav\nSometimes I'm here: https://facebook.com/ShadavInTheBox\nA few people found me here: https://bsky.app/profile/shadav.bsky.social\nYou can maybe find me here: https://www.threads.com/@ishadav\nIt's quiet here: https://mstdn.social/@Shadav\nYou can almost always find me in the Collabing Community: https://discord.gg/HuxQJPudp8",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "sponsor": {
+    "response": "All streams are sponsored by TheHaint 🧡 who so generously donated 2 laptops and a spare monitor",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761882233285,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["sponsors"],
+    "allowedRoles": []
+  },
+  "subs": {
+    "response": "{channel} has {subcount} subscribers. Thank you so much to those who sub and gift subs, it means a lot to me.",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761882233285,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["sub","subbed","subscribers","subscriber"],
+    "allowedRoles": []
+  },
+  "tea": {
+    "response": "{user} gives {touser:everyone} a cup of tea!",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "throne": {
+    "response": "If you'd like to send me a gift, I'd be greatly appreciative. https://throne.com/shadav",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "tinkerspy": {
+    "response": "Please go check out tinkerspy on deviant art: https://deviantart.com/thumperdooes",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "twitter": {
+    "response": "You might find me here, maybe: https://x.com/leashadav",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["x"],
+    "allowedRoles": []
+  },
+  "uno": {
+    "response": "Uno's book is available on Amazon. If you would be so kind as to drop her a follow on amazon that'd be wonderful https://www.amazon.com/stores/JHH-Spears/author/B0FHN1171K",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761674263601,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["unoraptormon"],
+    "allowedRoles": []
+  },  
+  "uptime": {
+    "response": "Stream has been live for {uptime}",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": [],
+    "allowedRoles": []
+  },
+  "youtube": {
+    "response": "Where all the old vods go: https://youtube.com/@leashadav",
+    "creatorId": "SYSTEM",
+    "createdAt": 1761630254747,
+    "cooldown": 5,
+    "requiredPermission": null,
+    "aliases": ["yt"],
+    "allowedRoles": []
+  }
+}

@@ -1,0 +1,836 @@
+{
+  "1323558044990181387": {
+    "Shadav": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/shadav",
+      "discordUserId": "460291964248522753",
+      "addedBy": "460291964248522753",
+      "thursday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "wednesday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "sunday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "iLLWiLLPrEss": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/illwillpress",
+      "discordUserId": "184769588594999306",
+      "addedBy": "460291964248522753",
+      "wednesday": [
+        {
+          "startTime": "16:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "sunday": [
+        {
+          "startTime": "11:00",
+          "endTime": "13:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "Deyphid": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/deyphid",
+      "discordUserId": "896948176764932117",
+      "addedBy": "460291964248522753",
+      "tuesday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "wednesday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "thursday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "friday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "saturday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "sunday": [
+        {
+          "startTime": "14:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "DawnOfTimeBC": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/dawnoftimebc",
+      "discordUserId": "802914686949130291",
+      "addedBy": "460291964248522753",
+      "monday": [
+        {
+          "startTime": "16:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "tuesday": [
+        {
+          "startTime": "16:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "friday": [
+        {
+          "startTime": "16:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "saturday": [
+        {
+          "startTime": "13:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "DJC_Animation": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/djc_animation",
+      "discordUserId": "655833210638434324",
+      "addedBy": "460291964248522753",
+      "saturday": [
+        {
+          "startTime": "20:00",
+          "endTime": "22:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "TimyTheTermite": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/timythetermite",
+      "discordUserId": "349319252186234881",
+      "addedBy": "460291964248522753",
+      "monday": [
+        {
+          "startTime": "19:00",
+          "endTime": "22:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "tuesday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "wednesday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "thursday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "friday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "saturday": [
+        {
+          "startTime": "16:00",
+          "endTime": "20:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    }
+  },
+  "991544116099956766": {
+    "Shadav": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/shadav",
+      "discordUserId": "460291964248522753",
+      "addedBy": "460291964248522753",
+      "thursday": [
+        {
+          "startTime": "11:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "wednesday": [
+        {
+          "startTime": "11:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        },
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "sunday": [
+        {
+          "startTime": "11:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2",
+      "monday": [
+        {
+          "startTime": "11:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "tuesday": [
+        {
+          "startTime": "11:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "friday": [
+        {
+          "startTime": "11:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "saturday": [
+        {
+          "startTime": "11:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ]
+    },
+    "iLLWiLLPrEss": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/illwillpress",
+      "discordUserId": "184769588594999306",
+      "addedBy": "460291964248522753",
+      "wednesday": [
+        {
+          "startTime": "16:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "sunday": [
+        {
+          "startTime": "11:00",
+          "endTime": "13:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "Deyphid": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/deyphid",
+      "discordUserId": "896948176764932117",
+      "addedBy": "460291964248522753",
+      "tuesday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "wednesday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "thursday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "friday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "saturday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "sunday": [
+        {
+          "startTime": "14:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "DawnOfTimeBC": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/dawnoftimebc",
+      "discordUserId": "802914686949130291",
+      "addedBy": "460291964248522753",
+      "monday": [
+        {
+          "startTime": "16:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "tuesday": [
+        {
+          "startTime": "16:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "friday": [
+        {
+          "startTime": "16:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "saturday": [
+        {
+          "startTime": "13:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "DJC_Animation": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/djc_animation",
+      "discordUserId": "655833210638434324",
+      "addedBy": "460291964248522753",
+      "saturday": [
+        {
+          "startTime": "20:00",
+          "endTime": "22:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "TimyTheTermite": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/timythetermite",
+      "discordUserId": "349319252186234881",
+      "addedBy": "460291964248522753",
+      "monday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        },
+        {
+          "startTime": "19:00",
+          "endTime": "22:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "tuesday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "wednesday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "thursday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "friday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "saturday": [
+        {
+          "startTime": "16:00",
+          "endTime": "20:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "Xograd": {
+      "timezone": "America/Chicago",
+      "scheduleTimeFormat": "local-v2",
+      "streamUrl": "https://www.twitch.tv/xograd",
+      "discordUserId": null,
+      "addedBy": "460291964248522753",
+      "monday": [
+        {
+          "startTime": "22:00",
+          "endTime": "23:59",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "wednesday": [
+        {
+          "startTime": "22:00",
+          "endTime": "23:59",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "friday": [
+        {
+          "startTime": "22:00",
+          "endTime": "23:59",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "saturday": [
+        {
+          "startTime": "14:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "sunday": [
+        {
+          "startTime": "14:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ]
+    },
+    "Cameron_The_Corgi": {
+      "timezone": "America/Chicago",
+      "scheduleTimeFormat": "local-v2",
+      "streamUrl": "https://www.twitch.tv/cameron_the_corgi",
+      "discordUserId": null,
+      "addedBy": "460291964248522753",
+      "tuesday": [
+        {
+          "startTime": "17:00",
+          "endTime": "20:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "wednesday": [
+        {
+          "startTime": "17:00",
+          "endTime": "20:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "thursday": [
+        {
+          "startTime": "17:00",
+          "endTime": "20:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "saturday": [
+        {
+          "startTime": "17:00",
+          "endTime": "20:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ]
+    }
+  },
+  "1078005146698657802": {
+    "Shadav": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/shadav",
+      "discordUserId": "460291964248522753",
+      "addedBy": "460291964248522753",
+      "thursday": [
+        {
+          "startTime": "11:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "wednesday": [
+        {
+          "startTime": "11:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        },
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "sunday": [
+        {
+          "startTime": "11:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2",
+      "monday": [
+        {
+          "startTime": "11:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "tuesday": [
+        {
+          "startTime": "11:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "friday": [
+        {
+          "startTime": "11:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "saturday": [
+        {
+          "startTime": "11:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ]
+    },
+    "iLLWiLLPrEss": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/illwillpress",
+      "discordUserId": "184769588594999306",
+      "addedBy": "460291964248522753",
+      "wednesday": [
+        {
+          "startTime": "16:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "sunday": [
+        {
+          "startTime": "11:00",
+          "endTime": "13:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "Deyphid": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/deyphid",
+      "discordUserId": "896948176764932117",
+      "addedBy": "460291964248522753",
+      "tuesday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "wednesday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "thursday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "friday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "saturday": [
+        {
+          "startTime": "19:00",
+          "endTime": "23:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "sunday": [
+        {
+          "startTime": "14:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "DawnOfTimeBC": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/dawnoftimebc",
+      "discordUserId": "802914686949130291",
+      "addedBy": "460291964248522753",
+      "monday": [
+        {
+          "startTime": "16:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "tuesday": [
+        {
+          "startTime": "16:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "friday": [
+        {
+          "startTime": "16:00",
+          "endTime": "19:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "saturday": [
+        {
+          "startTime": "13:00",
+          "endTime": "16:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "DJC_Animation": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/djc_animation",
+      "discordUserId": "655833210638434324",
+      "addedBy": "460291964248522753",
+      "saturday": [
+        {
+          "startTime": "20:00",
+          "endTime": "22:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    },
+    "TimyTheTermite": {
+      "timezone": "America/Chicago",
+      "streamUrl": "https://www.twitch.tv/timythetermite",
+      "discordUserId": "349319252186234881",
+      "addedBy": "460291964248522753",
+      "monday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        },
+        {
+          "startTime": "19:00",
+          "endTime": "22:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "tuesday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "wednesday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "thursday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "friday": [
+        {
+          "startTime": "12:00",
+          "endTime": "13:30",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "saturday": [
+        {
+          "startTime": "16:00",
+          "endTime": "20:00",
+          "isRecurring": true,
+          "specificDate": null
+        }
+      ],
+      "scheduleTimeFormat": "local-v2"
+    }
+  }
+}

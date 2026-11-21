@@ -1,0 +1,832 @@
+{
+  "991544116099956766": {
+    "logChannels": {
+      "supportChannelId": null,
+      "messageDelete": "1565130492695674973",
+      "messageUpdate": null,
+      "messageUpdateEdited": null,
+      "memberJoin": "1384988943921057974",
+      "memberLeave": "1384988943921057974",
+      "ticketCreated": null,
+      "ticketClosed": null,
+      "generalLog": "1333363511220371486",
+      "inviteLog": "1384989324004692038",
+      "assistabotsayLog": "1384989123995107429",
+      "assistabotLogging": null,
+      "moderationLog": null,
+      "memberBan": null,
+      "memberKick": null,
+      "memberWarn": null
+    },
+    "birthdayInfo": {
+      "birthdayRole": "991814873052876840",
+      "birthdayChannel": "991549277677559953",
+      "message": "<:happybirthday:1410064532398805152> Happy ${ageText}Birthday <@${userId}>!"
+    },
+    "supportChannelId": null,
+    "prefix": "!",
+    "embedColor": "0xff6600",
+    "welcome": {
+      "enabled": true,
+      "channelId": "991825358309572698",
+      "dm": false,
+      "title": "Hey {displayName}, Welcome to **{server}**!",
+      "description": null,
+      "content": "Hey {mention}, Welcome to **{server}**!"
+    },
+    "goodbye": {
+      "enabled": true,
+      "channelId": "991825358309572698",
+      "title": "Goodbye {displayName}, we will miss you.",
+      "description": null,
+      "content": "Goodbye {mention}, we will miss you."
+    },
+    "amazonEnabled": true,
+    "booster": {
+      "enabled": true,
+      "channelId": "1092131748323803236",
+      "message": "Thank you {mention} for boosting the server and bring us to {boostCount} boosts and {tier}, giving us more emotes! THANK YOU!",
+      "boostsPerMonth": 1,
+      "tracking": {
+        "315558016747438081": {
+          "active": true,
+          "premiumSince": 1763763293085,
+          "personalBoostCount": 12,
+          "countedMonths": 12,
+          "nextAnniversaryAt": 1795299293085
+        },
+        "896948176764932117": {
+          "active": true,
+          "premiumSince": 1680896393990,
+          "personalBoostCount": 44,
+          "countedMonths": 44,
+          "nextAnniversaryAt": 1796672393990
+        },
+        "460291964248522753": {
+          "active": true,
+          "premiumSince": 1669293977491,
+          "personalBoostCount": 48,
+          "countedMonths": 48,
+          "nextAnniversaryAt": 1795524377491
+        }
+      },
+      "newBoostMessage": "Thank you {mention} for boosting the server and bring us to {boostCount} boosts and {tier}, giving us more Stitch emotes! THANK YOU!",
+      "continuedBoostMessage": "Thank you {mention} for continuing your boost with {personalBoostCount} boosts! Bringing us to {boostCount} boosts and {tier}, giving us more Stitch emotes!",
+      "imageUrl": null,
+      "announcementMessage": "Thank you {mention}!"
+    },
+    "streaming": {
+      "twitch": {
+        "enabled": false,
+        "trackingRoles": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ],
+        "liveRoles": [
+          "1012537343816773662"
+        ],
+        "channelId": "991630218399858738",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "cleanup": true,
+        "messageId": null,
+        "cooldown": 14400
+      },
+      "youtube": {
+        "enabled": true,
+        "trackingRoles": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ],
+        "liveRoles": [
+          "1012537343816773662"
+        ],
+        "channelId": "991630218399858738",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "cleanup": true,
+        "messageId": null,
+        "cooldown": 14400
+      },
+      "tiktok": {
+        "enabled": true,
+        "trackingRoles": [
+          "1175251199193264158",
+          "1012452753978687528"
+        ],
+        "liveRoles": [
+          "1012537343816773662"
+        ],
+        "channelId": "991630218399858738",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "cleanup": true,
+        "messageId": null,
+        "cooldown": 14400
+      }
+    },
+    "brain": {
+      "channelId": "991549277677559953",
+      "message": "{USER} is now the Adult for today"
+    },
+    "joinedAt": null,
+    "walmartEnabled": false,
+    "streamSchedule": {
+      "channelId": "1554925026526896188",
+      "messageId": "1571812073174728817",
+      "enabled": true
+    },
+    "messageLogIgnores": {
+      "channels": [],
+      "roles": [
+        "1036371556328284233",
+        "1042082480674582580"
+      ],
+      "users": [
+        "460291964248522753"
+      ]
+    },
+    "joinRoles": {
+      "enabled": true,
+      "members": [],
+      "bots": [
+        "1042082480674582580"
+      ],
+      "suspicious": []
+    }
+  },
+  "1323558044990181387": {
+    "logChannels": {
+      "messageDelete": "1323706450417025024",
+      "messageUpdate": "1323706450417025024",
+      "messageUpdateEdited": "1323706450417025024",
+      "memberJoin": "1323706620844314625",
+      "memberLeave": "1323706620844314625",
+      "ticketCreated": "1413335312683372596",
+      "ticketClosed": "1413335312683372596",
+      "generalLog": "1323818296847372320",
+      "inviteLog": "1323706770983747615",
+      "assistabotsayLog": "1323706450417025024",
+      "assistabotLogging": "1323818296847372320",
+      "moderationLog": "1323706620844314625",
+      "memberBan": "1323706620844314625",
+      "memberKick": "1323706620844314625",
+      "memberWarn": "1323706620844314625"
+    },
+    "birthdayInfo": {
+      "birthdayRole": "1323713890424717423",
+      "birthdayChannel": "1323558045820780576",
+      "message": "<:happybirthday:1410064532398805152> Happy ${ageText}Birthday <@${userId}>!"
+    },
+    "supportChannelId": "1323750550990229685",
+    "prefix": "!",
+    "embedColor": "0xff6600",
+    "welcome": {
+      "enabled": true,
+      "channelId": "1323752430306857142",
+      "dm": false,
+      "title": "Welcome in {displayName}!",
+      "description": "Please read the [rules](https://ptb.discord.com/channels/1323558044990181387/1323708738133168234)",
+      "content": "Hey {mention}, Welcome to **{server}**!"
+    },
+    "goodbye": {
+      "enabled": true,
+      "channelId": "1323752430306857142",
+      "title": "Goodbye {displayName}",
+      "description": "we will miss you",
+      "content": "Goodbye {mention}, we will miss you."
+    },
+    "supportRoleId": "1323714008645111829",
+    "amazonEnabled": true,
+    "booster": {
+      "enabled": false,
+      "channelId": null,
+      "message": "<a:nitroboost:1410104514199949342> {mention} just boosted the server! We now have {boostCount} boosts!",
+      "boostsPerMonth": 1,
+      "tracking": {},
+      "newBoostMessage": "Thank you {mention} for boosting the server and bring us to {boostCount} boosts and {tier}, giving us more emotes! THANK YOU!",
+      "continuedBoostMessage": "Thank you {mention} for continuing your boost with {personalBoostCount} boosts! Bringing us to {boostCount} boosts and {tier}, giving us more emotes!",
+      "imageUrl": null,
+      "announcementMessage": "Thank you {mention}!"
+    },
+    "streaming": {
+      "twitch": {
+        "enabled": true,
+        "trackingRoles": [
+          "1323729406371434598"
+        ],
+        "liveRoles": [
+          "1323713677815185419"
+        ],
+        "channelId": "1567019109269643324",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "cooldown": 14400,
+        "cleanup": true,
+        "messageId": null
+      },
+      "youtube": {
+        "enabled": true,
+        "trackingRoles": [
+          "1323729406371434598"
+        ],
+        "liveRoles": [
+          "1323713677815185419"
+        ],
+        "channelId": "1567025300691492985",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "cooldown": 14400,
+        "cleanup": true,
+        "messageId": null
+      },
+      "tiktok": {
+        "enabled": true,
+        "trackingRoles": [
+          "1323729406371434598"
+        ],
+        "liveRoles": [
+          "1323713677815185419"
+        ],
+        "channelId": "1567025529222340658",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "cleanup": true,
+        "messageId": null,
+        "cooldown": 0
+      }
+    },
+    "brain": {
+      "channelId": "1323558045820780576",
+      "message": "{USER} is now the Adult for today"
+    },
+    "joinedAt": null,
+    "walmartEnabled": false,
+    "streamSchedule": {
+      "channelId": "1323748631425187851",
+      "messageId": "1571812095056420927",
+      "enabled": true
+    },
+    "messageLogIgnores": {
+      "channels": [
+        "1323704011588632727",
+        "1323818296847372320"
+      ],
+      "roles": [],
+      "users": [
+        "460291964248522753"
+      ]
+    },
+    "joinRoles": {
+      "enabled": true,
+      "members": [
+        "1323716743952076992"
+      ],
+      "bots": [
+        "1323730971052478484"
+      ],
+      "suspicious": [
+        "1560388677367107726"
+      ]
+    }
+  },
+  "1078005146698657802": {
+    "logChannels": {
+      "messageDelete": "1317278921963606036",
+      "messageUpdate": "1317278921963606036",
+      "messageUpdateEdited": "1317278921963606036",
+      "memberJoin": "1317281707321327656",
+      "memberLeave": "1317281707321327656",
+      "ticketCreated": "1436185287817429114",
+      "ticketClosed": "1436185287817429114",
+      "generalLog": "1186140475820875838",
+      "inviteLog": "1322743814598819841",
+      "assistabotsayLog": "1317278921963606036",
+      "assistabotLogging": null,
+      "moderationLog": "1317281707321327656",
+      "memberBan": "1317281707321327656",
+      "memberKick": "1317281707321327656",
+      "memberWarn": "1317281707321327656"
+    },
+    "birthdayInfo": {
+      "birthdayRole": "1078017675558662194",
+      "birthdayChannel": "1078005147667533918",
+      "message": "<:happybirthday:1410064532398805152> Happy ${ageText}Birthday <@${userId}>!"
+    },
+    "supportChannelId": "1164660676720078968",
+    "prefix": "!",
+    "embedColor": "0xff6600",
+    "welcome": {
+      "enabled": true,
+      "channelId": "1078103075937591326",
+      "dm": false,
+      "title": "Hey {displayName}, Welcome to **{server}**!",
+      "description": "Please read the [rules](https://ptb.discord.com/channels/1078005146698657802/1562222452137005096)",
+      "content": "Hey {mention}, Welcome to **{server}**!"
+    },
+    "goodbye": {
+      "enabled": true,
+      "channelId": "1078103075937591326",
+      "title": "Goodbye {displayName}, we will miss you.",
+      "description": null,
+      "content": "Goodbye {mention}, we will miss you."
+    },
+    "supportRoleId": "1165692061182328932",
+    "amazonEnabled": true,
+    "streaming": {
+      "twitch": {
+        "enabled": false,
+        "trackingRoles": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ],
+        "liveRoles": [
+          "1286702849312559175"
+        ],
+        "channelId": "1078717370408898612",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "cleanup": true,
+        "messageId": null,
+        "cooldown": 14400
+      },
+      "youtube": {
+        "enabled": true,
+        "trackingRoles": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ],
+        "liveRoles": [
+          "1286702849312559175"
+        ],
+        "channelId": "1078717370408898612",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "cleanup": true,
+        "messageId": null,
+        "cooldown": 14400
+      },
+      "tiktok": {
+        "enabled": true,
+        "trackingRoles": [
+          "1286687267058089994",
+          "1078012186414288986"
+        ],
+        "liveRoles": [
+          "1286702849312559175"
+        ],
+        "channelId": "1078717370408898612",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "cleanup": true,
+        "messageId": null,
+        "cooldown": 14400
+      }
+    },
+    "brain": {
+      "channelId": "1078005147667533918",
+      "message": "{USER} is now the Adult for today"
+    },
+    "joinedAt": null,
+    "streamSchedule": {
+      "channelId": "1556186885347344405",
+      "messageId": "1571812086449963051",
+      "enabled": true
+    },
+    "messageLogIgnores": {
+      "channels": [],
+      "roles": [
+        "1228455583288397986"
+      ],
+      "users": []
+    },
+    "joinRoles": {
+      "enabled": true,
+      "members": [
+        "1078017204475396139",
+        "1196013218078937189"
+      ],
+      "bots": [
+        "1078016575464026162"
+      ],
+      "suspicious": [
+        "1560385817908613160",
+        "1560387074014715934"
+      ]
+    },
+    "walmartEnabled": true,
+    "booster": {
+      "enabled": false,
+      "channelId": null,
+      "message": "{mention} {boostType} the server! This is boost #{personalBoostCount} for them. The server now has {boostCount} boosts. {tier}",
+      "boostsPerMonth": 1,
+      "tracking": {},
+      "newBoostMessage": "Thank you {mention} for boosting the server and bring us to {boostCount} boosts and {tier}, giving us more emotes! THANK YOU!",
+      "continuedBoostMessage": "Thank you {mention} for continuing your boost with {personalBoostCount} boosts! Bringing us to {boostCount} boosts and {tier}, giving us more emotes!",
+      "imageUrl": null,
+      "announcementMessage": "Thank you {mention}!"
+    }
+  },
+  "1208850182704336967": {
+    "logChannels": {
+      "messageDelete": null,
+      "messageUpdate": null,
+      "messageUpdateEdited": null,
+      "memberJoin": null,
+      "memberLeave": null,
+      "ticketCreated": null,
+      "ticketClosed": null,
+      "generalLog": null,
+      "inviteLog": null,
+      "assistabotsayLog": null,
+      "assistabotLogging": null,
+      "moderationLog": null,
+      "memberBan": null,
+      "memberKick": null,
+      "memberWarn": null
+    },
+    "birthdayInfo": {
+      "birthdayRole": null,
+      "birthdayChannel": null,
+      "message": "<:happybirthday:1410064532398805152> Happy ${ageText}Birthday <@${userId}>!"
+    },
+    "welcome": {
+      "enabled": true,
+      "channelId": "1208889957830098954",
+      "dm": false,
+      "title": "Hey {displayName}, Welcome to **{server}**!",
+      "description": null,
+      "content": "Hey {mention}, Welcome to **{server}**!"
+    },
+    "goodbye": {
+      "enabled": true,
+      "channelId": "1208889957830098954",
+      "title": "Goodbye {displayName}, we will miss you.",
+      "description": null,
+      "content": "Goodbye {mention}, we will miss you."
+    },
+    "supportChannelId": null,
+    "prefix": "!",
+    "embedColor": "0xff6600",
+    "amazonEnabled": true,
+    "streaming": {
+      "twitch": {
+        "enabled": false,
+        "trackingRoles": [],
+        "liveRoles": [],
+        "channelId": null,
+        "customMessage": "",
+        "cleanup": false,
+        "cooldown": 14400
+      },
+      "youtube": {
+        "enabled": false,
+        "trackingRoles": [],
+        "liveRoles": [],
+        "channelId": null,
+        "customMessage": "",
+        "cleanup": false,
+        "cooldown": 14400
+      },
+      "tiktok": {
+        "enabled": false,
+        "trackingRoles": [],
+        "liveRoles": [],
+        "channelId": null,
+        "customMessage": "",
+        "cleanup": false,
+        "cooldown": 14400
+      }
+    },
+    "brain": {
+      "channelId": null,
+      "message": "Congratulations {USER}! You have the highest brain score today."
+    },
+    "joinedAt": null,
+    "streamSchedule": {
+      "channelId": null,
+      "messageId": null,
+      "enabled": true
+    },
+    "messageLogIgnores": {
+      "channels": [],
+      "roles": [],
+      "users": []
+    },
+    "joinRoles": {
+      "enabled": false,
+      "members": [],
+      "bots": [],
+      "suspicious": []
+    },
+    "walmartEnabled": true,
+    "booster": {
+      "enabled": false,
+      "channelId": null,
+      "message": "{mention} {boostType} the server! This is boost #{personalBoostCount} for them. The server now has {boostCount} boosts. {tier}",
+      "boostsPerMonth": 1,
+      "tracking": {},
+      "newBoostMessage": "Thank you {mention} for boosting the server and bring us to {boostCount} boosts and {tier}, giving us more emotes! THANK YOU!",
+      "continuedBoostMessage": "Thank you {mention} for continuing your boost with {personalBoostCount} boosts! Bringing us to {boostCount} boosts and {tier}, giving us more emotes!",
+      "imageUrl": null,
+      "announcementMessage": "Thank you {mention}!"
+    }
+  },
+  "guild": {
+    "joinedAt": null,
+    "logChannels": {
+      "messageDelete": null,
+      "messageUpdate": null,
+      "messageUpdateEdited": null,
+      "memberJoin": null,
+      "memberLeave": null,
+      "memberBan": null,
+      "memberKick": null,
+      "memberWarn": null,
+      "moderationLog": null,
+      "ticketCreated": null,
+      "ticketClosed": null,
+      "generalLog": null,
+      "inviteLog": null,
+      "assistabotsayLog": null,
+      "assistabotLogging": null
+    },
+    "messageLogIgnores": {
+      "channels": [],
+      "roles": [],
+      "users": []
+    },
+    "birthdayInfo": {
+      "birthdayRole": null,
+      "birthdayChannel": null,
+      "message": "<:happybirthday:1410064532398805152> Happy ${ageText}Birthday <@${userId}>!"
+    },
+    "welcome": {
+      "enabled": false,
+      "channelId": null,
+      "title": "Hey {displayName}, Welcome to **{server}**!",
+      "description": null,
+      "content": "Hey {mention}, Welcome to **{server}**!"
+    },
+    "goodbye": {
+      "enabled": false,
+      "channelId": null,
+      "title": "Goodbye {displayName}, we will miss you.",
+      "description": null,
+      "content": "Goodbye {mention}, we will miss you."
+    },
+    "amazonEnabled": true,
+    "supportChannelId": null,
+    "prefix": "!",
+    "embedColor": "0xff6600",
+    "streaming": {
+      "twitch": {
+        "enabled": false,
+        "trackingRoles": [],
+        "liveRoles": [],
+        "channelId": null,
+        "customMessage": "",
+        "cleanup": false,
+        "cooldown": 0
+      },
+      "youtube": {
+        "enabled": false,
+        "trackingRoles": [],
+        "liveRoles": [],
+        "channelId": null,
+        "customMessage": "",
+        "cleanup": false,
+        "cooldown": 0
+      },
+      "tiktok": {
+        "enabled": false,
+        "trackingRoles": [],
+        "liveRoles": [],
+        "channelId": null,
+        "customMessage": "",
+        "cleanup": false,
+        "cooldown": 0
+      }
+    },
+    "brain": {
+      "channelId": null,
+      "message": "Congratulations {USER}! You have the highest brain score today."
+    },
+    "streamSchedule": {
+      "channelId": null,
+      "messageId": null,
+      "enabled": true
+    },
+    "joinRoles": {
+      "enabled": false,
+      "members": [],
+      "bots": [],
+      "suspicious": []
+    },
+    "walmartEnabled": true,
+    "booster": {
+      "enabled": false,
+      "channelId": null,
+      "message": "{mention} {boostType} the server! This is boost #{personalBoostCount} for them. The server now has {boostCount} boosts. {tier}",
+      "boostsPerMonth": 1,
+      "tracking": {},
+      "imageUrl": null,
+      "announcementMessage": "Thank you {mention}!"
+    }
+  },
+  "222222222222222222": {
+    "joinedAt": null,
+    "logChannels": {
+      "messageDelete": null,
+      "messageUpdate": null,
+      "messageUpdateEdited": null,
+      "memberJoin": null,
+      "memberLeave": null,
+      "memberBan": null,
+      "memberKick": null,
+      "memberWarn": null,
+      "moderationLog": null,
+      "ticketCreated": null,
+      "ticketClosed": null,
+      "generalLog": null,
+      "inviteLog": null,
+      "assistabotsayLog": null,
+      "assistabotLogging": null
+    },
+    "messageLogIgnores": {
+      "channels": [],
+      "roles": [],
+      "users": []
+    },
+    "birthdayInfo": {
+      "birthdayRole": null,
+      "birthdayChannel": null,
+      "message": "<:happybirthday:1410064532398805152> Happy ${ageText}Birthday <@${userId}>!"
+    },
+    "welcome": {
+      "enabled": false,
+      "channelId": null,
+      "title": "Hey {displayName}, Welcome to **{server}**!",
+      "description": null,
+      "content": "Hey {mention}, Welcome to **{server}**!"
+    },
+    "goodbye": {
+      "enabled": false,
+      "channelId": null,
+      "title": "Goodbye {displayName}, we will miss you.",
+      "description": null,
+      "content": "Goodbye {mention}, we will miss you."
+    },
+    "joinRoles": {
+      "enabled": false,
+      "members": [],
+      "bots": [],
+      "suspicious": []
+    },
+    "amazonEnabled": true,
+    "supportChannelId": null,
+    "prefix": "!",
+    "embedColor": "0xff6600",
+    "streaming": {
+      "twitch": {
+        "enabled": false,
+        "trackingRoles": [],
+        "liveRoles": [],
+        "channelId": null,
+        "customMessage": "",
+        "cleanup": false,
+        "cooldown": 0
+      },
+      "youtube": {
+        "enabled": false,
+        "trackingRoles": [],
+        "liveRoles": [],
+        "channelId": null,
+        "customMessage": "",
+        "cleanup": false,
+        "cooldown": 0
+      },
+      "tiktok": {
+        "enabled": false,
+        "trackingRoles": [],
+        "liveRoles": [],
+        "channelId": null,
+        "customMessage": "",
+        "cleanup": false,
+        "cooldown": 0
+      }
+    },
+    "brain": {
+      "channelId": null,
+      "message": "Congratulations {USER}! You have the highest brain score today."
+    },
+    "streamSchedule": {
+      "channelId": null,
+      "messageId": null,
+      "enabled": true
+    },
+    "walmartEnabled": true,
+    "booster": {
+      "enabled": false,
+      "channelId": null,
+      "message": "{mention} {boostType} the server! This is boost #{personalBoostCount} for them. The server now has {boostCount} boosts. {tier}",
+      "boostsPerMonth": 1,
+      "tracking": {},
+      "imageUrl": null,
+      "announcementMessage": "Thank you {mention}!"
+    }
+  },
+  "123456789012345678": {
+    "joinedAt": null,
+    "logChannels": {
+      "messageDelete": null,
+      "messageUpdate": null,
+      "messageUpdateEdited": null,
+      "memberJoin": null,
+      "memberLeave": null,
+      "memberBan": null,
+      "memberKick": null,
+      "memberWarn": null,
+      "moderationLog": null,
+      "ticketCreated": null,
+      "ticketClosed": null,
+      "generalLog": null,
+      "inviteLog": null,
+      "assistabotsayLog": null,
+      "assistabotLogging": null
+    },
+    "messageLogIgnores": {
+      "channels": [],
+      "roles": [],
+      "users": []
+    },
+    "birthdayInfo": {
+      "birthdayRole": null,
+      "birthdayChannel": null,
+      "message": "<:happybirthday:1410064532398805152> Happy ${ageText}Birthday <@${userId}>!"
+    },
+    "welcome": {
+      "enabled": false,
+      "channelId": null,
+      "title": "Hey {displayName}, Welcome to **{server}**!",
+      "description": null,
+      "content": "Hey {mention}, Welcome to **{server}**!"
+    },
+    "goodbye": {
+      "enabled": false,
+      "channelId": null,
+      "title": "Goodbye {displayName}, we will miss you.",
+      "description": null,
+      "content": "Goodbye {mention}, we will miss you."
+    },
+    "joinRoles": {
+      "enabled": false,
+      "members": [],
+      "bots": [],
+      "suspicious": []
+    },
+    "booster": {
+      "enabled": false,
+      "channelId": null,
+      "imageUrl": null,
+      "announcementMessage": "Thank you {mention}!",
+      "message": "{mention} {boostType} the server! This is boost #{personalBoostCount} for them. The server now has {boostCount} boosts. {tier}",
+      "boostsPerMonth": 1,
+      "tracking": {}
+    },
+    "amazonEnabled": true,
+    "walmartEnabled": true,
+    "supportChannelId": null,
+    "prefix": "!",
+    "embedColor": "0xff6600",
+    "streaming": {
+      "twitch": {
+        "enabled": false,
+        "trackingRoles": [],
+        "liveRoles": [],
+        "channelId": null,
+        "customMessage": "",
+        "cleanup": false,
+        "cooldown": 0
+      },
+      "youtube": {
+        "enabled": false,
+        "trackingRoles": [],
+        "liveRoles": [],
+        "channelId": null,
+        "customMessage": "",
+        "cleanup": false,
+        "cooldown": 0
+      },
+      "tiktok": {
+        "enabled": false,
+        "trackingRoles": [],
+        "liveRoles": [],
+        "channelId": null,
+        "customMessage": "",
+        "cleanup": false,
+        "cooldown": 0
+      }
+    },
+    "brain": {
+      "channelId": null,
+      "message": "Congratulations {USER}! You have the highest brain score today."
+    },
+    "streamSchedule": {
+      "channelId": null,
+      "messageId": null,
+      "enabled": true
+    }
+  }
+}

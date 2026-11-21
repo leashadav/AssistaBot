@@ -1,0 +1,28 @@
+{
+  "1323558044990181387": {
+    "streamers": [
+      {
+        "username": "sonoflibertyradio",
+        "channelId": "1323776161968558090",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "cleanup": true
+      }
+    ],
+    "enabled": false
+  },
+  "991544116099956766": {
+    "streamers": [
+      {
+        "username": "unoraptormon",
+        "channelId": "991630218399858738",
+        "customMessage": "**[{streamer}]({url}) is now broadcasting on {platform}!**",
+        "discordUsername": "unoraptormon",
+        "liveRoles": [
+          "1012537343816773662"
+        ],
+        "cleanup": true
+      }
+    ],
+    "enabled": false
+  }
+}
