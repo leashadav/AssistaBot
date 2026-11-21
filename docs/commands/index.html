@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Available AssistaBot Twitch and Discord prefix commands.">
+    <meta name="description" content="Available AssistaBot Twitch chat and Discord commands.">
     <title>AssistaBot Commands</title>
     <link rel="stylesheet" href="commands.css">
     <script src="commands.js" defer></script>
@@ -13,7 +13,7 @@
         <header class="page-header">
             <p class="eyebrow">ASSISTABOT</p>
             <h1>Bot Commands</h1>
-            <p class="intro">Browse the built-in <code>!</code> commands available on each platform.</p>
+            <p class="intro">Browse built-in commands for Twitch chat and Discord.</p>
         </header>
 
         <p id="status" class="status" role="status">Loading commands…</p>
@@ -22,8 +22,12 @@
                 <h2 id="twitch-heading">Twitch only</h2>
                 <ul id="twitch-only-commands" class="command-list"></ul>
             </section>
+            <section class="command-section" aria-labelledby="discord-slash-heading">
+                <h2 id="discord-slash-heading">Discord slash commands</h2>
+                <ul id="discord-slash-commands" class="command-list"></ul>
+            </section>
             <section class="command-section" aria-labelledby="discord-heading">
-                <h2 id="discord-heading">Discord only</h2>
+                <h2 id="discord-heading">Discord prefix commands</h2>
                 <ul id="discord-only-commands" class="command-list"></ul>
                 <p class="note">Custom commands can vary by server or channel and are not included here. In a Discord server, use <code>!commands</code> to see that server’s custom commands.</p>
             </section>

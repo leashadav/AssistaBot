@@ -73,5 +73,607 @@
       "name": "botcommands",
       "description": "Get a link to the built-in bot command directory."
     }
+  ],
+  "discordSlash": [
+    {
+      "name": "amazon clear-cache",
+      "usage": "/amazon clear-cache",
+      "description": "Clear Amazon product cache"
+    },
+    {
+      "name": "amazon disable",
+      "usage": "/amazon disable",
+      "description": "Disable Amazon link processing"
+    },
+    {
+      "name": "amazon enable",
+      "usage": "/amazon enable",
+      "description": "Enable Amazon link processing"
+    },
+    {
+      "name": "amazon panel",
+      "usage": "/amazon panel",
+      "description": "Open interactive Amazon link settings"
+    },
+    {
+      "name": "assistabot help",
+      "usage": "/assistabot help",
+      "description": "Browse all bot commands with an interactive guide"
+    },
+    {
+      "name": "assistabot info",
+      "usage": "/assistabot info",
+      "description": "Get information about AssistaBot"
+    },
+    {
+      "name": "assistabot invite",
+      "usage": "/assistabot invite",
+      "description": "Get an invite link to add AssistaBot to your server"
+    },
+    {
+      "name": "assistabot say",
+      "usage": "/assistabot say <message> [message_id]",
+      "description": "Make AssistaBot send or edit a message (Admin only)"
+    },
+    {
+      "name": "birthday add",
+      "usage": "/birthday add <month> <day> [year]",
+      "description": "Add your birthday"
+    },
+    {
+      "name": "birthday adduser",
+      "usage": "/birthday adduser <user> <month> <day> [year]",
+      "description": "Add a birthday for another user (Admin only)"
+    },
+    {
+      "name": "birthday check",
+      "usage": "/birthday check",
+      "description": "Manually check for birthdays (Admin only)"
+    },
+    {
+      "name": "birthday config",
+      "usage": "/birthday config",
+      "description": "Configure birthday settings (Admin only)"
+    },
+    {
+      "name": "birthday delete",
+      "usage": "/birthday delete",
+      "description": "Remove your birthday"
+    },
+    {
+      "name": "birthday deleteuser",
+      "usage": "/birthday deleteuser <user>",
+      "description": "Remove a birthday for another user (Admin only)"
+    },
+    {
+      "name": "birthday list",
+      "usage": "/birthday list",
+      "description": "List all birthdays"
+    },
+    {
+      "name": "booster image",
+      "usage": "/booster image [upload] [url]",
+      "description": "Set a custom image by uploading or linking one"
+    },
+    {
+      "name": "booster panel",
+      "usage": "/booster panel",
+      "description": "Open interactive booster announcement settings"
+    },
+    {
+      "name": "booster test",
+      "usage": "/booster test",
+      "description": "Send a test announcement to the configured channel"
+    },
+    {
+      "name": "botadmin blockdiscorduser",
+      "usage": "/botadmin blockdiscorduser <user>",
+      "description": "Block a Discord user from using the bot"
+    },
+    {
+      "name": "botadmin blockeddiscordusers",
+      "usage": "/botadmin blockeddiscordusers",
+      "description": "List all blocked Discord users"
+    },
+    {
+      "name": "botadmin blockedguilds",
+      "usage": "/botadmin blockedguilds",
+      "description": "List all blocked guilds"
+    },
+    {
+      "name": "botadmin blockedtwitch",
+      "usage": "/botadmin blockedtwitch",
+      "description": "List all blocked Twitch channels"
+    },
+    {
+      "name": "botadmin blockedtwitchusers",
+      "usage": "/botadmin blockedtwitchusers",
+      "description": "List all blocked Twitch users"
+    },
+    {
+      "name": "botadmin blockguild",
+      "usage": "/botadmin blockguild <guild_id>",
+      "description": "Block a guild from using the bot"
+    },
+    {
+      "name": "botadmin blocktwitch",
+      "usage": "/botadmin blocktwitch <channel>",
+      "description": "Block a Twitch channel from using the bot"
+    },
+    {
+      "name": "botadmin blocktwitchuser",
+      "usage": "/botadmin blocktwitchuser <username>",
+      "description": "Block a Twitch user from using the bot in any channel"
+    },
+    {
+      "name": "botadmin servers",
+      "usage": "/botadmin servers",
+      "description": "List all servers the bot is in"
+    },
+    {
+      "name": "botadmin twitchchannels",
+      "usage": "/botadmin twitchchannels",
+      "description": "List all Twitch channels the bot is in"
+    },
+    {
+      "name": "botadmin unblockdiscorduser",
+      "usage": "/botadmin unblockdiscorduser <user>",
+      "description": "Unblock a Discord user"
+    },
+    {
+      "name": "botadmin unblockguild",
+      "usage": "/botadmin unblockguild <guild_id>",
+      "description": "Unblock a guild"
+    },
+    {
+      "name": "botadmin unblocktwitch",
+      "usage": "/botadmin unblocktwitch <channel>",
+      "description": "Unblock a Twitch channel"
+    },
+    {
+      "name": "botadmin unblocktwitchuser",
+      "usage": "/botadmin unblocktwitchuser <username>",
+      "description": "Unblock a Twitch user"
+    },
+    {
+      "name": "bouncer goodbye",
+      "usage": "/bouncer goodbye <enabled> [channel] [description] [title] [content]",
+      "description": "Configure goodbye (leave) settings"
+    },
+    {
+      "name": "bouncer goodbyetest",
+      "usage": "/bouncer goodbyetest [user]",
+      "description": "Send a test goodbye message"
+    },
+    {
+      "name": "bouncer panel",
+      "usage": "/bouncer panel",
+      "description": "Open interactive welcome and goodbye settings"
+    },
+    {
+      "name": "bouncer welcome",
+      "usage": "/bouncer welcome <enabled> <channel> [description] [title] [content]",
+      "description": "Configure welcome settings"
+    },
+    {
+      "name": "bouncer welcometest",
+      "usage": "/bouncer welcometest [user]",
+      "description": "Send a test welcome message"
+    },
+    {
+      "name": "giveaway end",
+      "usage": "/giveaway end <message_id>",
+      "description": "End a giveaway early"
+    },
+    {
+      "name": "giveaway list",
+      "usage": "/giveaway list",
+      "description": "List all active giveaways"
+    },
+    {
+      "name": "giveaway reroll",
+      "usage": "/giveaway reroll <message_id>",
+      "description": "Reroll a giveaway"
+    },
+    {
+      "name": "giveaway start",
+      "usage": "/giveaway start <prize> <winners> <duration> <channel> [description] [image]",
+      "description": "Start a new giveaway"
+    },
+    {
+      "name": "invites",
+      "usage": "/invites [user]",
+      "description": "View invite usage statistics for this server"
+    },
+    {
+      "name": "purge",
+      "usage": "/purge",
+      "description": "Interactively choose which messages to delete"
+    },
+    {
+      "name": "rumble add",
+      "usage": "/rumble add <username> <channel> [live_role] [message] [cooldown] [discord_user] [cleanup]",
+      "description": "Add a Rumble streamer to monitor"
+    },
+    {
+      "name": "rumble check",
+      "usage": "/rumble check <username>",
+      "description": "Check a streamer now and notify if a new live stream is found"
+    },
+    {
+      "name": "rumble disable",
+      "usage": "/rumble disable",
+      "description": "Disable Rumble notifications for this server"
+    },
+    {
+      "name": "rumble edit",
+      "usage": "/rumble edit <username> [live_role] [channel] [message] [cooldown] [discord_user] [cleanup]",
+      "description": "Edit an existing streamer entry"
+    },
+    {
+      "name": "rumble enable",
+      "usage": "/rumble enable",
+      "description": "Enable Rumble notifications for this server"
+    },
+    {
+      "name": "rumble force",
+      "usage": "/rumble force <username>",
+      "description": "Reset the saved status, check now, and send an alert if live"
+    },
+    {
+      "name": "rumble list",
+      "usage": "/rumble list",
+      "description": "List all monitored Rumble streamers for this server"
+    },
+    {
+      "name": "rumble remove",
+      "usage": "/rumble remove <username>",
+      "description": "Remove a Rumble streamer from monitoring"
+    },
+    {
+      "name": "rumble resend",
+      "usage": "/rumble resend <username>",
+      "description": "Send the live alert again for a streamer who is currently live"
+    },
+    {
+      "name": "rumble status",
+      "usage": "/rumble status",
+      "description": "Check if Rumble notifications are enabled for this server"
+    },
+    {
+      "name": "schedule add",
+      "usage": "/schedule add",
+      "description": "Build a weekly schedule with multiple non-overlapping time ranges per day"
+    },
+    {
+      "name": "schedule config",
+      "usage": "/schedule config <action> [channel] [enabled]",
+      "description": "Configure schedule settings (Admin only)"
+    },
+    {
+      "name": "schedule post",
+      "usage": "/schedule post",
+      "description": "Manually post the weekly schedule embed (Admin only)"
+    },
+    {
+      "name": "selfrole add",
+      "usage": "/selfrole add",
+      "description": "Add reaction-role mappings to a message (modal-driven)"
+    },
+    {
+      "name": "selfrole clear",
+      "usage": "/selfrole clear <message> [channel]",
+      "description": "Remove all mappings for a message"
+    },
+    {
+      "name": "selfrole list",
+      "usage": "/selfrole list [message] [channel]",
+      "description": "List configured self-role messages for this server"
+    },
+    {
+      "name": "selfrole remove",
+      "usage": "/selfrole remove <message> <emoji> [channel]",
+      "description": "Remove one mapping from a message"
+    },
+    {
+      "name": "server",
+      "usage": "/server",
+      "description": "Get information about this server"
+    },
+    {
+      "name": "setup",
+      "usage": "/setup",
+      "description": "Configure server-specific settings for the bot"
+    },
+    {
+      "name": "shoutout add",
+      "usage": "/shoutout add <username>",
+      "description": "Add a user to automatic shoutouts"
+    },
+    {
+      "name": "shoutout clear",
+      "usage": "/shoutout clear <username>",
+      "description": "Clear cooldown for a user"
+    },
+    {
+      "name": "shoutout list",
+      "usage": "/shoutout list",
+      "description": "List all users in automatic shoutouts"
+    },
+    {
+      "name": "shoutout remove",
+      "usage": "/shoutout remove <username>",
+      "description": "Remove a user from automatic shoutouts"
+    },
+    {
+      "name": "shoutout resetstream",
+      "usage": "/shoutout resetstream",
+      "description": "Reset the current stream session (start fresh shoutouts for new stream)"
+    },
+    {
+      "name": "ticket add",
+      "usage": "/ticket add <user>",
+      "description": "Add user to ticket"
+    },
+    {
+      "name": "ticket close",
+      "usage": "/ticket close",
+      "description": "Close current ticket"
+    },
+    {
+      "name": "ticket panel",
+      "usage": "/ticket panel [title] [description] [button_text] [button_emoji] [button_style]",
+      "description": "Create ticket panel"
+    },
+    {
+      "name": "ticket remove",
+      "usage": "/ticket remove <user>",
+      "description": "Remove user from ticket"
+    },
+    {
+      "name": "ticket transcript",
+      "usage": "/ticket transcript",
+      "description": "Generate ticket transcript"
+    },
+    {
+      "name": "tiktok channel add",
+      "usage": "/tiktok channel add <username> <channel> [live_role] [upload_channel] [message] [upload_message] [discord_user] [cleanup]",
+      "description": "Add a TikTok channel to monitor"
+    },
+    {
+      "name": "tiktok channel check",
+      "usage": "/tiktok channel check <username>",
+      "description": "Manually check a TikTok channel status"
+    },
+    {
+      "name": "tiktok channel edit",
+      "usage": "/tiktok channel edit <username> [live_role] [channel] [upload_channel] [message] [upload_message] [discord_user] [cleanup]",
+      "description": "Edit an existing TikTok channel entry"
+    },
+    {
+      "name": "tiktok channel list",
+      "usage": "/tiktok channel list",
+      "description": "List all monitored TikTok channels for this server"
+    },
+    {
+      "name": "tiktok channel remove",
+      "usage": "/tiktok channel remove <username>",
+      "description": "Remove a TikTok channel from monitoring"
+    },
+    {
+      "name": "tiktok channel resend",
+      "usage": "/tiktok channel resend <username>",
+      "description": "Resend notification for a live channel"
+    },
+    {
+      "name": "tiktok presence check",
+      "usage": "/tiktok presence check",
+      "description": "Check which users with tracking roles are currently streaming"
+    },
+    {
+      "name": "tiktok presence disable",
+      "usage": "/tiktok presence disable",
+      "description": "Disable presence-based TikTok streaming notifications"
+    },
+    {
+      "name": "tiktok presence edit",
+      "usage": "/tiktok presence edit [enabled] [tracking_role] [channel] [live_role] [message] [cooldown] [cleanup]",
+      "description": "Edit presence-based TikTok streaming settings"
+    },
+    {
+      "name": "tiktok presence resend",
+      "usage": "/tiktok presence resend <user>",
+      "description": "Resend notification for a streaming user"
+    },
+    {
+      "name": "tiktok presence setup",
+      "usage": "/tiktok presence setup <enabled> <tracking_role> <channel> [live_role] [message] [cooldown] [cleanup]",
+      "description": "Configure presence-based TikTok streaming notifications"
+    },
+    {
+      "name": "tiktok presence status",
+      "usage": "/tiktok presence status",
+      "description": "View current presence-based TikTok streaming settings"
+    },
+    {
+      "name": "timer add",
+      "usage": "/timer add",
+      "description": "Add a new timer"
+    },
+    {
+      "name": "timer edit",
+      "usage": "/timer edit",
+      "description": "Edit an existing timer"
+    },
+    {
+      "name": "timer list",
+      "usage": "/timer list",
+      "description": "List all timers"
+    },
+    {
+      "name": "timer remove",
+      "usage": "/timer remove",
+      "description": "Remove a timer"
+    },
+    {
+      "name": "timer start",
+      "usage": "/timer start",
+      "description": "Manually start the timer system"
+    },
+    {
+      "name": "timer stop",
+      "usage": "/timer stop",
+      "description": "Manually stop the timer system"
+    },
+    {
+      "name": "timer toggle",
+      "usage": "/timer toggle",
+      "description": "Enable/disable a timer"
+    },
+    {
+      "name": "twitch presence check",
+      "usage": "/twitch presence check",
+      "description": "Check which users with tracking roles are currently streaming"
+    },
+    {
+      "name": "twitch presence disable",
+      "usage": "/twitch presence disable",
+      "description": "Disable presence-based Twitch streaming notifications"
+    },
+    {
+      "name": "twitch presence edit",
+      "usage": "/twitch presence edit [enabled] [tracking_role] [channel] [live_role] [message] [cooldown] [cleanup]",
+      "description": "Edit presence-based Twitch streaming settings"
+    },
+    {
+      "name": "twitch presence resend",
+      "usage": "/twitch presence resend <user>",
+      "description": "Resend notification for a streaming user"
+    },
+    {
+      "name": "twitch presence setup",
+      "usage": "/twitch presence setup <enabled> <tracking_role> <channel> [live_role] [message] [cooldown] [cleanup]",
+      "description": "Configure presence-based Twitch streaming notifications"
+    },
+    {
+      "name": "twitch presence status",
+      "usage": "/twitch presence status",
+      "description": "View current presence-based Twitch streaming settings"
+    },
+    {
+      "name": "twitch streamer add",
+      "usage": "/twitch streamer add <username> <channel> [live_role] [message] [cooldown] [discord_user] [cleanup]",
+      "description": "Add a Twitch streamer to monitor"
+    },
+    {
+      "name": "twitch streamer check",
+      "usage": "/twitch streamer check <username>",
+      "description": "Manually check a streamer status"
+    },
+    {
+      "name": "twitch streamer edit",
+      "usage": "/twitch streamer edit <username> [live_role] [channel] [message] [cooldown] [discord_user] [cleanup]",
+      "description": "Edit an existing streamer entry"
+    },
+    {
+      "name": "twitch streamer list",
+      "usage": "/twitch streamer list",
+      "description": "List all monitored Twitch streamers for this server"
+    },
+    {
+      "name": "twitch streamer remove",
+      "usage": "/twitch streamer remove <username>",
+      "description": "Remove a Twitch streamer from monitoring"
+    },
+    {
+      "name": "twitch streamer resend",
+      "usage": "/twitch streamer resend <username>",
+      "description": "Resend notification for a live streamer"
+    },
+    {
+      "name": "user",
+      "usage": "/user [user]",
+      "description": "Get information about a user"
+    },
+    {
+      "name": "walmart clear-cache",
+      "usage": "/walmart clear-cache",
+      "description": "Clear Walmart product cache"
+    },
+    {
+      "name": "walmart disable",
+      "usage": "/walmart disable",
+      "description": "Disable Walmart link processing"
+    },
+    {
+      "name": "walmart enable",
+      "usage": "/walmart enable",
+      "description": "Enable Walmart link processing"
+    },
+    {
+      "name": "walmart panel",
+      "usage": "/walmart panel",
+      "description": "Open interactive Walmart link settings"
+    },
+    {
+      "name": "youtube channel add",
+      "usage": "/youtube channel add <username> <channel> [live_role] [upload_channel] [message] [cooldown] [upload_message] [discord_user] [cleanup]",
+      "description": "Add a YouTube channel to monitor"
+    },
+    {
+      "name": "youtube channel check",
+      "usage": "/youtube channel check <username>",
+      "description": "Manually check a YouTube channel status"
+    },
+    {
+      "name": "youtube channel edit",
+      "usage": "/youtube channel edit <username> [live_role] [channel] [upload_channel] [message] [cooldown] [upload_message] [discord_user] [cleanup]",
+      "description": "Edit an existing YouTube channel entry"
+    },
+    {
+      "name": "youtube channel list",
+      "usage": "/youtube channel list",
+      "description": "List all monitored YouTube channels for this server"
+    },
+    {
+      "name": "youtube channel remove",
+      "usage": "/youtube channel remove <username>",
+      "description": "Remove a YouTube channel from monitoring"
+    },
+    {
+      "name": "youtube channel resend",
+      "usage": "/youtube channel resend <username>",
+      "description": "Resend notification for a live channel"
+    },
+    {
+      "name": "youtube presence check",
+      "usage": "/youtube presence check",
+      "description": "Check which users with tracking roles are currently streaming"
+    },
+    {
+      "name": "youtube presence disable",
+      "usage": "/youtube presence disable",
+      "description": "Disable presence-based YouTube streaming notifications"
+    },
+    {
+      "name": "youtube presence edit",
+      "usage": "/youtube presence edit [enabled] [tracking_role] [channel] [live_role] [message] [cooldown] [cleanup]",
+      "description": "Edit presence-based YouTube streaming settings"
+    },
+    {
+      "name": "youtube presence resend",
+      "usage": "/youtube presence resend <user>",
+      "description": "Resend notification for a streaming user"
+    },
+    {
+      "name": "youtube presence setup",
+      "usage": "/youtube presence setup <enabled> <tracking_role> <channel> [live_role] [message] [cooldown] [cleanup]",
+      "description": "Configure presence-based YouTube streaming notifications"
+    },
+    {
+      "name": "youtube presence status",
+      "usage": "/youtube presence status",
+      "description": "View current presence-based YouTube streaming settings"
+    }
   ]
 }
