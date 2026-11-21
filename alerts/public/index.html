@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Alerts</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Initial state for alerts */
+        .alert {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .alert.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div id="alerts"></div>
+    
+    <!-- Audio element for notification sounds -->
+    <audio id="alertSound" preload="auto" playsinline>
+        <source src="/sounds/donation.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="streamSpeechAudio" preload="none"></audio>
+
+    <!-- Connection status indicator (hidden by default, can be shown on error) -->
+    <div id="connection-status" style="display: none; position: fixed; bottom: 10px; right: 10px; padding: 5px 10px; background: rgba(0,0,0,0.7); color: white; border-radius: 3px; font-size: 12px;">
+        Connecting to server...
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Add connection status monitoring
+        document.addEventListener('DOMContentLoaded', () => {
+            const connectionStatus = document.getElementById('connection-status');
+            
+            // Listen for custom events from script.js
+            document.addEventListener('ws-connected', () => {
+                connectionStatus.textContent = 'Connected';
+                connectionStatus.style.display = 'block';
+                connectionStatus.style.backgroundColor = 'rgba(0, 200, 0, 0.7)';
+                setTimeout(() => {
+                    connectionStatus.style.display = 'none';
+                }, 2000);
+            });
+            
+            document.addEventListener('ws-error', (e) => {
+                connectionStatus.textContent = `Connection Error: ${e.detail || 'Unknown error'}`;
+                connectionStatus.style.display = 'block';
+                connectionStatus.style.backgroundColor = 'rgba(200, 0, 0, 0.7)';
+            });
+            
+            document.addEventListener('ws-reconnecting', (e) => {
+                connectionStatus.textContent = `Reconnecting (attempt ${e.detail.attempt} of ${e.detail.maxAttempts})...`;
+                connectionStatus.style.display = 'block';
+                connectionStatus.style.backgroundColor = 'rgba(200, 200, 0, 0.7)';
+            });
+        });
+    </script>
+</body>
+</html>
